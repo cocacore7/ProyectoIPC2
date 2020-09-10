@@ -15,13 +15,13 @@
         .abiz{
             border-bottom-left-radius:100%;
         }
-        .ande{
+        .abde{
             border-bottom-right-radius:100%;
         }
     </style>
     <div class="Tablero" align="center">
-        
-        <asp:Table ID="tabla" runat="server">
+
+        <asp:Table ID="Table1" runat="server">
             <asp:TableFooterRow>
                 <asp:TableCell CssClass="ariz" Width="60px" Height="60px" BackColor="#d2bb5a" ></asp:TableCell>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
@@ -50,7 +50,7 @@
                 </asp:TableCell>
                 <asp:TableCell CssClass="arde" Width="60px" Height="60px" BackColor="#d2bb5a" ></asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="A0A" runat="server" Text="1" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -82,7 +82,7 @@
                     <center><asp:Label ID="A9A" runat="server" Text="1" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="B0B" runat="server" Text="2" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -114,7 +114,7 @@
                     <center><asp:Label ID="B9B" runat="server" Text="2" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="C0C" runat="server" Text="3" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -146,7 +146,7 @@
                     <center><asp:Label ID="C9C" runat="server" Text="3" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="D0D" runat="server" Text="4" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -178,7 +178,7 @@
                     <center><asp:Label ID="D9D" runat="server" Text="4" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="E0E" runat="server" Text="5" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -210,7 +210,7 @@
                     <center><asp:Label ID="E9E" runat="server" Text="5" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="F0F" runat="server" Text="6" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -242,7 +242,7 @@
                     <center><asp:Label ID="F9F" runat="server" Text="6" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="G0G" runat="server" Text="7" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -274,7 +274,7 @@
                     <center><asp:Label ID="G9G" runat="server" Text="7" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="H0H" runat="server" Text="8" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
@@ -306,7 +306,7 @@
                     <center><asp:Label ID="H9H" runat="server" Text="8" Font-Size="Large" Font-Bold="true"></asp:Label></center>
                 </asp:TableCell>
             </asp:TableFooterRow>
-            <asp:TableFooterRow Width="60px" Height="60px">
+            <asp:TableFooterRow>
                 <asp:TableCell CssClass="abiz" Width="60px" Height="60px" BackColor="#d2bb5a" ></asp:TableCell>
                 <asp:TableCell Width="60px" Height="60px" BackColor="#d2bb5a">
                     <center><asp:Label ID="A9" runat="server" Text="A" Font-Size="Large" Font-Bold="true"></asp:Label></center>
@@ -335,6 +335,11 @@
                 <asp:TableCell CssClass="abde" Width="60px" Height="60px" BackColor="#d2bb5a" ></asp:TableCell>
             </asp:TableFooterRow>
         </asp:Table>
+        <asp:Table ID="tabla" runat="server">
+            
+        </asp:Table><br />
+        <asp:Button ID="guardar" runat="server" Text="Guardar Y Salir" BackColor="#3366ff" Font-Size="Large" Font-Bold="true" Width="200px" Height="60px" OnClick="guardar_Click" />
+
     </div>
 </asp:Content>
 
