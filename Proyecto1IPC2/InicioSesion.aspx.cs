@@ -10,6 +10,7 @@ namespace Proyecto1IPC2
 {
     public partial class InicioSesion : Page
     {
+        public static string jugador = "";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -32,14 +33,13 @@ namespace Proyecto1IPC2
             else
             {
                 SqlCommand accion;
-                string buscar = "select usuario,contra from usuario where usuario=@usuario and contra=@contra";
+                string buscar = "select id_usuario from usuario where usuario=@usuario";
                 accion = new SqlCommand(buscar, bd.registrar());
                 accion.Parameters.AddWithValue("@usuario", usuario);
-                accion.Parameters.AddWithValue("@contra", contra);
                 SqlDataReader leer = accion.ExecuteReader();
-                bd.registrar();
                 if (leer.Read())
                 {
+                    jugador = Convert.ToString(leer["id_usuario"]);
                     Response.Redirect("MenuPrincipal.aspx");
                 }
                 else

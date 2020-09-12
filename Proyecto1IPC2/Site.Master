@@ -52,8 +52,6 @@
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/Registro">Registro</a></li>
                         <li><a runat="server" href="~/InicioSesion">Inicio de Sesion</a></li>
-                        <li><a runat="server" href="~/MenuPrincipal">Menu Principal</a></li>
-                        <li><a runat="server" href="~/Tablero">Tablero</a></li>
                     </ul>
                 </div>
             </div>

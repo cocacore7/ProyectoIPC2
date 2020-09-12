@@ -46,7 +46,6 @@ namespace Proyecto1IPC2
                 accion = new SqlCommand(buscar, bd.registrar());
                 accion.Parameters.AddWithValue("@usuario", usuario);
                 SqlDataReader leer = accion.ExecuteReader();
-                bd.registrar();
                 if (leer.Read())
                 {
                     Titulo.Text = "Error De Registro";
@@ -73,7 +72,6 @@ namespace Proyecto1IPC2
                     accion.Parameters.AddWithValue("@residencia", residencia);
                     accion.Parameters.AddWithValue("@correo", correo.ToLower());
                     accion.ExecuteNonQuery();
-                    bd.registrar();
                     nombre.Text = "";
                     apellido.Text = "";
                     nickname.Text = "";

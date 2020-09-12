@@ -14,11 +14,342 @@ namespace Proyecto1IPC2
         public static string partida = ".";
         public static string color = "negro";
         public static string gamperem = ".";
-        public static int mov = 1;
-
+        public static int mov;
+        public static int carga = 0;
+        public static bool bandera = false;
+        public static int id_partida = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (carga == 1) {
+                for (int i = 0; i <= 63; i++)
+                {
+                    if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "1")
+                    {
+                        A1.Enabled = false;
+                        A1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "1")
+                    {
+                        B1.Enabled = false;
+                        B1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "1")
+                    {
+                        C1.Enabled = false;
+                        C1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "1")
+                    {
+                        D1.Enabled = false;
+                        D1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "1")
+                    {
+                        E1.Enabled = false;
+                        E1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "1")
+                    {
+                        F1.Enabled = false;
+                        F1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "1")
+                    {
+                        G1.Enabled = false;
+                        G1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "1")
+                    {
+                        H1.Enabled = false;
+                        H1.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "2")
+                    {
+                        A2.Enabled = false;
+                        A2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "2")
+                    {
+                        B2.Enabled = false;
+                        B2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "2")
+                    {
+                        C2.Enabled = false;
+                        C2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "2")
+                    {
+                        D2.Enabled = false;
+                        D2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "2")
+                    {
+                        E2.Enabled = false;
+                        E2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "2")
+                    {
+                        F2.Enabled = false;
+                        F2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "2")
+                    {
+                        G2.Enabled = false;
+                        G2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "2")
+                    {
+                        H2.Enabled = false;
+                        H2.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "3")
+                    {
+                        A3.Enabled = false;
+                        A3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "3")
+                    {
+                        B3.Enabled = false;
+                        B3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "3")
+                    {
+                        C3.Enabled = false;
+                        C3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "3")
+                    {
+                        D3.Enabled = false;
+                        D3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "3")
+                    {
+                        E3.Enabled = false;
+                        E3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "3")
+                    {
+                        F3.Enabled = false;
+                        F3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "3")
+                    {
+                        G3.Enabled = false;
+                        G3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "3")
+                    {
+                        H3.Enabled = false;
+                        H3.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "4")
+                    {
+                        A4.Enabled = false;
+                        A4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "4")
+                    {
+                        B4.Enabled = false;
+                        B4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "4")
+                    {
+                        C4.Enabled = false;
+                        C4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "4")
+                    {
+                        D4.Enabled = false;
+                        D4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "4")
+                    {
+                        E4.Enabled = false;
+                        E4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "4")
+                    {
+                        F4.Enabled = false;
+                        F4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "4")
+                    {
+                        G4.Enabled = false;
+                        G4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "4")
+                    {
+                        H4.Enabled = false;
+                        H4.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "5")
+                    {
+                        A5.Enabled = false;
+                        A5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "5")
+                    {
+                        B5.Enabled = false;
+                        B5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "5")
+                    {
+                        C5.Enabled = false;
+                        C5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "5")
+                    {
+                        D5.Enabled = false;
+                        D5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "5")
+                    {
+                        E5.Enabled = false;
+                        E5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "5")
+                    {
+                        F5.Enabled = false;
+                        F5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "5")
+                    {
+                        G5.Enabled = false;
+                        G5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "5")
+                    {
+                        H5.Enabled = false;
+                        H5.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "6")
+                    {
+                        A6.Enabled = false;
+                        A6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "6")
+                    {
+                        B6.Enabled = false;
+                        B6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "6")
+                    {
+                        C6.Enabled = false;
+                        C6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "6")
+                    {
+                        D6.Enabled = false;
+                        D6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "6")
+                    {
+                        E6.Enabled = false;
+                        E6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "6")
+                    {
+                        F6.Enabled = false;
+                        F6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "6")
+                    {
+                        G6.Enabled = false;
+                        G6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "6")
+                    {
+                        H6.Enabled = false;
+                        H6.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "7")
+                    {
+                        A7.Enabled = false;
+                        A7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "7")
+                    {
+                        B7.Enabled = false;
+                        B7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                        mov++;
+
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "7")
+                    {
+                        C7.Enabled = false;
+                        C7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "7")
+                    {
+                        D7.Enabled = false;
+                        D7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "7")
+                    {
+                        E7.Enabled = false;
+                        E7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "7")
+                    {
+                        F7.Enabled = false;
+                        F7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "7")
+                    {
+                        G7.Enabled = false;
+                        G7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "7")
+                    {
+                        H7.Enabled = false;
+                        H7.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "8")
+                    {
+                        A8.Enabled = false;
+                        A8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "B" && MenuPrincipal.fila[i] == "8")
+                    {
+                        B8.Enabled = false;
+                        B8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "C" && MenuPrincipal.fila[i] == "8")
+                    {
+                        C8.Enabled = false;
+                        C8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "D" && MenuPrincipal.fila[i] == "8")
+                    {
+                        D8.Enabled = false;
+                        D8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "E" && MenuPrincipal.fila[i] == "8")
+                    {
+                        E8.Enabled = false;
+                        E8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "F" && MenuPrincipal.fila[i] == "8")
+                    {
+                        F8.Enabled = false;
+                        F8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "G" && MenuPrincipal.fila[i] == "8")
+                    {
+                        G8.Enabled = false;
+                        G8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                    else if (MenuPrincipal.colum[i] == "H" && MenuPrincipal.fila[i] == "8")
+                    {
+                        H8.Enabled = false;
+                        H8.ImageUrl = MenuPrincipal.colores[i] + ".png";
+                    }
+                }
+                bandera = true;
+                carga++;
+            }
         }
 
 
@@ -1484,11 +1815,11 @@ namespace Proyecto1IPC2
         
         protected void guardar_Click(object sender, EventArgs e)
         {
-            XDocument archivo = new XDocument(new XDeclaration("0.1", "utf-8", null));
+            XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
             XElement raiz = new XElement("tablero");
             raiz.RemoveAll();
             archivo.Add(raiz);
-            for (int i=0; i <= 63; i++)
+            for (int i = 0; i <= 63; i++)
             {
                 if (!MenuPrincipal.colores[i].Equals("."))
                 {
@@ -1499,17 +1830,31 @@ namespace Proyecto1IPC2
                     raiz.Add(ficha);
                 }
             }
-
-            BaseDatos bd = new BaseDatos();
-            string datos = "insert into partida(partida_g,tipo_partida,movimientos,pge) values(@partida_g,@tipo_partida,@movimientos,@pge)";
-            SqlCommand accion = new SqlCommand(datos, bd.registrar());
-            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-            accion.Parameters.AddWithValue("@tipo_partida", partida);
-            accion.Parameters.AddWithValue("@movimientos", mov);
-            accion.Parameters.AddWithValue("@pge", gamperem);
-            accion.ExecuteNonQuery();
-            bd.registrar();
-            Response.Redirect("MenuPrincipal.aspx");
+            if (bandera == false)
+            {
+                BaseDatos bd = new BaseDatos();
+                string datos = "insert into partida(partida_g,tipo_partida,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@movimientos,@pge,@id_usuario)";
+                SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                accion.Parameters.AddWithValue("@tipo_partida", partida);
+                accion.Parameters.AddWithValue("@movimientos", mov);
+                accion.Parameters.AddWithValue("@pge", gamperem);
+                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                accion.ExecuteNonQuery();
+                Response.Redirect("MenuPrincipal.aspx");
+            }
+            else {
+                BaseDatos bd = new BaseDatos();
+                string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                accion.Parameters.AddWithValue("@movimientos", mov);
+                accion.Parameters.AddWithValue("@pge", gamperem);
+                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                accion.ExecuteNonQuery();
+                Response.Redirect("MenuPrincipal.aspx");
+            }
         }
     }
 }
