@@ -48,7 +48,7 @@
         <form>
             <asp:TextBox ID="nickname" runat="server" placeholder="Nombre De Usuario"></asp:TextBox><br><br>
             <asp:TextBox ID="password" runat="server" placeholder="Contraseña" TextMode="Password"></asp:TextBox><br><br>
-            <asp:Button ID="login" runat="server" Text="Iniciar Sesion" OnClick="login_Click" /><br><br>
+            <asp:Button ID="login" runat="server" Text="Iniciar Sesion" OnClick="login_Click" BackColor="#c54848" /><br><br>
         </form>
     </div>
 

@@ -22,8 +22,37 @@
         <h1 id="modalletra">
             <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Cargar Partida"></asp:Label>
         </h1><br>
-        <asp:DropDownList ID="partidas" runat="server" OnSelectedIndexChanged="partidas_SelectedIndexChanged"></asp:DropDownList><br />
-        <asp:Button ID="aceptar" runat="server" Text="Cargar" OnClick="aceptar_Click" /><br />
-        <asp:Button ID="regresar" runat="server" Text="Regresar" OnClick="regresar_Click" />
+        <asp:DropDownList ID="partidas" runat="server" Width="300px" Height="40px" BackColor="SkyBlue" OnSelectedIndexChanged="partidas_SelectedIndexChanged"></asp:DropDownList><br />
+        <asp:Button ID="aceptar" runat="server" Text="Cargar" OnClick="aceptar_Click" BackColor="#c54848"/><br />
+        <asp:Button ID="regresar" runat="server" Text="Regresar" OnClick="regresar_Click" BackColor="#c54848"/>
+    </div>
+
+    <style>
+        #ventana{
+            background:url(Fondo1.jfif);
+            background-size:auto;
+            width:600px;
+            height:280px;
+        }
+        #modalletra{
+            background:none;
+        }
+    </style>
+    <div class="ventana modal" id="ventana" role="dialog" aria-labelledby="equiquetaModal" aria-hidden="true" align="center">
+        <div class="dialogo">
+            <asp:UpdatePanel ID="panelModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <div class="contenido">
+                        <div class="cuerpo" align="center">
+                            <h1 id="modalletra"><asp:Label ID="Label1" runat="server" BackColor="#ffcc00" Text=""></asp:Label></h1><br>
+                            <h1 id="modalletra"><asp:Label ID="Cuerpo" runat="server" BackColor="#ffcc00" Text=""></asp:Label></h1>
+                       </div>
+                        <div class="modal-footer" align="center">
+                           <button class="info" data-dismiss="modal" aria-hidden="true">Aceptar</button>
+                       </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
     </div>
 </asp:Content>

@@ -57,7 +57,7 @@
             <asp:TextBox ID="nickname" runat="server" placeholder="Nombre De Usuario"></asp:TextBox><br><br>
             <asp:TextBox ID="password" runat="server" placeholder="Contraseña" TextMode="Password"></asp:TextBox><br><br>
             <asp:TextBox ID="fecha" runat="server" placeholder="Fecha De Nacimiento" TextMode="Date"></asp:TextBox><br><br>
-            <asp:DropDownList ID="pais" runat="server">
+            <asp:DropDownList ID="pais" runat="server" Width="300px" Height="40px" BackColor="SkyBlue">
                 <asp:ListItem>Elegir Opcion</asp:ListItem>
                 <asp:ListItem>AFG</asp:ListItem>
                 <asp:ListItem>ALA</asp:ListItem>
