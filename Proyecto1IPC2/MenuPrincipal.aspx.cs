@@ -25,6 +25,7 @@ namespace Proyecto1IPC2
 
         protected void maquina_Click(object sender, EventArgs e)
         {
+            Tablero.carga = 0;
             Tablero.mov = 4;
             Tablero.color = "negro";
             Tablero.partida = "Solitario";
@@ -47,11 +48,14 @@ namespace Proyecto1IPC2
             colores[36] = "blanco";
             colum[36] = "E";
             fila[36] = "5";
+            columaux = colum2;
+            filaaux = fila2;
             Response.Redirect("Tablero.aspx");
         }
 
         protected void versus_Click(object sender, EventArgs e)
         {
+            Tablero.carga = 0;
             Tablero.mov = 4;
             Tablero.color = "negro";
             Tablero.partida = "Versus";
@@ -74,6 +78,8 @@ namespace Proyecto1IPC2
             colores[36] = "blanco";
             colum[36] = "E";
             fila[36] = "5";
+            columaux = colum2;
+            filaaux = fila2;
             Response.Redirect("Tablero.aspx");
         }
 

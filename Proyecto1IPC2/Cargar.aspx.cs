@@ -12,9 +12,11 @@ namespace Proyecto1IPC2
     public partial class Cargar : System.Web.UI.Page
     {
         public static int id_partida = 0;
+        public static string archivo = "";
         BaseDatos bd = new BaseDatos();
         protected void Page_Load(object sender, EventArgs e)
         {
+            archivo = partidas.Text;
             string entrada = "";
             string datos = "select * from partida where id_usuario=@id_usuario";
             SqlCommand accion = new SqlCommand(datos, bd.registrar());
@@ -42,8 +44,9 @@ namespace Proyecto1IPC2
 
         protected void aceptar_Click(object sender, EventArgs e)
         {
-            string archivo = partidas.SelectedItem.ToString();
-            if (archivo.Equals("Seleccionar Partida"))
+            if (archivo.Equals("")) {
+            }
+            else if (archivo.Equals("Seleccionar Partida"))
             {
                 Titulo.Text = "Error de Carga";
                 Cuerpo.Text = "Por favor, Seleccione una partida";
@@ -78,6 +81,10 @@ namespace Proyecto1IPC2
                                 MenuPrincipal.fila[u] = fila;
                             }
                         }
+                    }
+                    foreach (XElement z in archivos.Elements("siguienteTiro"))
+                    {
+                        Tablero.color = Convert.ToString(z);
                     }
                     Tablero.carga = 1;
                     Tablero.mov = Convert.ToInt32(leer["movimientos"]);
