@@ -335,10 +335,9 @@
                 <asp:TableCell CssClass="abde" Width="60px" Height="60px" BackColor="#d2bb5a" ></asp:TableCell>
             </asp:TableFooterRow>
         </asp:Table>
-        <asp:Table ID="tabla" runat="server">
-            
-        </asp:Table><br />
+        <br />
         <asp:Button ID="guardar" runat="server" Text="Guardar Y Salir" BackColor="#3366ff" Font-Size="Large" Font-Bold="true" Width="200px" Height="60px" OnClick="guardar_Click" />
+
 
     </div>
 </asp:Content>

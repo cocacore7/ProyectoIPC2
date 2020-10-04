@@ -84,7 +84,7 @@ namespace Proyecto1IPC2
                     }
                     foreach (XElement z in archivos.Elements("siguienteTiro"))
                     {
-                        Tablero.color = Convert.ToString(z);
+                        Tablero.color = Convert.ToString(z.Element("color").Value);
                     }
                     Tablero.carga = 1;
                     Tablero.mov = Convert.ToInt32(leer["movimientos"]);
