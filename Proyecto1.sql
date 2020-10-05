@@ -7,7 +7,7 @@ nombres varchar(50) not null,
 apellidos varchar(50) not null,
 usuario varchar(30) not null,
 contra varchar(30) not null,
-fechaNac varchar(30) not null,
+fechaNac date not null,
 pais varchar(50) not null,
 correo varchar(50) not null
 );
@@ -16,6 +16,7 @@ create table partida(
 	id_partida int primary key identity not null,
 	partida_g xml not null,
 	tipo_partida varchar(50) not null,
+	color varchar(20) not null,
 	movimientos int not null,
 	pge varchar(30) not null,
 	id_usuario int not null,
@@ -64,3 +65,5 @@ select * from torneo
 select * from ronda
 select * from partida_T
 select * from reporte
+
+drop table partida

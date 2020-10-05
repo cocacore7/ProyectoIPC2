@@ -27,8 +27,11 @@ namespace Proyecto1IPC2
             partidas.Items.Add("Seleccionar Partida");
             while (leer.Read())
             {
-                entrada = Convert.ToString(leer["id_partida"]) + " ) partida: " + leer["tipo_partida"] + " - movimientos: " + Convert.ToString(leer["movimientos"]);
-                partidas.Items.Add(entrada);
+                if (leer["pge"].Equals("."))
+                {
+                    entrada = Convert.ToString(leer["id_partida"]) + " ) partida: " + leer["tipo_partida"] + " - movimientos: " + Convert.ToString(leer["movimientos"]);
+                    partidas.Items.Add(entrada);
+                }
             }
         }
 
@@ -56,7 +59,7 @@ namespace Proyecto1IPC2
             else {
                 string[] archivo2 = archivo.Split();
                 id_partida = Convert.ToInt32(archivo2[0]);
-                string datos = "select partida_g,movimientos from partida where id_usuario=@id_usuario and id_partida=@id_partida";
+                string datos = "select partida_g, movimientos, color, tipo_partida from partida where id_usuario=@id_usuario and id_partida=@id_partida";
                 SqlCommand accion = new SqlCommand(datos, bd.registrar());
                 accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
                 accion.Parameters.AddWithValue("@id_partida", archivo2[0]);
@@ -87,8 +90,48 @@ namespace Proyecto1IPC2
                         Tablero.color = Convert.ToString(z.Element("color").Value);
                     }
                     Tablero.carga = 1;
-                    Tablero.mov = Convert.ToInt32(leer["movimientos"]);
+                    Tablero.colorJ = Convert.ToString(leer["color"]);
+                    if (Tablero.colorJ.Equals("negro"))
+                    {
+                        Tablero.movn = Convert.ToInt32(leer["movimientos"]);
+                        Tablero.mov = 0;
+                        for (int i = 0; i <= 63; i++)
+                        {
+                            if (MenuPrincipal.colores[i].Equals("negro") || MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                Tablero.mov++;
+                            }
+                        }
+                        Tablero.mov = Tablero.mov - 4;
+                        Tablero.movb = Tablero.mov - Tablero.movn;
+                    }
+                    else
+                    {
+                        Tablero.movb = Convert.ToInt32(leer["movimientos"]);
+                        Tablero.mov = 0;
+                        for (int i = 0; i <= 63; i++)
+                        {
+                            if (MenuPrincipal.colores[i].Equals("negro") || MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                Tablero.mov++;
+                            }
+                        }
+                        Tablero.mov = Tablero.mov - 4 ;
+                        Tablero.movn = Tablero.mov - Tablero.movb;
+                    }
+                    for (int i = 0; i <= 63; i++)
+                    {
+                        if (MenuPrincipal.colores[i].Equals("negro"))
+                        {
+                            Tablero.puntosn++;
+                        }
+                        else if (MenuPrincipal.colores[i].Equals("blanco"))
+                        {
+                            Tablero.puntosb++;
+                        }
+                    }
                     Tablero.bandera = true;
+                    Tablero.partida = Convert.ToString(leer["tipo_partida"]);
                     Response.Redirect("Tablero.aspx");
                 }
             }

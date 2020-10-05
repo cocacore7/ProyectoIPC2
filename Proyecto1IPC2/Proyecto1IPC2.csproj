@@ -126,6 +126,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Tablero.aspx" />
     <Content Include="Cargar.aspx" />
+    <Content Include="SelecColor.aspx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -233,6 +234,13 @@
     </Compile>
     <Compile Include="Cargar.aspx.designer.cs">
       <DependentUpon>Cargar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SelecColor.aspx.cs">
+      <DependentUpon>SelecColor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SelecColor.aspx.designer.cs">
+      <DependentUpon>SelecColor.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

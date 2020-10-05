@@ -40,6 +40,7 @@ namespace Proyecto1IPC2
                 if (leer.Read())
                 {
                     jugador = Convert.ToString(leer["id_usuario"]);
+                    MenuPrincipal.jugador = usuario;
                     Response.Redirect("MenuPrincipal.aspx");
                 }
                 else

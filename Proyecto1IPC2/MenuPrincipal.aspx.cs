@@ -11,6 +11,7 @@ namespace Proyecto1IPC2
     public partial class MenuPrincipal : Page
     {
         BaseDatos bd = new BaseDatos();
+        public static string jugador;
         public static string[] colores = new string[64];
         public static string[] colum = new string[64];
         public static string[] columaux = new string[64];
@@ -26,9 +27,9 @@ namespace Proyecto1IPC2
         protected void maquina_Click(object sender, EventArgs e)
         {
             Tablero.carga = 0;
-            Tablero.mov = 4;
+            Tablero.mov = 0;
             Tablero.color = "negro";
-            Tablero.partida = "Solitario";
+            Tablero.partida = "Maquina";
             Tablero.bandera = false;
             for (int i = 0; i <= 63; i++)
             {
@@ -50,13 +51,13 @@ namespace Proyecto1IPC2
             fila[36] = "5";
             columaux = colum2;
             filaaux = fila2;
-            Response.Redirect("Tablero.aspx");
+            Response.Redirect("SelecColor.aspx");
         }
 
         protected void versus_Click(object sender, EventArgs e)
         {
             Tablero.carga = 0;
-            Tablero.mov = 4;
+            Tablero.mov = 0;
             Tablero.color = "negro";
             Tablero.partida = "Versus";
             Tablero.bandera = false;
@@ -80,7 +81,7 @@ namespace Proyecto1IPC2
             fila[36] = "5";
             columaux = colum2;
             filaaux = fila2;
-            Response.Redirect("Tablero.aspx");
+            Response.Redirect("SelecColor.aspx");
         }
 
         protected void cargar_Click(object sender, EventArgs e)

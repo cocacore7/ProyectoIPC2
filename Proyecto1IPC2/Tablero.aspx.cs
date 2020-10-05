@@ -14,11 +14,20 @@ namespace Proyecto1IPC2
         public static string partida = ".";
         public static string color = "negro";
         public static string gamperem = ".";
-        public static int mov;
+        public static string colorJ;
+        public static string jugadorN;
+        public static string jugadorB;
+        public static int mov = 0;
+        public static int movn = 0;
+        public static int movb = 0;
+        public static int puntosn;
+        public static int puntosb;
         public static int carga = 0;
         public static bool bandera = false;
         public static int id_partida = 0;
         public static List<int> vuelta = new List<int>();
+        public static List<int> pivoteM = new List<int>();
+        public static List<int> tirosM = new List<int>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -349,773 +358,441 @@ namespace Proyecto1IPC2
                 bandera = true;
                 carga++;
                 pivote();
+                if (colorJ.Equals("negro"))
+                {
+                    JugN.Text = MenuPrincipal.jugador;
+                    JugB.Text = "Invitado";
+                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                    if (color.Equals("negro"))
+                    {
+                        TurnoNegro.ImageUrl = "negro.png";
+                        TurnoBlanco.ImageUrl = "vacio.png";
+                    }
+                    else
+                    {
+                        TurnoNegro.ImageUrl = "vacio.png";
+                        TurnoBlanco.ImageUrl = "blanco.png";
+                    }
+                }
+                else
+                {
+                    JugB.Text = MenuPrincipal.jugador;
+                    JugN.Text = "Invitado";
+                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                    if (color.Equals("negro"))
+                    {
+                        TurnoNegro.ImageUrl = "negro.png";
+                        TurnoBlanco.ImageUrl = "vacio.png";
+                    }
+                    else
+                    {
+                        TurnoNegro.ImageUrl = "vacio.png";
+                        TurnoBlanco.ImageUrl = "blanco.png";
+                    }
+                }
+                siguiente();
+                carga = 2;
             }
             if (carga == 0) {
                 pivote();
+                if (colorJ.Equals("negro"))
+                {
+                    JugN.Text = MenuPrincipal.jugador;
+                    JugB.Text = "Invitado";
+                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                    if (color.Equals("negro"))
+                    {
+                        TurnoNegro.ImageUrl = "negro.png";
+                        TurnoBlanco.ImageUrl = "vacio.png";
+                    }
+                    else
+                    {
+                        TurnoNegro.ImageUrl = "vacio.png";
+                        TurnoBlanco.ImageUrl = "blanco.png";
+                    }
+                }
+                else {
+                    JugB.Text = MenuPrincipal.jugador;
+                    JugN.Text = "Invitado";
+                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                    if (partida.Equals("Maquina"))
+                    {
+                        for (int z = 0; z <= 63; z++)
+                        {
+                            if (MenuPrincipal.colores[z].Equals("pivote"))
+                            {
+                                pivoteM.Add(z);
+                            }
+                        }
+                        siguienteM(pivoteM);
+                        if (color.Equals("negro"))
+                        {
+                            TurnoNegro.ImageUrl = "negro.png";
+                            TurnoBlanco.ImageUrl = "vacio.png";
+                        }
+                        else
+                        {
+                            TurnoNegro.ImageUrl = "vacio.png";
+                            TurnoBlanco.ImageUrl = "blanco.png";
+                        }
+                    }
+                    else
+                    {
+                        if (color.Equals("negro"))
+                        {
+                            TurnoNegro.ImageUrl = "negro.png";
+                            TurnoBlanco.ImageUrl = "vacio.png";
+                        }
+                        else
+                        {
+                            TurnoNegro.ImageUrl = "vacio.png";
+                            TurnoBlanco.ImageUrl = "blanco.png";
+                        }
+                    }
+                }
                 carga = 2;
             }
         }
 
         protected void A1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A1.ImageUrl = "negro.png";
-                A1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[0] = "negro";
-                MenuPrincipal.colum[0] = "A";
-                MenuPrincipal.fila[0] = "1";
-                obtenerV(0);
-                color = "blanco";
-                pivote();
+                boton(A1, 0);
             }
-            else if(color == "blanco")
+            else
             {
-                A1.ImageUrl = "blanco.png";
-                A1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[0] = "blanco";
-                MenuPrincipal.colum[0] = "A";
-                MenuPrincipal.fila[0] = "1";
-                obtenerV(0);
-                color = "negro";
-                pivote();
+                Maquina(A1, 0);
             }
         }
 
         protected void B1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B1.ImageUrl = "negro.png";
-                B1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[1] = "negro";
-                MenuPrincipal.colum[1] = "B";
-                MenuPrincipal.fila[1] = "1";
-                obtenerV(1);
-                color = "blanco";
-                pivote();
+                boton(B1, 1);
             }
             else
             {
-                B1.ImageUrl = "blanco.png";
-                B1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[1] = "blanco";
-                MenuPrincipal.colum[1] = "B";
-                MenuPrincipal.fila[1] = "1";
-                obtenerV(1);
-                color = "negro";
-                pivote();
+                Maquina(B1, 1);
             }
         }
 
         protected void C1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C1.ImageUrl = "negro.png";
-                C1.Enabled = false;
-                
-                mov++;
-                MenuPrincipal.colores[2] = "negro";
-                MenuPrincipal.colum[2] = "C";
-                MenuPrincipal.fila[2] = "1";
-                obtenerV(2);
-                color = "blanco";
-                pivote();
+                boton(C1, 2);
             }
             else
             {
-                C1.ImageUrl = "blanco.png";
-                C1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[2] = "blanco";
-                MenuPrincipal.colum[2] = "C";
-                MenuPrincipal.fila[2] = "1";
-                obtenerV(2);
-                color = "negro";
-                pivote();
+                Maquina(C1, 2);
             }
         }
 
         protected void D1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D1.ImageUrl = "negro.png";
-                D1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[3] = "negro";
-                MenuPrincipal.colum[3] = "D";
-                MenuPrincipal.fila[3] = "1";
-                obtenerV(3);
-                color = "blanco";
-                pivote();
+                boton(D1, 3);
             }
             else
             {
-                D1.ImageUrl = "blanco.png";
-                D1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[3] = "blanco";
-                MenuPrincipal.colum[3] = "D";
-                MenuPrincipal.fila[3] = "1";
-                obtenerV(3);
-                color = "negro";
-                pivote();
+                Maquina(D1, 3);
             }
         }
 
         protected void E1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E1.ImageUrl = "negro.png";
-                E1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[4] = "negro";
-                MenuPrincipal.colum[4] = "E";
-                MenuPrincipal.fila[4] = "1";
-                obtenerV(4);
-                color = "blanco";
-                pivote();
+                boton(E1, 4);
             }
             else
             {
-                E1.ImageUrl = "blanco.png";
-                E1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[4] = "blanco";
-                MenuPrincipal.colum[4] = "E";
-                MenuPrincipal.fila[4] = "1";
-                obtenerV(4);
-                color = "negro";
-                pivote();
+                Maquina(E1, 4);
             }
         }
 
         protected void F1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F1.ImageUrl = "negro.png";
-                F1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[5] = "negro";
-                MenuPrincipal.colum[5] = "F";
-                MenuPrincipal.fila[5] = "1";
-                obtenerV(5);
-                color = "blanco";
-                pivote();
+                boton(F1, 5);
             }
             else
             {
-                F1.ImageUrl = "blanco.png";
-                F1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[5] = "blanco";
-                MenuPrincipal.colum[5] = "F";
-                MenuPrincipal.fila[5] = "1";
-                obtenerV(5);
-                color = "negro";
-                pivote();
+                Maquina(F1, 5);
             }
         }
 
         protected void G1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G1.ImageUrl = "negro.png";
-                G1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[6] = "negro";
-                MenuPrincipal.colum[6] = "G";
-                MenuPrincipal.fila[6] = "1";
-                obtenerV(6);
-                color = "blanco";
-                pivote();
+                boton(G1, 6);
             }
             else
             {
-                G1.ImageUrl = "blanco.png";
-                G1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[6] = "blanco";
-                MenuPrincipal.colum[6] = "G";
-                MenuPrincipal.fila[6] = "1";
-                obtenerV(6);
-                color = "negro";
-                pivote();
+                Maquina(G1, 6);
             }
         }
 
         protected void H1_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H1.ImageUrl = "negro.png";
-                H1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[7] = "negro";
-                MenuPrincipal.colum[7] = "H";
-                MenuPrincipal.fila[7] = "1";
-                obtenerV(7);
-                color = "blanco";
-                pivote();
+                boton(H1, 7);
             }
             else
             {
-                H1.ImageUrl = "blanco.png";
-                H1.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[7] = "blanco";
-                MenuPrincipal.colum[7] = "H";
-                MenuPrincipal.fila[7] = "1";
-                obtenerV(7);
-                color = "negro";
-                pivote();
+                Maquina(H1, 7);
             }
         }
 
         protected void A2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A2.ImageUrl = "negro.png";
-                A2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[8] = "negro";
-                MenuPrincipal.colum[8] = "A";
-                MenuPrincipal.fila[8] = "2";
-                obtenerV(8);
-                color = "blanco";
-                pivote();
+                boton(A2, 8);
             }
             else
             {
-                A2.ImageUrl = "blanco.png";
-                A2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[8] = "blanco";
-                MenuPrincipal.colum[8] = "A";
-                MenuPrincipal.fila[8] = "2";
-                obtenerV(8);
-                color = "negro";
-                pivote();
+                Maquina(A2, 8);
             }
         }
 
         protected void B2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B2.ImageUrl = "negro.png";
-                B2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[9] = "negro";
-                MenuPrincipal.colum[9] = "B";
-                MenuPrincipal.fila[9] = "2";
-                obtenerV(9);
-                color = "blanco";
-                pivote();
+                boton(B2, 9);
             }
             else
             {
-                B2.ImageUrl = "blanco.png";
-                B2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[9] = "blanco";
-                MenuPrincipal.colum[9] = "B";
-                MenuPrincipal.fila[9] = "2";
-                obtenerV(9);
-                color = "negro";
-                pivote();
+                Maquina(B2, 9);
             }
         }
 
         protected void C2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C2.ImageUrl = "negro.png";
-                C2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[10] = "negro";
-                MenuPrincipal.colum[10] = "C";
-                MenuPrincipal.fila[10] = "2";
-                obtenerV(10);
-                color = "blanco";
-                pivote();
+                boton(C2, 10);
             }
             else
             {
-                C2.ImageUrl = "blanco.png";
-                C2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[10] = "blanco";
-                MenuPrincipal.colum[10] = "C";
-                MenuPrincipal.fila[10] = "2";
-                obtenerV(10);
-                color = "negro";
-                pivote();
+                Maquina(C2, 10);
             }
         }
 
         protected void D2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D2.ImageUrl = "negro.png";
-                D2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[11] = "negro";
-                MenuPrincipal.colum[11] = "D";
-                MenuPrincipal.fila[11] = "2";
-                obtenerV(11);
-                color = "blanco";
-                pivote();
+                boton(D2, 11);
             }
             else
             {
-                D2.ImageUrl = "blanco.png";
-                D2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[11] = "blanco";
-                MenuPrincipal.colum[11] = "D";
-                MenuPrincipal.fila[11] = "2";
-                obtenerV(11);
-                color = "negro";
-                pivote();
+                Maquina(D2, 11);
             }
         }
 
         protected void E2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E2.ImageUrl = "negro.png";
-                E2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[12] = "negro";
-                MenuPrincipal.colum[12] = "E";
-                MenuPrincipal.fila[12] = "2";
-                obtenerV(12);
-                color = "blanco";
-                pivote();
+                boton(E2, 12);
             }
             else
             {
-                E2.ImageUrl = "blanco.png";
-                E2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[12] = "blanco";
-                MenuPrincipal.colum[12] = "E";
-                MenuPrincipal.fila[12] = "2";
-                obtenerV(12);
-                color = "negro";
-                pivote();
+                Maquina(E2, 12);
             }
         }
 
         protected void F2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F2.ImageUrl = "negro.png";
-                F2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[13] = "negro";
-                MenuPrincipal.colum[13] = "F";
-                MenuPrincipal.fila[13] = "2";
-                obtenerV(13);
-                color = "blanco";
-                pivote();
+                boton(F2, 13);
             }
             else
             {
-                F2.ImageUrl = "blanco.png";
-                F2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[13] = "blanco";
-                MenuPrincipal.colum[13] = "F";
-                MenuPrincipal.fila[13] = "2";
-                obtenerV(13);
-                color = "negro";
-                pivote();
+                Maquina(F2, 13);
             }
         }
 
         protected void G2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G2.ImageUrl = "negro.png";
-                G2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[14] = "negro";
-                MenuPrincipal.colum[14] = "G";
-                MenuPrincipal.fila[14] = "2";
-                obtenerV(14);
-                color = "blanco";
-                pivote();
+                boton(G2, 14);
             }
             else
             {
-                G2.ImageUrl = "blanco.png";
-                G2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[14] = "blanco";
-                MenuPrincipal.colum[14] = "G";
-                MenuPrincipal.fila[14] = "2";
-                obtenerV(14);
-                color = "negro";
-                pivote();
+                Maquina(G2, 14);
             }
         }
 
         protected void H2_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H2.ImageUrl = "negro.png";
-                H2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[15] = "negro";
-                MenuPrincipal.colum[15] = "H";
-                MenuPrincipal.fila[15] = "2";
-                obtenerV(15);
-                color = "blanco";
-                pivote();
+                boton(H2, 15);
             }
             else
             {
-                H2.ImageUrl = "blanco.png";
-                H2.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[15] = "blanco";
-                MenuPrincipal.colum[15] = "H";
-                MenuPrincipal.fila[15] = "2";
-                obtenerV(15);
-                color = "negro";
-                pivote();
+                Maquina(H2, 15);
             }
         }
 
         protected void A3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A3.ImageUrl = "negro.png";
-                A3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[16] = "negro";
-                MenuPrincipal.colum[16] = "A";
-                MenuPrincipal.fila[16] = "3";
-                obtenerV(16);
-                color = "blanco";
-                pivote();
+                boton(A3, 16);
             }
             else
             {
-                A3.ImageUrl = "blanco.png";
-                A3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[16] = "blanco";
-                MenuPrincipal.colum[16] = "A";
-                MenuPrincipal.fila[16] = "3";
-                obtenerV(16);
-                color = "negro";
-                pivote();
+                Maquina(A3, 16);
             }
         }
 
         protected void B3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B3.ImageUrl = "negro.png";
-                B3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[17] = "negro";
-                MenuPrincipal.colum[17] = "B";
-                MenuPrincipal.fila[17] = "3";
-                obtenerV(17);
-                color = "blanco";
-                pivote();
+                boton(B3, 17);
             }
             else
             {
-                B3.ImageUrl = "blanco.png";
-                B3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[17] = "blanco";
-                MenuPrincipal.colum[17] = "B";
-                MenuPrincipal.fila[17] = "3";
-                obtenerV(17);
-                color = "negro";
-                pivote();
+                Maquina(B3, 17);
             }
         }
 
         protected void C3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C3.ImageUrl = "negro.png";
-                C3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[18] = "negro";
-                MenuPrincipal.colum[18] = "C";
-                MenuPrincipal.fila[18] = "3";
-                obtenerV(18);
-                color = "blanco";
-                pivote();
+                boton(C3, 18);
             }
             else
             {
-                C3.ImageUrl = "blanco.png";
-                C3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[18] = "blanco";
-                MenuPrincipal.colum[18] = "C";
-                MenuPrincipal.fila[18] = "3";
-                obtenerV(18);
-                color = "negro";
-                pivote();
+                Maquina(C3, 18);
             }
         }
 
         protected void D3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D3.ImageUrl = "negro.png";
-                D3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[19] = "negro";
-                MenuPrincipal.colum[19] = "D";
-                MenuPrincipal.fila[19] = "3";
-                obtenerV(19);
-                color = "blanco";
-                pivote();
+                boton(D3, 19);
             }
             else
             {
-                D3.ImageUrl = "blanco.png";
-                D3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[19] = "blanco";
-                MenuPrincipal.colum[19] = "D";
-                MenuPrincipal.fila[19] = "3";
-                obtenerV(19);
-                color = "negro";
-                pivote();
+                Maquina(D3, 19);
             }
         }
 
         protected void E3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E3.ImageUrl = "negro.png";
-                E3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[20] = "negro";
-                MenuPrincipal.colum[20] = "E";
-                MenuPrincipal.fila[20] = "3";
-                obtenerV(20);
-                color = "blanco";
-                pivote();
+                boton(E3, 20);
             }
             else
             {
-                E3.ImageUrl = "blanco.png";
-                E3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[20] = "blanco";
-                MenuPrincipal.colum[20] = "E";
-                MenuPrincipal.fila[20] = "3";
-                obtenerV(20);
-                color = "negro";
-                pivote();
+                Maquina(E3, 20);
             }
         }
 
         protected void F3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F3.ImageUrl = "negro.png";
-                F3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[21] = "negro";
-                MenuPrincipal.colum[21] = "F";
-                MenuPrincipal.fila[21] = "3";
-                obtenerV(21);
-                color = "blanco";
-                pivote();
+                boton(F3, 21);
             }
             else
             {
-                F3.ImageUrl = "blanco.png";
-                F3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[21] = "blanco";
-                MenuPrincipal.colum[21] = "F";
-                MenuPrincipal.fila[21] = "3";
-                obtenerV(21);
-                color = "negro";
-                pivote();
+                Maquina(F3, 21);
             }
         }
 
         protected void G3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G3.ImageUrl = "negro.png";
-                G3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[22] = "negro";
-                MenuPrincipal.colum[22] = "G";
-                MenuPrincipal.fila[22] = "3";
-                obtenerV(22);
-                color = "blanco";
-                pivote();
+                boton(G3, 22);
             }
             else
             {
-                G3.ImageUrl = "blanco.png";
-                G3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[22] = "blanco";
-                MenuPrincipal.colum[22] = "G";
-                MenuPrincipal.fila[22] = "3";
-                obtenerV(22);
-                color = "negro";
-                pivote();
+                Maquina(G3, 22);
             }
         }
 
         protected void H3_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H3.ImageUrl = "negro.png";
-                H3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[23] = "negro";
-                MenuPrincipal.colum[23] = "H";
-                MenuPrincipal.fila[23] = "3";
-                obtenerV(23);
-                color = "blanco";
-                pivote();
+                boton(H3, 23);
             }
             else
             {
-                H3.ImageUrl = "blanco.png";
-                H3.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[23] = "blanco";
-                MenuPrincipal.colum[23] = "H";
-                MenuPrincipal.fila[23] = "3";
-                obtenerV(23);
-                color = "negro";
-                pivote();
+                Maquina(H3, 23);
             }
         }
 
         protected void A4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A4.ImageUrl = "negro.png";
-                A4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[24] = "negro";
-                MenuPrincipal.colum[24] = "A";
-                MenuPrincipal.fila[24] = "4";
-                obtenerV(24);
-                color = "blanco";
-                pivote();
+                boton(A4, 24);
             }
             else
             {
-                A4.ImageUrl = "blanco.png";
-                A4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[24] = "blanco";
-                MenuPrincipal.colum[24] = "A";
-                MenuPrincipal.fila[24] = "4";
-                obtenerV(24);
-                color = "negro";
-                pivote();
+                Maquina(A4, 24);
             }
         }
 
         protected void B4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B4.ImageUrl = "negro.png";
-                B4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[25] = "negro";
-                MenuPrincipal.colum[25] = "B";
-                MenuPrincipal.fila[25] = "4";
-                obtenerV(25);
-                color = "blanco";
-                pivote();
+                boton(B4, 25);
             }
             else
             {
-                B4.ImageUrl = "blanco.png";
-                B4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[25] = "blanco";
-                MenuPrincipal.colum[25] = "B";
-                MenuPrincipal.fila[25] = "4";
-                obtenerV(25);
-                color = "negro";
-                pivote();
+                Maquina(B4, 25);
             }
         }
 
         protected void C4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C4.ImageUrl = "negro.png";
-                C4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[26] = "negro";
-                MenuPrincipal.colum[26] = "C";
-                MenuPrincipal.fila[26] = "4";
-                obtenerV(26);
-                color = "blanco";
-                pivote();
+                boton(C4, 26);
             }
             else
             {
-                C4.ImageUrl = "blanco.png";
-                C4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[26] = "blanco";
-                MenuPrincipal.colum[26] = "C";
-                MenuPrincipal.fila[26] = "4";
-                obtenerV(26);
-                color = "negro";
-                pivote();
+                Maquina(C4, 26);
             }
         }
 
         protected void D4_Click(object sender, ImageClickEventArgs e)
         {
-            
+
         }
 
         protected void E4_Click(object sender, ImageClickEventArgs e)
@@ -1125,938 +802,410 @@ namespace Proyecto1IPC2
 
         protected void F4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F4.ImageUrl = "negro.png";
-                F4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[29] = "negro";
-                MenuPrincipal.colum[29] = "F";
-                MenuPrincipal.fila[29] = "4";
-                obtenerV(29);
-                color = "blanco";
-                pivote();
+                boton(F4, 29);
             }
             else
             {
-                F4.ImageUrl = "blanco.png";
-                F4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[29] = "blanco";
-                MenuPrincipal.colum[29] = "F";
-                MenuPrincipal.fila[29] = "4";
-                obtenerV(29);
-                color = "negro";
-                pivote();
+                Maquina(F4, 29);
             }
         }
 
         protected void G4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G4.ImageUrl = "negro.png";
-                G4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[30] = "negro";
-                MenuPrincipal.colum[30] = "G";
-                MenuPrincipal.fila[30] = "4";
-                obtenerV(30);
-                color = "blanco";
-                pivote();
+                boton(G4, 30);
             }
             else
             {
-                G4.ImageUrl = "blanco.png";
-                G4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[30] = "blanco";
-                MenuPrincipal.colum[30] = "G";
-                MenuPrincipal.fila[30] = "4";
-                obtenerV(30);
-                color = "negro";
-                pivote();
+                Maquina(G4, 30);
             }
         }
 
         protected void H4_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H4.ImageUrl = "negro.png";
-                H4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[31] = "negro";
-                MenuPrincipal.colum[31] = "H";
-                MenuPrincipal.fila[31] = "4";
-                obtenerV(31);
-                color = "blanco";
-                pivote();
+                boton(H4, 31);
             }
             else
             {
-                H4.ImageUrl = "blanco.png";
-                H4.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[31] = "blanco";
-                MenuPrincipal.colum[31] = "H";
-                MenuPrincipal.fila[31] = "4";
-                obtenerV(31);
-                color = "negro";
-                pivote();
+                Maquina(H4, 31);
             }
         }
 
         protected void A5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A5.ImageUrl = "negro.png";
-                A5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[32] = "negro";
-                MenuPrincipal.colum[32] = "A";
-                MenuPrincipal.fila[32] = "5";
-                obtenerV(32);
-                color = "blanco";
-                pivote();
+                boton(A5, 32);
             }
             else
             {
-                A5.ImageUrl = "blanco.png";
-                A5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[32] = "blanco";
-                MenuPrincipal.colum[32] = "A";
-                MenuPrincipal.fila[32] = "5";
-                obtenerV(32);
-                color = "negro";
-                pivote();
+                Maquina(A5, 32);
             }
         }
 
         protected void B5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B5.ImageUrl = "negro.png";
-                B5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[33] = "negro";
-                MenuPrincipal.colum[33] = "B";
-                MenuPrincipal.fila[33] = "5";
-                obtenerV(33);
-                color = "blanco";
-                pivote();
+                boton(B5, 33);
             }
             else
             {
-                B5.ImageUrl = "blanco.png";
-                B5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[33] = "blanco";
-                MenuPrincipal.colum[33] = "B";
-                MenuPrincipal.fila[33] = "5";
-                obtenerV(33);
-                color = "negro";
-                pivote();
+                Maquina(B5, 33);
             }
         }
 
         protected void C5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C5.ImageUrl = "negro.png";
-                C5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[34] = "negro";
-                MenuPrincipal.colum[34] = "C";
-                MenuPrincipal.fila[34] = "5";
-                obtenerV(34);
-                color = "blanco";
-                pivote();
+                boton(C5, 34);
             }
             else
             {
-                C5.ImageUrl = "blanco.png";
-                C5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[34] = "blanco";
-                MenuPrincipal.colum[34] = "C";
-                MenuPrincipal.fila[34] = "5";
-                obtenerV(34);
-                color = "negro";
-                pivote();
+                Maquina(C5, 34);
             }
         }
 
         protected void D5_Click(object sender, ImageClickEventArgs e)
         {
-           
+
         }
 
         protected void E5_Click(object sender, ImageClickEventArgs e)
         {
-            
+
         }
 
         protected void F5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F5.ImageUrl = "negro.png";
-                F5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[37] = "negro";
-                MenuPrincipal.colum[37] = "F";
-                MenuPrincipal.fila[37] = "5";
-                obtenerV(37);
-                color = "blanco";
-                pivote();
+                boton(F5, 37);
             }
             else
             {
-                F5.ImageUrl = "blanco.png";
-                F5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[37] = "blanco";
-                MenuPrincipal.colum[37] = "F";
-                MenuPrincipal.fila[37] = "5";
-                obtenerV(37);
-                color = "negro";
-                pivote();
+                Maquina(F5, 37);
             }
         }
 
         protected void G5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G5.ImageUrl = "negro.png";
-                G5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[38] = "negro";
-                MenuPrincipal.colum[38] = "G";
-                MenuPrincipal.fila[38] = "5";
-                obtenerV(38);
-                color = "blanco";
-                pivote();
+                boton(G5, 38);
             }
             else
             {
-                G5.ImageUrl = "blanco.png";
-                G5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[38] = "blanco";
-                MenuPrincipal.colum[38] = "G";
-                MenuPrincipal.fila[38] = "5";
-                obtenerV(38);
-                color = "negro";
-                pivote();
+                Maquina(G5, 38);
             }
         }
 
         protected void H5_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H5.ImageUrl = "negro.png";
-                H5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[39] = "negro";
-                MenuPrincipal.colum[39] = "H";
-                MenuPrincipal.fila[39] = "5";
-                obtenerV(39);
-                color = "blanco";
-                pivote();
+                boton(H5, 39);
             }
             else
             {
-                H5.ImageUrl = "blanco.png";
-                H5.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[39] = "blanco";
-                MenuPrincipal.colum[39] = "H";
-                MenuPrincipal.fila[39] = "5";
-                obtenerV(39);
-                color = "negro";
-                pivote();
+                Maquina(H5, 39);
             }
         }
 
         protected void A6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A6.ImageUrl = "negro.png";
-                A6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[40] = "negro";
-                MenuPrincipal.colum[40] = "A";
-                MenuPrincipal.fila[40] = "6";
-                obtenerV(40);
-                color = "blanco";
-                pivote();
+                boton(A6, 40);
             }
             else
             {
-                A6.ImageUrl = "blanco.png";
-                A6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[40] = "blanco";
-                MenuPrincipal.colum[40] = "A";
-                MenuPrincipal.fila[40] = "6";
-                obtenerV(40);
-                color = "negro";
-                pivote();
+                Maquina(A6, 40);
             }
         }
 
         protected void B6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B6.ImageUrl = "negro.png";
-                B6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[41] = "negro";
-                MenuPrincipal.colum[41] = "B";
-                MenuPrincipal.fila[41] = "6";
-                obtenerV(41);
-                color = "blanco";
-                pivote();
+                boton(B6, 41);
             }
             else
             {
-                B6.ImageUrl = "blanco.png";
-                B6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[41] = "blanco";
-                MenuPrincipal.colum[41] = "B";
-                MenuPrincipal.fila[41] = "6";
-                obtenerV(41);
-                color = "negro";
-                pivote();
+                Maquina(B6, 41);
             }
         }
 
         protected void C6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C6.ImageUrl = "negro.png";
-                C6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[42] = "negro";
-                MenuPrincipal.colum[42] = "C";
-                MenuPrincipal.fila[42] = "6";
-                obtenerV(42);
-                color = "blanco";
-                pivote();
+                boton(C6, 42);
             }
             else
             {
-                C6.ImageUrl = "blanco.png";
-                C6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[42] = "blanco";
-                MenuPrincipal.colum[42] = "C";
-                MenuPrincipal.fila[42] = "6";
-                obtenerV(42);
-                color = "negro";
-                pivote();
+                Maquina(C6, 42);
             }
         }
 
         protected void D6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D6.ImageUrl = "negro.png";
-                D6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[43] = "negro";
-                MenuPrincipal.colum[43] = "D";
-                MenuPrincipal.fila[43] = "6";
-                obtenerV(43);
-                color = "blanco";
-                pivote();
+                boton(D6, 43);
             }
             else
             {
-                D6.ImageUrl = "blanco.png";
-                D6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[43] = "blanco";
-                MenuPrincipal.colum[43] = "D";
-                MenuPrincipal.fila[43] = "6";
-                obtenerV(43);
-                color = "negro";
-                pivote();
+                Maquina(D6, 43);
             }
         }
 
         protected void E6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E6.ImageUrl = "negro.png";
-                E6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[44] = "negro";
-                MenuPrincipal.colum[44] = "E";
-                MenuPrincipal.fila[44] = "6";
-                obtenerV(44);
-                color = "blanco";
-                pivote();
+                boton(E6, 44);
             }
             else
             {
-                E6.ImageUrl = "blanco.png";
-                E6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[44] = "blanco";
-                MenuPrincipal.colum[44] = "E";
-                MenuPrincipal.fila[44] = "6";
-                obtenerV(44);
-                color = "negro";
-                pivote();
+                Maquina(E6, 44);
             }
         }
 
         protected void F6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F6.ImageUrl = "negro.png";
-                F6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[45] = "negro";
-                MenuPrincipal.colum[45] = "F";
-                MenuPrincipal.fila[45] = "6";
-                obtenerV(45);
-                color = "blanco";
-                pivote();
+                boton(F6, 45);
             }
             else
             {
-                F6.ImageUrl = "blanco.png";
-                F6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[45] = "blanco";
-                MenuPrincipal.colum[45] = "F";
-                MenuPrincipal.fila[45] = "6";
-                obtenerV(45);
-                color = "negro";
-                pivote();
+                Maquina(F6, 45);
             }
         }
 
         protected void G6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G6.ImageUrl = "negro.png";
-                G6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[46] = "negro";
-                MenuPrincipal.colum[46] = "G";
-                MenuPrincipal.fila[46] = "6";
-                obtenerV(46);
-                color = "blanco";
-                pivote();
+                boton(G6, 46);
             }
             else
             {
-                G6.ImageUrl = "blanco.png";
-                G6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[46] = "blanco";
-                MenuPrincipal.colum[46] = "G";
-                MenuPrincipal.fila[46] = "6";
-                obtenerV(46);
-                color = "negro";
-                pivote();
+                Maquina(G6, 46);
             }
         }
 
         protected void H6_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H6.ImageUrl = "negro.png";
-                H6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[47] = "negro";
-                MenuPrincipal.colum[47] = "H";
-                MenuPrincipal.fila[47] = "6";
-                obtenerV(47);
-                color = "blanco";
-                pivote();
+                boton(H6, 47);
             }
             else
             {
-                H6.ImageUrl = "blanco.png";
-                H6.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[47] = "blanco";
-                MenuPrincipal.colum[47] = "H";
-                MenuPrincipal.fila[47] = "6";
-                obtenerV(47);
-                color = "negro";
-                pivote();
+                Maquina(H6, 47);
             }
         }
 
         protected void A7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A7.ImageUrl = "negro.png";
-                A7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[48] = "negro";
-                MenuPrincipal.colum[48] = "A";
-                MenuPrincipal.fila[48] = "7";
-                obtenerV(48);
-                color = "blanco";
-                pivote();
+                boton(A7, 48);
             }
             else
             {
-                A7.ImageUrl = "blanco.png";
-                A7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[48] = "blanco";
-                MenuPrincipal.colum[48] = "A";
-                MenuPrincipal.fila[48] = "7";
-                obtenerV(48);
-                color = "negro";
-                pivote();
+                Maquina(A7, 48);
             }
         }
 
         protected void B7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B7.ImageUrl = "negro.png";
-                B7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[49] = "negro";
-                MenuPrincipal.colum[49] = "B";
-                MenuPrincipal.fila[49] = "7";
-                obtenerV(49);
-                color = "blanco";
-                pivote();
+                boton(B7, 49);
             }
             else
             {
-                B7.ImageUrl = "blanco.png";
-                B7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[49] = "blanco";
-                MenuPrincipal.colum[49] = "B";
-                MenuPrincipal.fila[49] = "7";
-                obtenerV(49);
-                color = "negro";
-                pivote();
+                Maquina(B7, 49);
             }
         }
 
         protected void C7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C7.ImageUrl = "negro.png";
-                C7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[50] = "negro";
-                MenuPrincipal.colum[50] = "C";
-                MenuPrincipal.fila[50] = "7";
-                obtenerV(50);
-                color = "blanco";
-                pivote();
+                boton(C7, 50);
             }
             else
             {
-                C7.ImageUrl = "blanco.png";
-                C7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[50] = "blanco";
-                MenuPrincipal.colum[50] = "C";
-                MenuPrincipal.fila[50] = "7";
-                obtenerV(50);
-                color = "negro";
-                pivote();
+                Maquina(C7, 50);
             }
         }
 
         protected void D7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D7.ImageUrl = "negro.png";
-                D7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[51] = "negro";
-                MenuPrincipal.colum[51] = "D";
-                MenuPrincipal.fila[51] = "7";
-                obtenerV(51);
-                color = "blanco";
-                pivote();
+                boton(D7, 51);
             }
             else
             {
-                D7.ImageUrl = "blanco.png";
-                D7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[51] = "blanco";
-                MenuPrincipal.colum[51] = "D";
-                MenuPrincipal.fila[51] = "7";
-                obtenerV(51);
-                color = "negro";
-                pivote();
+                Maquina(D7, 51);
             }
         }
 
         protected void E7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E7.ImageUrl = "negro.png";
-                E7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[52] = "negro";
-                MenuPrincipal.colum[52] = "E";
-                MenuPrincipal.fila[52] = "7";
-                obtenerV(52);
-                color = "blanco";
-                pivote();
+                boton(E7, 52);
             }
             else
             {
-                E7.ImageUrl = "blanco.png";
-                E7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[52] = "blanco";
-                MenuPrincipal.colum[52] = "E";
-                MenuPrincipal.fila[52] = "7";
-                obtenerV(52);
-                color = "negro";
-                pivote();
+                Maquina(E7, 52);
             }
         }
 
         protected void F7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F7.ImageUrl = "negro.png";
-                F7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[53] = "negro";
-                MenuPrincipal.colum[53] = "F";
-                MenuPrincipal.fila[53] = "7";
-                obtenerV(53);
-                color = "blanco";
-                pivote();
+                boton(F7, 53);
             }
             else
             {
-                F7.ImageUrl = "blanco.png";
-                F7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[53] = "blanco";
-                MenuPrincipal.colum[53] = "F";
-                MenuPrincipal.fila[53] = "7";
-                obtenerV(53);
-                color = "negro";
-                pivote();
+                Maquina(F7, 53);
             }
         }
 
         protected void G7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G7.ImageUrl = "negro.png";
-                G7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[54] = "negro";
-                MenuPrincipal.colum[54] = "G";
-                MenuPrincipal.fila[54] = "7";
-                obtenerV(54);
-                color = "blanco";
-                pivote();
+                boton(G7, 54);
             }
             else
             {
-                G7.ImageUrl = "blanco.png";
-                G7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[54] = "blanco";
-                MenuPrincipal.colum[54] = "G";
-                MenuPrincipal.fila[54] = "7";
-                obtenerV(54);
-                color = "negro";
-                pivote();
+                Maquina(G7, 54);
             }
         }
 
         protected void H7_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H7.ImageUrl = "negro.png";
-                H7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[55] = "negro";
-                MenuPrincipal.colum[55] = "H";
-                MenuPrincipal.fila[55] = "7";
-                obtenerV(55);
-                color = "blanco";
-                pivote();
+                boton(H7, 55);
             }
             else
             {
-                H7.ImageUrl = "blanco.png";
-                H7.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[55] = "blanco";
-                MenuPrincipal.colum[55] = "H";
-                MenuPrincipal.fila[55] = "7";
-                obtenerV(55);
-                color = "negro";
-                pivote();
+                Maquina(H7, 55);
             }
         }
 
         protected void A8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                A8.ImageUrl = "negro.png";
-                A8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[56] = "negro";
-                MenuPrincipal.colum[56] = "A";
-                MenuPrincipal.fila[56] = "8";
-                obtenerV(56);
-                color = "blanco";
-                pivote();
+                boton(A8, 56);
             }
             else
             {
-                A8.ImageUrl = "blanco.png";
-                A8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[56] = "blanco";
-                MenuPrincipal.colum[56] = "A";
-                MenuPrincipal.fila[56] = "8";
-                obtenerV(56);
-                color = "negro";
-                pivote();
+                Maquina(A8, 56);
             }
         }
 
         protected void B8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                B8.ImageUrl = "negro.png";
-                B8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[57] = "negro";
-                MenuPrincipal.colum[57] = "B";
-                MenuPrincipal.fila[57] = "8";
-                obtenerV(57);
-                color = "blanco";
-                pivote();
+                boton(B8, 57);
             }
             else
             {
-                B8.ImageUrl = "blanco.png";
-                B8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[57] = "blanco";
-                MenuPrincipal.colum[57] = "B";
-                MenuPrincipal.fila[57] = "8";
-                obtenerV(57);
-                color = "negro";
-                pivote();
+                Maquina(B8, 57);
             }
         }
 
         protected void C8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                C8.ImageUrl = "negro.png";
-                C8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[58] = "negro";
-                MenuPrincipal.colum[58] = "C";
-                MenuPrincipal.fila[58] = "8";
-                obtenerV(58);
-                color = "blanco";
-                pivote();
+                boton(C8, 58);
             }
             else
             {
-                C8.ImageUrl = "blanco.png";
-                C8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[58] = "blanco";
-                MenuPrincipal.colum[58] = "C";
-                MenuPrincipal.fila[58] = "8";
-                obtenerV(58);
-                color = "negro";
-                pivote();
+                Maquina(C8, 58);
             }
         }
 
         protected void D8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                D8.ImageUrl = "negro.png";
-                D8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[59] = "negro";
-                MenuPrincipal.colum[59] = "D";
-                MenuPrincipal.fila[59] = "8";
-                obtenerV(59);
-                color = "blanco";
-                pivote();
+                boton(D8, 59);
             }
             else
             {
-                D8.ImageUrl = "blanco.png";
-                D8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[59] = "blanco";
-                MenuPrincipal.colum[59] = "D";
-                MenuPrincipal.fila[59] = "8";
-                obtenerV(59);
-                color = "negro";
-                pivote();
+                Maquina(D8, 59);
             }
         }
-        
+
         protected void E8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                E8.ImageUrl = "negro.png";
-                E8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[60] = "negro";
-                MenuPrincipal.colum[60] = "E";
-                MenuPrincipal.fila[60] = "8";
-                obtenerV(60);
-                color = "blanco";
-                pivote();
+                boton(E8, 60);
             }
             else
             {
-                E8.ImageUrl = "blanco.png";
-                E8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[60] = "blanco";
-                MenuPrincipal.colum[60] = "E";
-                MenuPrincipal.fila[60] = "8";
-                obtenerV(60);
-                color = "negro";
-                pivote();
+                Maquina(E8, 60);
             }
         }
 
         protected void F8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                F8.ImageUrl = "negro.png";
-                F8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[61] = "negro";
-                MenuPrincipal.colum[61] = "F";
-                MenuPrincipal.fila[61] = "8";
-                obtenerV(61);
-                color = "blanco";
-                pivote();
+                boton(F8, 61);
             }
             else
             {
-                F8.ImageUrl = "blanco.png";
-                F8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[61] = "blanco";
-                MenuPrincipal.colum[61] = "F";
-                MenuPrincipal.fila[61] = "8";
-                obtenerV(61);
-                color = "negro";
-                pivote();
+                Maquina(F8, 61);
             }
         }
 
         protected void G8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                G8.ImageUrl = "negro.png";
-                G8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[62] = "negro";
-                MenuPrincipal.colum[62] = "G";
-                MenuPrincipal.fila[62] = "8";
-                obtenerV(62);
-                color = "blanco";
-                pivote();
+                boton(G8, 62);
             }
             else
             {
-                G8.ImageUrl = "blanco.png";
-                G8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[62] = "blanco";
-                MenuPrincipal.colum[62] = "G";
-                MenuPrincipal.fila[62] = "8";
-                obtenerV(62);
-                color = "negro";
-                pivote();
+                Maquina(G8, 62);
             }
         }
 
         protected void H8_Click(object sender, ImageClickEventArgs e)
         {
-            if (color == "negro")
+            if (partida.Equals("Versus"))
             {
-                H8.ImageUrl = "negro.png";
-                H8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[63] = "negro";
-                MenuPrincipal.colum[63] = "H";
-                MenuPrincipal.fila[63] = "8";
-                obtenerV(63);
-                color = "blanco";
-                pivote();
+                boton(H8, 63);
             }
             else
             {
-                H8.ImageUrl = "blanco.png";
-                H8.Enabled = false;
-                mov++;
-                MenuPrincipal.colores[63] = "blanco";
-                MenuPrincipal.colum[63] = "H";
-                MenuPrincipal.fila[63] = "8";
-                obtenerV(63);
-                color = "negro";
-                pivote();
+                Maquina(H8, 63);
             }
         }
-        
+
         protected void guardar_Click(object sender, EventArgs e)
         {
             XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
@@ -2086,11 +1235,19 @@ namespace Proyecto1IPC2
             if (bandera == false)
             {
                 BaseDatos bd = new BaseDatos();
-                string datos = "insert into partida(partida_g,tipo_partida,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@movimientos,@pge,@id_usuario)";
+                string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
                 SqlCommand accion = new SqlCommand(datos, bd.registrar());
                 accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
                 accion.Parameters.AddWithValue("@tipo_partida", partida);
-                accion.Parameters.AddWithValue("@movimientos", mov);
+                accion.Parameters.AddWithValue("@color", colorJ);
+                if (colorJ.Equals("negro"))
+                {
+                    accion.Parameters.AddWithValue("@movimientos", movn);
+                }
+                else if (colorJ.Equals("blanco"))
+                {
+                    accion.Parameters.AddWithValue("@movimientos", movb);
+                }
                 accion.Parameters.AddWithValue("@pge", gamperem);
                 accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
                 accion.ExecuteNonQuery();
@@ -2101,7 +1258,14 @@ namespace Proyecto1IPC2
                 string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
                 SqlCommand accion = new SqlCommand(datos, bd.registrar());
                 accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                accion.Parameters.AddWithValue("@movimientos", mov);
+                if (colorJ.Equals("negro"))
+                {
+                    accion.Parameters.AddWithValue("@movimientos", movn);
+                }
+                else if (colorJ.Equals("blanco"))
+                {
+                    accion.Parameters.AddWithValue("@movimientos", movb);
+                }
                 accion.Parameters.AddWithValue("@pge", gamperem);
                 accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
                 accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
@@ -2468,7 +1632,7 @@ namespace Proyecto1IPC2
                         arizb(i);
                     }
                 }
-                    
+
             }
         }
 
@@ -2828,6 +1992,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i - 1;
             }
         }
@@ -2862,6 +2030,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i - 1;
@@ -2900,6 +2072,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i + 1;
             }
         }
@@ -2934,6 +2110,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i + 1;
@@ -2972,6 +2152,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i - 8;
             }
         }
@@ -3006,6 +2190,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i - 8;
@@ -3044,6 +2232,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i + 8;
             }
         }
@@ -3078,6 +2270,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i + 8;
@@ -3116,6 +2312,9 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false) {
+                    break;
+                }
                 i = i + 9;
             }
         }
@@ -3150,6 +2349,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i + 9;
@@ -3188,6 +2391,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i + 7;
             }
         }
@@ -3222,6 +2429,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i + 7;
@@ -3260,6 +2471,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i - 7;
             }
         }
@@ -3294,6 +2509,10 @@ namespace Proyecto1IPC2
                 else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
                 {
                     crearPivote(i);
+                    break;
+                }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
                     break;
                 }
                 i = i - 7;
@@ -3332,6 +2551,10 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i - 9;
             }
         }
@@ -3368,12 +2591,16 @@ namespace Proyecto1IPC2
                     crearPivote(i);
                     break;
                 }
+                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                {
+                    break;
+                }
                 i = i - 9;
             }
         }
 
         //Obtiene Posiciones a voltear
-        public void obtenerV (int i) {
+        public void obtenerV(int i) {
             vuelta.Clear();
             if (color.Equals("negro"))
             {
@@ -3398,6 +2625,7 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
                         else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
@@ -3427,8 +2655,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3456,8 +2685,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3471,7 +2701,7 @@ namespace Proyecto1IPC2
                 while (bandera)
                 {
                     posaux = pos + 8;
-                    if (pos == 56 || pos == 57 || pos == 58 || pos == 59 || pos == 60|| pos == 61 || pos == 62 || pos == 63)
+                    if (pos == 56 || pos == 57 || pos == 58 || pos == 59 || pos == 60 || pos == 61 || pos == 62 || pos == 63)
                     {
                         break;
                     }
@@ -3485,8 +2715,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3514,8 +2745,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3543,8 +2775,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3572,8 +2805,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3601,8 +2835,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3632,8 +2867,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3661,8 +2897,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3690,8 +2927,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3719,8 +2957,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3748,8 +2987,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3777,8 +3017,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3806,8 +3047,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -3835,8 +3077,9 @@ namespace Proyecto1IPC2
                         {
                             voltear(vuelta);
                             vuelta.Clear();
+                            break;
                         }
-                        else if (MenuPrincipal.colores[posaux].Equals("."))
+                        else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
                         {
                             break;
                         }
@@ -4683,6 +3926,1120 @@ namespace Proyecto1IPC2
                         MenuPrincipal.colores[i] = "blanco";
                     }
                 }
+            }
+        }
+
+        //Terminar Partida o saltar turno
+        public void siguiente() {
+            if (color.Equals("blanco"))
+            {
+                int turno = validar();
+                if (turno == 0)
+                {
+                    color = "negro";
+                    pivote();
+                    turno = validar();
+                    if (turno == 0)
+                    {
+                        //Se acabo el juego
+                        XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
+                        XElement raiz = new XElement("tablero");
+                        raiz.RemoveAll();
+                        archivo.Add(raiz);
+                        for (int i = 0; i <= 63; i++)
+                        {
+                            if (!MenuPrincipal.colores[i].Equals(".") && !MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                XElement ficha = new XElement("ficha");
+                                ficha.Add(new XElement("color", MenuPrincipal.colores[i]));
+                                ficha.Add(new XElement("columna", MenuPrincipal.colum[i]));
+                                ficha.Add(new XElement("fila", MenuPrincipal.fila[i]));
+                                raiz.Add(ficha);
+                            }
+                        }
+                        XElement siguientetiro = new XElement("siguienteTiro");
+                        if (color.Equals("negro"))
+                        {
+                            siguientetiro.Add(new XElement("color", "negro"));
+                            raiz.Add(siguientetiro);
+                        }
+                        else if (color.Equals("blanco"))
+                        {
+                            siguientetiro.Add(new XElement("color", "blanco"));
+                        }
+                        if (bandera == false)
+                        {
+                            BaseDatos bd = new BaseDatos();
+                            string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                            SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            accion.Parameters.AddWithValue("@tipo_partida", partida);
+                            accion.Parameters.AddWithValue("@color", colorJ);
+                            if (colorJ.Equals("negro"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movn);
+                            }
+                            else if (colorJ.Equals("blanco"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movb);
+                            }
+                            accion.Parameters.AddWithValue("@pge", gamperem);
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.ExecuteNonQuery();
+                            Titulo.Text = "Partida Finalizada";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                            panelModal.Update();
+                        }
+                        else
+                        {
+                            BaseDatos bd = new BaseDatos();
+                            string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                            SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            if (colorJ.Equals("negro")) {
+                                accion.Parameters.AddWithValue("@movimientos", movn);
+                            }
+                            else if (colorJ.Equals("blanco"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movb);
+                            }
+                            accion.Parameters.AddWithValue("@pge", gamperem);
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                            accion.ExecuteNonQuery();
+                            Titulo.Text = "Partida Finalizada";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                            panelModal.Update();
+                        }
+                    }
+                    else
+                    {
+                        Titulo.Text = "No hay tiros posibles, turno saltado";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                        panelModal.Update();
+                    }
+                }
+            }
+            else {
+                int turno = validar();
+                if (turno == 0)
+                {
+                    color = "blanco";
+                    pivote();
+                    turno = validar();
+                    if (turno == 0)
+                    {
+                        //Se acabo el juego
+                        XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
+                        XElement raiz = new XElement("tablero");
+                        raiz.RemoveAll();
+                        archivo.Add(raiz);
+                        for (int i = 0; i <= 63; i++)
+                        {
+                            if (!MenuPrincipal.colores[i].Equals(".") && !MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                XElement ficha = new XElement("ficha");
+                                ficha.Add(new XElement("color", MenuPrincipal.colores[i]));
+                                ficha.Add(new XElement("columna", MenuPrincipal.colum[i]));
+                                ficha.Add(new XElement("fila", MenuPrincipal.fila[i]));
+                                raiz.Add(ficha);
+                            }
+                        }
+                        XElement siguientetiro = new XElement("siguienteTiro");
+                        if (color.Equals("negro"))
+                        {
+                            siguientetiro.Add(new XElement("color", "negro"));
+                            raiz.Add(siguientetiro);
+                        }
+                        else if (color.Equals("blanco"))
+                        {
+                            siguientetiro.Add(new XElement("color", "blanco"));
+                        }
+                        if (bandera == false)
+                        {
+                            movn = 0;
+                            movb = 0;
+                            for (int i = 0; i <= 63; i++) {
+                                if (MenuPrincipal.colores[i].Equals("negro")) { movn++; }
+                                else { movb++; }
+                            }
+                            if (colorJ.Equals("negro"))
+                            {
+                                if (movb < movn)
+                                {
+                                    gamperem = "Victoria";
+                                }
+                                else if (movb > movn)
+                                {
+                                    gamperem = "Perdido";
+                                }
+                                else if (movb == movn)
+                                {
+                                    gamperem = "Empate";
+                                }
+                            }
+                            else
+                            {
+                                if (movb < movn)
+                                {
+                                    gamperem = "Perdido";
+                                }
+                                else if (movb > movn)
+                                {
+                                    gamperem = "Victoria";
+                                }
+                                else if (movb == movn)
+                                {
+                                    gamperem = "Empate";
+                                }
+                            }
+                            
+                            BaseDatos bd = new BaseDatos();
+                            string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                            SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            accion.Parameters.AddWithValue("@tipo_partida", partida);
+                            accion.Parameters.AddWithValue("@color", colorJ);
+                            if (colorJ.Equals("negro"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movn);
+                            }
+                            else if (colorJ.Equals("blanco"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movb);
+                            }
+                            accion.Parameters.AddWithValue("@pge", gamperem);
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.ExecuteNonQuery();
+                            Titulo.Text = "Partida Finalizada";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                            panelModal.Update();
+                        }
+                        else
+                        {
+                            if (colorJ.Equals("negro"))
+                            {
+                                if (movb < movn)
+                                {
+                                    gamperem = "Victoria";
+                                }
+                                else if (movb > movn)
+                                {
+                                    gamperem = "Perdido";
+                                }
+                                else if (movb == movn)
+                                {
+                                    gamperem = "Empate";
+                                }
+                            }
+                            else
+                            {
+                                if (movb < movn)
+                                {
+                                    gamperem = "Perdido";
+                                }
+                                else if (movb > movn)
+                                {
+                                    gamperem = "Victoria";
+                                }
+                                else if (movb == movn)
+                                {
+                                    gamperem = "Empate";
+                                }
+                            }
+                            BaseDatos bd = new BaseDatos();
+                            string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                            SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            if (colorJ.Equals("negro"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movn);
+                            }
+                            else if (colorJ.Equals("blanco"))
+                            {
+                                accion.Parameters.AddWithValue("@movimientos", movb);
+                            }
+                            accion.Parameters.AddWithValue("@pge", gamperem);
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                            accion.ExecuteNonQuery();
+                            Titulo.Text = "Partida Finalizada";
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                            panelModal.Update();
+                        }
+                    }
+                    else
+                    {
+                        Titulo.Text = "No hay tiros posibles, turno saltado";
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                        panelModal.Update();
+                    }
+                }
+            }
+        }
+
+        //Validar turno
+        public int validar() {
+            int contador = 0;
+            for (int i = 0; i <= 63; i++) {
+                if (MenuPrincipal.colores[i].Equals("pivote")) {
+                    contador++;
+                }
+            }
+            return contador;
+        }
+
+        //Jugador
+        public void boton(ImageButton tiro, int  i) {
+            if (color.Equals("negro"))
+            {
+                tiro.ImageUrl = "negro.png";
+                tiro.Enabled = false;
+                mov++;
+                movn++;
+                MenuPrincipal.colores[i] = "negro";
+                MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
+                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
+                obtenerV(i);
+                puntosb = 0;
+                puntosn = 0;
+                for (int z = 0; z <= 63; z++) {
+                    if (MenuPrincipal.colores[z].Equals("negro")) {
+                        puntosn++;
+                    }
+                    else if (MenuPrincipal.colores[z].Equals("blanco"))
+                    {
+                        puntosb++;
+                    }
+                }
+                color = "blanco";
+                pivote();
+                MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                TurnoNegro.ImageUrl = "vacio.png";
+                TurnoBlanco.ImageUrl = "blanco.png";
+                siguiente();
+            }
+            else {
+                tiro.ImageUrl = "blanco.png";
+                tiro.Enabled = false;
+                mov++;
+                movb++;
+                MenuPrincipal.colores[i] = "blanco";
+                MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
+                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
+                obtenerV(i);
+                puntosb = 0;
+                puntosn = 0;
+                for (int z = 0; z <= 63; z++)
+                {
+                    if (MenuPrincipal.colores[z].Equals("negro"))
+                    {
+                        puntosn++;
+                    }
+                    else if (MenuPrincipal.colores[z].Equals("blanco"))
+                    {
+                        puntosb++;
+                    }
+                }
+                color = "negro";
+                pivote();
+                MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                TurnoNegro.ImageUrl = "negro.png";
+                TurnoBlanco.ImageUrl = "vacio.png";
+                siguiente();
+            }
+        }
+
+        //Maquina
+        public void Maquina(ImageButton tiro, int i) {
+            pivoteM.Clear();
+            if (colorJ.Equals("negro"))
+            {
+                tiro.ImageUrl = "negro.png";
+                tiro.Enabled = false;
+                mov++;
+                movn++;
+                MenuPrincipal.colores[i] = "negro";
+                MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
+                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; 
+                obtenerV(i);
+                color = "blanco";
+                pivote();
+                for (int z = 0; z <= 63; z++)
+                {
+                    if (MenuPrincipal.colores[z].Equals("pivote")) {
+                        pivoteM.Add(z);
+                    }
+                }
+                siguienteM(pivoteM);
+            }
+            else
+            {
+                tiro.ImageUrl = "blanco.png";
+                tiro.Enabled = false;
+                mov++;
+                movb++;
+                MenuPrincipal.colores[i] = "blanco";
+                MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
+                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i];
+                obtenerV(i);
+                color = "negro";
+                pivote();
+                for (int z = 0; z <= 63; z++)
+                {
+                    if (MenuPrincipal.colores[z].Equals("pivote"))
+                    {
+                        pivoteM.Add(z);
+                    }
+                }
+                siguienteM(pivoteM);
+            
+            }
+        }
+
+        //Tiro o Saltar Turno Maquina
+        public void siguienteM(List<int> pivotes) {
+            tirosM.Clear();
+            if (pivotes.Count != 0)
+            {
+                foreach (int i in pivotes)
+                {
+                    int cantidad = 0;
+                    if (color.Equals("negro"))
+                    {
+                        //Voltear Hacia Izquierda del pivote
+                        int pos = i;
+                        int posaux;
+                        bool bandera = true;
+                        while (bandera)
+                        {
+                            posaux = pos - 1;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 1;
+                        }
+
+                        //Voltear Hacia Derecha del pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 1;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 1;
+                        }
+
+                        //Voltear Hacia Arriba del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 8;
+                            if (pos == 0 || pos == 1 || pos == 2 || pos == 3 || pos == 4 || pos == 5 || pos == 6 || pos == 7)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 8;
+                        }
+
+                        //Voltear Hacia Abajo del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 8;
+                            if (pos == 56 || pos == 57 || pos == 58 || pos == 59 || pos == 60 || pos == 61 || pos == 62 || pos == 63)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 8;
+                        }
+
+                        //Voltear Hacia Abajo Derecha del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 9;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63 || pos == 62 || pos == 61 || pos == 60 || pos == 59 || pos == 58 || pos == 57 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 9;
+                        }
+
+                        //Voltear Hacia Abajo Izquierda del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 7;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 63 || pos == 62 || pos == 61 || pos == 60 || pos == 59 || pos == 58 || pos == 57 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 7;
+                        }
+
+                        //Voltear Hacia Arriba Derecha del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 7;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63 || pos == 6 || pos == 5 || pos == 4 || pos == 3 || pos == 2 || pos == 1 || pos == 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 7;
+                        }
+
+                        //Voltear Hacia Arriba Izquierda del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 9;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 56 || pos == 1 || pos == 2 || pos == 3 || pos == 4 || pos == 5 || pos == 6 || pos == 7)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 9;
+                        }
+                    }
+                    else
+                    {
+                        //Voltear Hacia Izquierda del pivote
+                        int pos = i;
+                        int posaux;
+                        bool bandera = true;
+                        while (bandera)
+                        {
+                            posaux = pos - 1;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 1;
+                        }
+
+                        //Voltear Hacia Derecha del pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 1;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 1;
+                        }
+
+                        //Voltear Hacia Arriba del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 8;
+                            if (pos == 0 || pos == 1 || pos == 2 || pos == 3 || pos == 4 || pos == 5 || pos == 6 || pos == 7)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 8;
+                        }
+
+                        //Voltear Hacia Abajo del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 8;
+                            if (pos == 56 || pos == 57 || pos == 58 || pos == 59 || pos == 60 || pos == 61 || pos == 62 || pos == 63)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 8;
+                        }
+
+                        //Voltear Hacia Abajo Derecha del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 9;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63 || pos == 62 || pos == 61 || pos == 60 || pos == 59 || pos == 58 || pos == 57 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 9;
+                        }
+
+                        //Voltear Hacia Abajo Izquierda del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos + 7;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 63 || pos == 62 || pos == 61 || pos == 60 || pos == 59 || pos == 58 || pos == 57 || pos == 56)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos + 7;
+                        }
+
+                        //Voltear Hacia Arriba Derecha del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 7;
+                            if (pos == 7 || pos == 15 || pos == 23 || pos == 31 || pos == 39 || pos == 47 || pos == 55 || pos == 63 || pos == 6 || pos == 5 || pos == 4 || pos == 3 || pos == 2 || pos == 1 || pos == 0)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 7;
+                        }
+
+                        //Voltear Hacia Arriba Izquierda del Pivote
+                        pos = i;
+                        vuelta.Clear();
+                        while (bandera)
+                        {
+                            posaux = pos - 9;
+                            if (pos == 0 || pos == 8 || pos == 16 || pos == 24 || pos == 32 || pos == 40 || pos == 48 || pos == 56 || pos == 1 || pos == 2 || pos == 3 || pos == 4 || pos == 5 || pos == 6 || pos == 7)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                if (MenuPrincipal.colores[posaux].Equals("negro"))
+                                {
+                                    cantidad++;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals("blanco"))
+                                {
+                                    break;
+                                }
+                                else if (MenuPrincipal.colores[posaux].Equals(".") || MenuPrincipal.colores[posaux].Equals("pivote"))
+                                {
+                                    break;
+                                }
+                            }
+                            pos = pos - 9;
+                        }
+                    }
+
+                    tirosM.Add(cantidad);
+                }
+                int maximo = tirosM.Max();
+                int posicion = 0;
+                foreach (int i in tirosM)
+                {
+                    if (maximo == i)
+                    {
+                        break;
+                    }
+                    else { posicion++; }
+                }
+                int tiro = pivotes[posicion];
+                if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(A1, 0);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(B1, 1);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(C1, 2);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(D1, 3);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(E1, 4);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(F1, 5);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(G1, 6);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "1")
+                {
+                    boton(H1, 7);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(A2, 8);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(B2, 9);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(C2, 10);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(D2, 11);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(E2, 12);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(F2, 13);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(G2, 14);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "2")
+                {
+                    boton(H2, 15);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(A3, 16);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(B3, 17);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(C3, 18);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(D3, 19);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(E3, 20);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(F3, 21);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(G3, 22);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "3")
+                {
+                    boton(H3, 23);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(A4, 24);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(B4, 25);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(C4, 26);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(D4, 27);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(E4, 28);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(F4, 29);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(G4, 30);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "4")
+                {
+                    boton(H4, 31);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(A5, 32);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(B5, 33);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(C5, 34);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(D5, 35);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(E5, 36);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(F5, 37);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(G5, 38);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "5")
+                {
+                    boton(H5, 39);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(A6, 40);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(B6, 41);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(C6, 42);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(D6, 43);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(E6, 44);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(F6, 45);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(G6, 46);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "6")
+                {
+                    boton(H6, 47);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(A7, 48);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(B7, 49);
+
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(C7, 50);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(D7, 51);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(E7, 52);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(F7, 53);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(G7, 54);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "7")
+                {
+                    boton(H7, 55);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(A8, 56);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(B8, 57);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(C8, 58);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(D8, 59);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(E8, 60);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(F8, 61);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(G8, 62);
+                }
+                else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "8")
+                {
+                    boton(H8, 63);
+                }
+            }
+            else
+            {
+                siguiente();
             }
         }
     }
