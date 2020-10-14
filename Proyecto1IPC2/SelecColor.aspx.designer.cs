@@ -49,6 +49,15 @@ namespace Proyecto1IPC2 {
         protected global::System.Web.UI.WebControls.Button Random;
         
         /// <summary>
+        /// Control regresar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button regresar;
+        
+        /// <summary>
         /// Control panelModal.
         /// </summary>
         /// <remarks>

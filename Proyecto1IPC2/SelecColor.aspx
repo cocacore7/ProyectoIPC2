@@ -28,7 +28,8 @@
             <asp:ListItem>Blanco</asp:ListItem>
         </asp:DropDownList><br />
         <asp:Button ID="Selec" runat="server" Text="Seleccionar" OnClick="aceptar_Click" BackColor="#c54848"/><br />
-        <asp:Button ID="Random" runat="server" Text="Aleatorio" OnClick="regresar_Click" BackColor="#c54848"/>
+        <asp:Button ID="Random" runat="server" Text="Aleatorio"  BackColor="#c54848" OnClick="Random_Click"/><br />
+        <asp:Button ID="regresar" runat="server" Text="Regresar" OnClick="regresar_Click" BackColor="#c54848"/>
     </div>
 
     <style>

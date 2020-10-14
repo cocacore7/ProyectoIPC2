@@ -37,13 +37,19 @@ namespace Proyecto1IPC2
 
         protected void regresar_Click(object sender, EventArgs e)
         {
+            Response.Redirect("MenuPrincipal.aspx");
+        }
+
+        protected void Random_Click(object sender, EventArgs e)
+        {
             Random rnd = new Random();
             int color = rnd.Next(0, 1);
             if (color == 0)
             {
                 Tablero.colorJ = "negro";
             }
-            else {
+            else
+            {
                 Tablero.colorJ = "blanco";
             }
             Response.Redirect("Tablero.aspx");
