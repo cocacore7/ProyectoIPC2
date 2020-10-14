@@ -51,7 +51,6 @@ namespace Proyecto1IPC2
             }
             else if (archivo.Equals("Seleccionar Partida"))
             {
-                Titulo.Text = "Error de Carga";
                 Cuerpo.Text = "Por favor, Seleccione una partida";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
                 panelModal.Update();

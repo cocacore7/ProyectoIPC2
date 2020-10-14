@@ -385,7 +385,6 @@
             <asp:Button ID="guardar" runat="server" Text="Guardar Y Salir" BackColor="#3366ff" Font-Size="Large" Font-Bold="true" Width="200px" Height="60px" OnClick="guardar_Click" />
         </div>
     </div>
-
     <style>
         #ventana{
             background:url(Fondo1.jfif);

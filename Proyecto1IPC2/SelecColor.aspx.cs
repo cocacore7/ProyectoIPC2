@@ -17,9 +17,9 @@ namespace Proyecto1IPC2
         protected void aceptar_Click(object sender, EventArgs e)
         {
             string color = Color.SelectedItem.ToString();
-            if (color.Equals("Seleccionar Partida"))
+            if (color.Equals("Seleccionar Color"))
             {
-                Cuerpo.Text = "Por favor, Seleccione una partida";
+                Cuerpo.Text = "Por favor, Seleccione un Color";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
                 panelModal.Update();
             }

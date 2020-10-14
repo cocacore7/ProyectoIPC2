@@ -360,8 +360,14 @@ namespace Proyecto1IPC2
                 pivote();
                 if (colorJ.Equals("negro"))
                 {
+                    if (partida.Equals("Maquina"))
+                    {
+                        JugB.Text = "Maquina";
+                    }
+                    else {
+                        JugB.Text = "Invitado";
+                    }
                     JugN.Text = MenuPrincipal.jugador;
-                    JugB.Text = "Invitado";
                     MovN.Text = "Movimientos: " + Convert.ToString(movn);
                     MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
@@ -379,8 +385,15 @@ namespace Proyecto1IPC2
                 }
                 else
                 {
+                    if (partida.Equals("Maquina"))
+                    {
+                        JugN.Text = "Maquina";
+                    }
+                    else
+                    {
+                        JugN.Text = "Invitado";
+                    }
                     JugB.Text = MenuPrincipal.jugador;
-                    JugN.Text = "Invitado";
                     MovN.Text = "Movimientos: " + Convert.ToString(movn);
                     MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
@@ -403,8 +416,15 @@ namespace Proyecto1IPC2
                 pivote();
                 if (colorJ.Equals("negro"))
                 {
+                    if (partida.Equals("Maquina"))
+                    {
+                        JugB.Text = "Maquina";
+                    }
+                    else
+                    {
+                        JugB.Text = "Invitado";
+                    }
                     JugN.Text = MenuPrincipal.jugador;
-                    JugB.Text = "Invitado";
                     MovN.Text = "Movimientos: " + Convert.ToString(movn);
                     MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
@@ -422,7 +442,14 @@ namespace Proyecto1IPC2
                 }
                 else {
                     JugB.Text = MenuPrincipal.jugador;
-                    JugN.Text = "Invitado";
+                    if (partida.Equals("Maquina"))
+                    {
+                        JugN.Text = "Maquina";
+                    }
+                    else
+                    {
+                        JugN.Text = "Invitado";
+                    }
                     MovN.Text = "Movimientos: " + Convert.ToString(movn);
                     MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);

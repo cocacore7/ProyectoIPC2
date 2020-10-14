@@ -20,10 +20,10 @@
     </style>
     <div align="center">
         <h1 id="modalletra">
-            <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Cargar Partida"></asp:Label>
+            <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Seleccionar Color"></asp:Label>
         </h1><br>
         <asp:DropDownList ID="Color" Width="300px" Height="40px" BackColor="SkyBlue" runat="server">
-            <asp:ListItem>Seleccionar Partida</asp:ListItem>
+            <asp:ListItem>Seleccionar Color</asp:ListItem>
             <asp:ListItem>Negro</asp:ListItem>
             <asp:ListItem>Blanco</asp:ListItem>
         </asp:DropDownList><br />
