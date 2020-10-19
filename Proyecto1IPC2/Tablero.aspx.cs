@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace Proyecto1IPC2
 {
@@ -28,6 +29,8 @@ namespace Proyecto1IPC2
         public static List<int> vuelta = new List<int>();
         public static List<int> pivoteM = new List<int>();
         public static List<int> tirosM = new List<int>();
+        Stopwatch relojN = new Stopwatch();
+        Stopwatch relojB = new Stopwatch();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -368,20 +371,6 @@ namespace Proyecto1IPC2
                         JugB.Text = "Invitado";
                     }
                     JugN.Text = MenuPrincipal.jugador;
-                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
-                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
-                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
-                    if (color.Equals("negro"))
-                    {
-                        TurnoNegro.ImageUrl = "negro.png";
-                        TurnoBlanco.ImageUrl = "vacio.png";
-                    }
-                    else
-                    {
-                        TurnoNegro.ImageUrl = "vacio.png";
-                        TurnoBlanco.ImageUrl = "blanco.png";
-                    }
                 }
                 else
                 {
@@ -394,20 +383,20 @@ namespace Proyecto1IPC2
                         JugN.Text = "Invitado";
                     }
                     JugB.Text = MenuPrincipal.jugador;
-                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
-                    PunN.Text = "Puntos: " + Convert.ToString(puntosn);
-                    PunB.Text = "Puntos: " + Convert.ToString(puntosb);
-                    if (color.Equals("negro"))
-                    {
-                        TurnoNegro.ImageUrl = "negro.png";
-                        TurnoBlanco.ImageUrl = "vacio.png";
-                    }
-                    else
-                    {
-                        TurnoNegro.ImageUrl = "vacio.png";
-                        TurnoBlanco.ImageUrl = "blanco.png";
-                    }
+                }
+                MovN.Text = "Movimientos: " + Convert.ToString(movn);
+                MovB.Text = "Movimientos: " + Convert.ToString(movb);
+                PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+                PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+                if (color.Equals("negro"))
+                {
+                    TurnoNegro.ImageUrl = "negro.png";
+                    TurnoBlanco.ImageUrl = "vacio.png";
+                }
+                else
+                {
+                    TurnoNegro.ImageUrl = "vacio.png";
+                    TurnoBlanco.ImageUrl = "blanco.png";
                 }
                 siguiente();
                 carga = 2;
@@ -433,11 +422,13 @@ namespace Proyecto1IPC2
                     {
                         TurnoNegro.ImageUrl = "negro.png";
                         TurnoBlanco.ImageUrl = "vacio.png";
+                        //cronoN();
                     }
                     else
                     {
                         TurnoNegro.ImageUrl = "vacio.png";
                         TurnoBlanco.ImageUrl = "blanco.png";
+                        //cronoB();
                     }
                 }
                 else {
@@ -445,6 +436,14 @@ namespace Proyecto1IPC2
                     if (partida.Equals("Maquina"))
                     {
                         JugN.Text = "Maquina";
+                        for (int z = 0; z <= 63; z++)
+                        {
+                            if (MenuPrincipal.colores[z].Equals("pivote"))
+                            {
+                                pivoteM.Add(z);
+                            }
+                        }
+                        siguienteM(pivoteM);
                     }
                     else
                     {
@@ -454,39 +453,15 @@ namespace Proyecto1IPC2
                     MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
                     PunB.Text = "Puntos: " + Convert.ToString(puntosb);
-                    if (partida.Equals("Maquina"))
+                    if (color.Equals("negro"))
                     {
-                        for (int z = 0; z <= 63; z++)
-                        {
-                            if (MenuPrincipal.colores[z].Equals("pivote"))
-                            {
-                                pivoteM.Add(z);
-                            }
-                        }
-                        siguienteM(pivoteM);
-                        if (color.Equals("negro"))
-                        {
-                            TurnoNegro.ImageUrl = "negro.png";
-                            TurnoBlanco.ImageUrl = "vacio.png";
-                        }
-                        else
-                        {
-                            TurnoNegro.ImageUrl = "vacio.png";
-                            TurnoBlanco.ImageUrl = "blanco.png";
-                        }
+                        TurnoNegro.ImageUrl = "negro.png";
+                        TurnoBlanco.ImageUrl = "vacio.png";
                     }
                     else
                     {
-                        if (color.Equals("negro"))
-                        {
-                            TurnoNegro.ImageUrl = "negro.png";
-                            TurnoBlanco.ImageUrl = "vacio.png";
-                        }
-                        else
-                        {
-                            TurnoNegro.ImageUrl = "vacio.png";
-                            TurnoBlanco.ImageUrl = "blanco.png";
-                        }
+                        TurnoNegro.ImageUrl = "vacio.png";
+                        TurnoBlanco.ImageUrl = "blanco.png";
                     }
                 }
                 carga = 2;
@@ -1233,76 +1208,86 @@ namespace Proyecto1IPC2
             }
         }
 
+        //Guardar Partidas
         protected void guardar_Click(object sender, EventArgs e)
         {
-            XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
-            XElement raiz = new XElement("tablero");
-            raiz.RemoveAll();
-            archivo.Add(raiz);
-            for (int i = 0; i <= 63; i++)
+            if (carga == 2) {
+                XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
+                XElement raiz = new XElement("tablero");
+                raiz.RemoveAll();
+                archivo.Add(raiz);
+                for (int i = 0; i <= 63; i++)
+                {
+                    if (!MenuPrincipal.colores[i].Equals(".") && !MenuPrincipal.colores[i].Equals("pivote"))
+                    {
+                        XElement ficha = new XElement("ficha");
+                        ficha.Add(new XElement("color", MenuPrincipal.colores[i]));
+                        ficha.Add(new XElement("columna", MenuPrincipal.colum[i]));
+                        ficha.Add(new XElement("fila", MenuPrincipal.fila[i]));
+                        raiz.Add(ficha);
+                    }
+                }
+                XElement siguientetiro = new XElement("siguienteTiro");
+                if (color.Equals("negro"))
+                {
+                    siguientetiro.Add(new XElement("color", "negro"));
+                    raiz.Add(siguientetiro);
+                }
+                else
+                {
+                    siguientetiro.Add(new XElement("color", "blanco"));
+                }
+                if (!bandera)
+                {
+                    BaseDatos bd = new BaseDatos();
+                    string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                    SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                    accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                    accion.Parameters.AddWithValue("@tipo_partida", partida);
+                    accion.Parameters.AddWithValue("@color", colorJ);
+                    if (colorJ.Equals("negro"))
+                    {
+                        accion.Parameters.AddWithValue("@movimientos", movn);
+                    }
+                    else if (colorJ.Equals("blanco"))
+                    {
+                        accion.Parameters.AddWithValue("@movimientos", movb);
+                    }
+                    accion.Parameters.AddWithValue("@pge", gamperem);
+                    accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                    accion.ExecuteNonQuery();
+                    Response.Redirect("MenuPrincipal.aspx");
+                }
+                else
+                {
+                    BaseDatos bd = new BaseDatos();
+                    string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                    SqlCommand accion = new SqlCommand(datos, bd.registrar());
+                    accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                    if (colorJ.Equals("negro"))
+                    {
+                        accion.Parameters.AddWithValue("@movimientos", movn);
+                    }
+                    else if (colorJ.Equals("blanco"))
+                    {
+                        accion.Parameters.AddWithValue("@movimientos", movb);
+                    }
+                    accion.Parameters.AddWithValue("@pge", gamperem);
+                    accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                    accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                    accion.ExecuteNonQuery();
+                    Response.Redirect("MenuPrincipal.aspx");
+                }
+            }
+            else
             {
-                if (!MenuPrincipal.colores[i].Equals(".") && !MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    XElement ficha = new XElement("ficha");
-                    ficha.Add(new XElement("color", MenuPrincipal.colores[i]));
-                    ficha.Add(new XElement("columna", MenuPrincipal.colum[i]));
-                    ficha.Add(new XElement("fila", MenuPrincipal.fila[i]));
-                    raiz.Add(ficha);
-                }
-            }
-            XElement siguientetiro = new XElement("siguienteTiro");
-            if (color.Equals("negro"))
-            {
-                siguientetiro.Add(new XElement("color", "negro"));
-                raiz.Add(siguientetiro);
-            }
-            else if (color.Equals("blanco")) {
-                siguientetiro.Add(new XElement("color", "blanco"));
-            }
-            if (bandera == false)
-            {
-                BaseDatos bd = new BaseDatos();
-                string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
-                SqlCommand accion = new SqlCommand(datos, bd.registrar());
-                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                accion.Parameters.AddWithValue("@tipo_partida", partida);
-                accion.Parameters.AddWithValue("@color", colorJ);
-                if (colorJ.Equals("negro"))
-                {
-                    accion.Parameters.AddWithValue("@movimientos", movn);
-                }
-                else if (colorJ.Equals("blanco"))
-                {
-                    accion.Parameters.AddWithValue("@movimientos", movb);
-                }
-                accion.Parameters.AddWithValue("@pge", gamperem);
-                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
-                accion.ExecuteNonQuery();
-                Response.Redirect("MenuPrincipal.aspx");
-            }
-            else {
-                BaseDatos bd = new BaseDatos();
-                string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
-                SqlCommand accion = new SqlCommand(datos, bd.registrar());
-                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                if (colorJ.Equals("negro"))
-                {
-                    accion.Parameters.AddWithValue("@movimientos", movn);
-                }
-                else if (colorJ.Equals("blanco"))
-                {
-                    accion.Parameters.AddWithValue("@movimientos", movb);
-                }
-                accion.Parameters.AddWithValue("@pge", gamperem);
-                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
-                accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
-                accion.ExecuteNonQuery();
                 Response.Redirect("MenuPrincipal.aspx");
             }
         }
 
-        //Valida posible pivote
+        //Limpia y Valida nuevos pivotes
         public void pivote() {
+            //Limpiar Pivotes
             for (int i = 0; i <= 63; i++)
             {
                 if (MenuPrincipal.colores[i].Equals("pivote")) {
@@ -1625,38 +1610,613 @@ namespace Proyecto1IPC2
                     else if (MenuPrincipal.columaux[i] == "H" && MenuPrincipal.filaaux[i] == "8")
                     {
                         H8.Enabled = false;
-                        H8.ImageUrl = "vacio.png"
-;
+                        H8.ImageUrl = "vacio.png";
                     }
                 }
             }
-
-            for (int i = 0; i <= 63; i++) {
+            //Validar Pivotes para 8 direcciones
+            for (int posicion = 0; posicion <= 63; posicion++) {
                 if (color.Equals("negro"))
                 {
-                    if (MenuPrincipal.colores[i].Equals("negro"))
+                    if (MenuPrincipal.colores[posicion].Equals("negro"))
                     {
-                        izn(i);
-                        dern(i);
-                        arrn(i);
-                        aban(i);
-                        abdern(i);
-                        abizn(i);
-                        ardern(i);
-                        arizn(i);
+                        bool tirovalido = false;
+                        int contador = 0;
+                        int i = posicion;
+                        //Pivote Izquierda
+                        while (i != 0)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 1;
+                        }
+                        //Pivote Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 63)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 1;
+                        }
+                        //Pivote Arriba
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0)
+                        {
+                            if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 8;
+                        }
+                        //Pivote Abajo
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 63)
+                        {
+                            if (i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62 || i == 63)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 8;
+                        }
+                        //Pivote Abajo Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 7 && i != 56)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 9;
+                        }
+                        //Pivote Abajo Izquierda
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0 && i != 63)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 7;
+                        }
+                        //Pivote Arriba Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0 && i != 63)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 6 || i == 5 || i == 4 || i == 3 || i == 2 || i == 1 || i == 0)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 7;
+                        }
+                        //Pivote Arriba Izquierda
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 7 && i != 56)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 9;
+                        }
                     }
                 }
                 else if (color.Equals("blanco")) {
-                    if (MenuPrincipal.colores[i].Equals("blanco"))
+                    if (MenuPrincipal.colores[posicion].Equals("blanco"))
                     {
-                        izb(i);
-                        derb(i);
-                        arrb(i);
-                        abab(i);
-                        abderb(i);
-                        abizb(i);
-                        arderb(i);
-                        arizb(i);
+                        bool tirovalido = false;
+                        int contador = 0;
+                        int i = posicion;
+                        //Pivote Izquierda
+                        while (i != 0)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 1;
+                        }
+                        //Pivote Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 63)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 1;
+                        }
+                        //Pivote Arriba
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0)
+                        {
+                            if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 8;
+                        }
+                        //Pivote Abajo
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 63)
+                        {
+                            if (i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62 || i == 63)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 8;
+                        }
+                        //Pivote Abajo Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 7 && i != 56)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 9;
+                        }
+                        //Pivote Abajo Izquierda
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0 && i != 63)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i + 7;
+                        }
+                        //Pivote Arriba Derecha
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 0 && i != 63)
+                        {
+                            if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 6 || i == 5 || i == 4 || i == 3 || i == 2 || i == 1 || i == 0)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 7;
+                        }
+                        //Pivote Arriba Izquierda
+                        tirovalido = false;
+                        contador = 0;
+                        i = posicion;
+                        while (i != 7 && i != 56)
+                        {
+                            if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
+                            {
+                                if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
+                                {
+                                    crearPivote(i);
+                                }
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("blanco"))
+                            {
+                                if (contador == 0) { contador = 1; } else { break; }
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("pivote"))
+                            {
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals("negro"))
+                            {
+                                tirovalido = true;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
+                            {
+                                crearPivote(i);
+                                break;
+                            }
+                            else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
+                            {
+                                break;
+                            }
+                            i = i - 9;
+                        }
                     }
                 }
 
@@ -1989,643 +2549,7 @@ namespace Proyecto1IPC2
                 H8.ImageUrl = "pivote.png";
             }
         }
-
-        //Pivote Izquierda Negro
-        public void izn(int i) {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0) {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote")) {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 1;
-            }
-        }
-
-        //Pivote Izquierda Blanco
-        public void izb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0)
-            {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 1;
-            }
-        }
-
-        //Pivote Derecha Negro
-        public void dern(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 63)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 1;
-            }
-        }
-
-        //Pivote Derecha Blanco
-        public void derb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 63)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 1;
-            }
-        }
-
-        //Pivote Arriba Negro
-        public void arrn(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0)
-            {
-                if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 8;
-            }
-        }
-
-        //Pivote Arriba Blanco
-        public void arrb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0)
-            {
-                if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 8;
-            }
-        }
-
-        //Pivote Abajo Negro
-        public void aban(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 63)
-            {
-                if (i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62 || i == 63)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 8;
-            }
-        }
-
-        //Pivote Abajo Blanco
-        public void abab(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 63)
-            {
-                if (i == 56 || i == 57 || i == 58 || i == 59 || i == 60 || i == 61 || i == 62 || i == 63)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 8;
-            }
-        }
-
-        //Pivote Abajo Derecha Negro
-        public void abdern(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 7 && i != 56)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false) {
-                    break;
-                }
-                i = i + 9;
-            }
-        }
-
-        //Pivote Abajo Derecha Blanco
-        public void abderb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 7 && i != 56)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 9;
-            }
-        }
-
-        //Pivote Abajo Izquierda Negro
-        public void abizn(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0 && i != 63)
-            {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 7;
-            }
-        }
-
-        //Pivote Abajo Izquierda Blanco
-        public void abizb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0 && i != 63)
-            {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 63 || i == 62 || i == 61 || i == 60 || i == 59 || i == 58 || i == 57 || i == 56)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i + 7;
-            }
-        }
-
-        //Pivote Arriba Derecha Negro
-        public void ardern(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0 && i != 63)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 6 || i == 5 || i == 4 || i == 3 || i == 2 || i == 1 || i == 0)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 7;
-            }
-        }
-
-        //Pivote Arriba Derecha Blanco
-        public void arderb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 0 && i != 63)
-            {
-                if (i == 7 || i == 15 || i == 23 || i == 31 || i == 39 || i == 47 || i == 55 || i == 63 || i == 6 || i == 5 || i == 4 || i == 3 || i == 2 || i == 1 || i == 0)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 7;
-            }
-        }
-
-        //Pivote Arriba Izquierda Negro
-        public void arizn(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 7 && i != 56)
-            {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 9;
-            }
-        }
-
-        //Pivote Arriba Izquierda Blanco
-        public void arizb(int i)
-        {
-            bool tirovalido = false;
-            int contador = 0;
-            while (i != 7 && i != 56)
-            {
-                if (i == 0 || i == 8 || i == 16 || i == 24 || i == 32 || i == 40 || i == 48 || i == 56 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7)
-                {
-                    if (tirovalido == true && MenuPrincipal.colores[i].Equals("."))
-                    {
-                        crearPivote(i);
-                    }
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("blanco"))
-                {
-                    if (contador == 0) { contador = 1; } else { break; }
-                }
-                else if (MenuPrincipal.colores[i].Equals("pivote"))
-                {
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals("negro"))
-                {
-                    tirovalido = true;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == true)
-                {
-                    crearPivote(i);
-                    break;
-                }
-                else if (MenuPrincipal.colores[i].Equals(".") && tirovalido == false)
-                {
-                    break;
-                }
-                i = i - 9;
-            }
-        }
-
+        
         //Obtiene Posiciones a voltear
         public void obtenerV(int i) {
             vuelta.Clear();
@@ -3968,7 +3892,7 @@ namespace Proyecto1IPC2
                     turno = validar();
                     if (turno == 0)
                     {
-                        //Se acabo el juego
+                        carga = 3;
                         XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
                         XElement raiz = new XElement("tablero");
                         raiz.RemoveAll();
@@ -3994,8 +3918,9 @@ namespace Proyecto1IPC2
                         {
                             siguientetiro.Add(new XElement("color", "blanco"));
                         }
-                        if (bandera == false)
+                        if (!bandera)
                         {
+                            terminar();
                             BaseDatos bd = new BaseDatos();
                             string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
@@ -4019,6 +3944,7 @@ namespace Proyecto1IPC2
                         }
                         else
                         {
+                            terminar();
                             BaseDatos bd = new BaseDatos();
                             string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
@@ -4056,7 +3982,7 @@ namespace Proyecto1IPC2
                     turno = validar();
                     if (turno == 0)
                     {
-                        //Se acabo el juego
+                        carga = 3;
                         XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
                         XElement raiz = new XElement("tablero");
                         raiz.RemoveAll();
@@ -4082,45 +4008,9 @@ namespace Proyecto1IPC2
                         {
                             siguientetiro.Add(new XElement("color", "blanco"));
                         }
-                        if (bandera == false)
+                        if (!bandera)
                         {
-                            movn = 0;
-                            movb = 0;
-                            for (int i = 0; i <= 63; i++) {
-                                if (MenuPrincipal.colores[i].Equals("negro")) { movn++; }
-                                else { movb++; }
-                            }
-                            if (colorJ.Equals("negro"))
-                            {
-                                if (movb < movn)
-                                {
-                                    gamperem = "Victoria";
-                                }
-                                else if (movb > movn)
-                                {
-                                    gamperem = "Perdido";
-                                }
-                                else if (movb == movn)
-                                {
-                                    gamperem = "Empate";
-                                }
-                            }
-                            else
-                            {
-                                if (movb < movn)
-                                {
-                                    gamperem = "Perdido";
-                                }
-                                else if (movb > movn)
-                                {
-                                    gamperem = "Victoria";
-                                }
-                                else if (movb == movn)
-                                {
-                                    gamperem = "Empate";
-                                }
-                            }
-                            
+                            terminar();
                             BaseDatos bd = new BaseDatos();
                             string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
@@ -4144,36 +4034,7 @@ namespace Proyecto1IPC2
                         }
                         else
                         {
-                            if (colorJ.Equals("negro"))
-                            {
-                                if (movb < movn)
-                                {
-                                    gamperem = "Victoria";
-                                }
-                                else if (movb > movn)
-                                {
-                                    gamperem = "Perdido";
-                                }
-                                else if (movb == movn)
-                                {
-                                    gamperem = "Empate";
-                                }
-                            }
-                            else
-                            {
-                                if (movb < movn)
-                                {
-                                    gamperem = "Perdido";
-                                }
-                                else if (movb > movn)
-                                {
-                                    gamperem = "Victoria";
-                                }
-                                else if (movb == movn)
-                                {
-                                    gamperem = "Empate";
-                                }
-                            }
+                            terminar();
                             BaseDatos bd = new BaseDatos();
                             string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
@@ -4216,118 +4077,129 @@ namespace Proyecto1IPC2
             return contador;
         }
 
+        //Estado Finalizado. Ganado, Perdido, Empatado
+        public void terminar() {
+            puntosn = 0;
+            puntosb = 0;
+            for (int i = 0; i <= 63; i++)
+            {
+                if (MenuPrincipal.colores[i].Equals("negro")) { puntosn++; }
+                else { puntosb++; }
+            }
+            if (colorJ.Equals("negro"))
+            {
+                if (puntosb < puntosn)
+                {
+                    gamperem = "Victoria";
+                }
+                else if (puntosb > puntosn)
+                {
+                    gamperem = "Perdido";
+                }
+                else if (puntosb == puntosn)
+                {
+                    gamperem = "Empate";
+                }
+            }
+            else
+            {
+                if (puntosb < puntosn)
+                {
+                    gamperem = "Perdido";
+                }
+                else if (puntosb > puntosn)
+                {
+                    gamperem = "Victoria";
+                }
+                else if (puntosb == puntosn)
+                {
+                    gamperem = "Empate";
+                }
+            }
+        }
+
         //Jugador
         public void boton(ImageButton tiro, int  i) {
+            tiro.Enabled = false;
+            mov++;
             if (color.Equals("negro"))
             {
                 tiro.ImageUrl = "negro.png";
-                tiro.Enabled = false;
-                mov++;
                 movn++;
                 MenuPrincipal.colores[i] = "negro";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
                 obtenerV(i);
-                puntosb = 0;
-                puntosn = 0;
-                for (int z = 0; z <= 63; z++) {
-                    if (MenuPrincipal.colores[z].Equals("negro")) {
-                        puntosn++;
-                    }
-                    else if (MenuPrincipal.colores[z].Equals("blanco"))
-                    {
-                        puntosb++;
-                    }
-                }
                 color = "blanco";
-                pivote();
-                MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                MovB.Text = "Movimientos: " + Convert.ToString(movb);
-                PunN.Text = "Puntos: " + Convert.ToString(puntosn);
-                PunB.Text = "Puntos: " + Convert.ToString(puntosb);
                 TurnoNegro.ImageUrl = "vacio.png";
                 TurnoBlanco.ImageUrl = "blanco.png";
-                siguiente();
             }
             else {
                 tiro.ImageUrl = "blanco.png";
-                tiro.Enabled = false;
-                mov++;
                 movb++;
                 MenuPrincipal.colores[i] = "blanco";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
                 obtenerV(i);
-                puntosb = 0;
-                puntosn = 0;
-                for (int z = 0; z <= 63; z++)
-                {
-                    if (MenuPrincipal.colores[z].Equals("negro"))
-                    {
-                        puntosn++;
-                    }
-                    else if (MenuPrincipal.colores[z].Equals("blanco"))
-                    {
-                        puntosb++;
-                    }
-                }
                 color = "negro";
-                pivote();
-                MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                MovB.Text = "Movimientos: " + Convert.ToString(movb);
-                PunN.Text = "Puntos: " + Convert.ToString(puntosn);
-                PunB.Text = "Puntos: " + Convert.ToString(puntosb);
                 TurnoNegro.ImageUrl = "negro.png";
                 TurnoBlanco.ImageUrl = "vacio.png";
-                siguiente();
             }
+            puntosb = 0;
+            puntosn = 0;
+            for (int z = 0; z <= 63; z++)
+            {
+                if (MenuPrincipal.colores[z].Equals("negro"))
+                {
+                    puntosn++;
+                }
+                else if (MenuPrincipal.colores[z].Equals("blanco"))
+                {
+                    puntosb++;
+                }
+            }
+            pivote();
+            MovN.Text = "Movimientos: " + Convert.ToString(movn);
+            MovB.Text = "Movimientos: " + Convert.ToString(movb);
+            PunN.Text = "Puntos: " + Convert.ToString(puntosn);
+            PunB.Text = "Puntos: " + Convert.ToString(puntosb);
+            siguiente();
         }
 
         //Maquina
         public void Maquina(ImageButton tiro, int i) {
             pivoteM.Clear();
+            tiro.Enabled = false;
+            mov++;
             if (colorJ.Equals("negro"))
             {
                 tiro.ImageUrl = "negro.png";
-                tiro.Enabled = false;
-                mov++;
                 movn++;
                 MenuPrincipal.colores[i] = "negro";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; 
                 obtenerV(i);
                 color = "blanco";
-                pivote();
-                for (int z = 0; z <= 63; z++)
-                {
-                    if (MenuPrincipal.colores[z].Equals("pivote")) {
-                        pivoteM.Add(z);
-                    }
-                }
-                siguienteM(pivoteM);
             }
             else
             {
                 tiro.ImageUrl = "blanco.png";
-                tiro.Enabled = false;
-                mov++;
                 movb++;
                 MenuPrincipal.colores[i] = "blanco";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i];
                 obtenerV(i);
                 color = "negro";
-                pivote();
-                for (int z = 0; z <= 63; z++)
-                {
-                    if (MenuPrincipal.colores[z].Equals("pivote"))
-                    {
-                        pivoteM.Add(z);
-                    }
-                }
-                siguienteM(pivoteM);
-            
             }
+            pivote();
+            for (int z = 0; z <= 63; z++)
+            {
+                if (MenuPrincipal.colores[z].Equals("pivote"))
+                {
+                    pivoteM.Add(z);
+                }
+            }
+            siguienteM(pivoteM);
         }
 
         //Tiro o Saltar Turno Maquina
@@ -4808,266 +4680,298 @@ namespace Proyecto1IPC2
                 int tiro = pivotes[posicion];
                 if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(A1, 0);
+                    boton(A1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(B1, 1);
+                    boton(B1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(C1, 2);
+                    boton(C1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(D1, 3);
+                    boton(D1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(E1, 4);
+                    boton(E1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(F1, 5);
+                    boton(F1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(G1, 6);
+                    boton(G1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "1")
                 {
-                    boton(H1, 7);
+                    boton(H1, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(A2, 8);
+                    boton(A2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(B2, 9);
+                    boton(B2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(C2, 10);
+                    boton(C2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(D2, 11);
+                    boton(D2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(E2, 12);
+                    boton(E2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(F2, 13);
+                    boton(F2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(G2, 14);
+                    boton(G2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "2")
                 {
-                    boton(H2, 15);
+                    boton(H2, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(A3, 16);
+                    boton(A3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(B3, 17);
+                    boton(B3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(C3, 18);
+                    boton(C3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(D3, 19);
+                    boton(D3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(E3, 20);
+                    boton(E3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(F3, 21);
+                    boton(F3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(G3, 22);
+                    boton(G3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "3")
                 {
-                    boton(H3, 23);
+                    boton(H3, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(A4, 24);
+                    boton(A4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(B4, 25);
+                    boton(B4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(C4, 26);
+                    boton(C4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(D4, 27);
+                    boton(D4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(E4, 28);
+                    boton(E4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(F4, 29);
+                    boton(F4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(G4, 30);
+                    boton(G4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "4")
                 {
-                    boton(H4, 31);
+                    boton(H4, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(A5, 32);
+                    boton(A5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(B5, 33);
+                    boton(B5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(C5, 34);
+                    boton(C5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(D5, 35);
+                    boton(D5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(E5, 36);
+                    boton(E5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(F5, 37);
+                    boton(F5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(G5, 38);
+                    boton(G5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "5")
                 {
-                    boton(H5, 39);
+                    boton(H5, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(A6, 40);
+                    boton(A6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(B6, 41);
+                    boton(B6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(C6, 42);
+                    boton(C6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(D6, 43);
+                    boton(D6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(E6, 44);
+                    boton(E6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(F6, 45);
+                    boton(F6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(G6, 46);
+                    boton(G6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "6")
                 {
-                    boton(H6, 47);
+                    boton(H6, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(A7, 48);
+                    boton(A7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(B7, 49);
-
+                    boton(B7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(C7, 50);
+                    boton(C7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(D7, 51);
+                    boton(D7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(E7, 52);
+                    boton(E7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(F7, 53);
+                    boton(F7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(G7, 54);
+                    boton(G7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "7")
                 {
-                    boton(H7, 55);
+                    boton(H7, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "A" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(A8, 56);
+                    boton(A8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "B" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(B8, 57);
+                    boton(B8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "C" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(C8, 58);
+                    boton(C8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "D" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(D8, 59);
+                    boton(D8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "E" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(E8, 60);
+                    boton(E8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "F" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(F8, 61);
+                    boton(F8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "G" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(G8, 62);
+                    boton(G8, tiro);
                 }
                 else if (MenuPrincipal.columaux[tiro] == "H" && MenuPrincipal.filaaux[tiro] == "8")
                 {
-                    boton(H8, 63);
+                    boton(H8, tiro);
                 }
             }
             else
             {
                 siguiente();
             }
+        }
+
+        //Cronometro Negro
+        public void cronoN() {
+            relojN.Start();
+            relojB.Stop();
+            Timer1.Enabled = true;
+            Timer2.Enabled = false;
+        }
+
+        //Cronometro Blanco
+        public void cronoB()
+        {
+            relojB.Start();
+            relojN.Stop();
+            Timer1.Enabled = false;
+            Timer2.Enabled = true;
+        }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            //TimeSpan ts = new TimeSpan(0,0,0,0,(int)relojN.ElapsedMilliseconds);
+            //SegN.Text = ts.Seconds.ToString();
+            //MinN.Text = ts.Minutes.ToString();
+            //HorN.Text = ts.Hours.ToString();
+        }
+
+        protected void Timer2_Tick1(object sender, EventArgs e)
+        {
+            //TimeSpan ts = new TimeSpan(0, 0, 0, 0, (int)relojB.ElapsedMilliseconds);
+            //SegB.Text = ts.Seconds.ToString();
+            //MinB.Text = ts.Minutes.ToString();
+            //HorB.Text = ts.Hours.ToString();
         }
     }
 }

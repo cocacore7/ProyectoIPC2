@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Othello Normal" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="SelecColor.aspx.cs" Inherits="Proyecto1IPC2.SelecColor" %>
+﻿<%@ Page Title="Othello Xtreme" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="SelecX.aspx.cs" Inherits="Proyecto1IPC2.SelecX" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <style>
@@ -17,27 +17,6 @@
             width:600px;
             height:200px;
         }
-    </style>
-    <div align="center">
-        <h1 id="modalletra">
-            <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Seleccionar"></asp:Label>
-        </h1><br>
-        <asp:DropDownList ID="Color" Width="300px" Height="40px" BackColor="SkyBlue" runat="server">
-            <asp:ListItem>Seleccionar Color</asp:ListItem>
-            <asp:ListItem>Negro</asp:ListItem>
-            <asp:ListItem>Blanco</asp:ListItem>
-        </asp:DropDownList><br />
-        <asp:DropDownList ID="tipo" Width="300px" Height="40px" BackColor="SkyBlue" runat="server">
-                <asp:ListItem>Seleccionar Modo De Juego</asp:ListItem>
-                <asp:ListItem>Versus</asp:ListItem>
-                <asp:ListItem>CPU</asp:ListItem>
-        </asp:DropDownList><br />
-        <asp:Button ID="Selec" runat="server" Text="Seleccionar" OnClick="aceptar_Click" BackColor="#c54848"/><br />
-        <asp:Button ID="Random" runat="server" Text="Aleatorio"  BackColor="#c54848" OnClick="Random_Click"/><br />
-        <asp:Button ID="regresar" runat="server" Text="Regresar" OnClick="regresar_Click" BackColor="#c54848"/>
-    </div>
-
-    <style>
         #ventana{
             background:url(Fondo1.jfif);
             background-size:auto;
@@ -48,6 +27,29 @@
             background:none;
         }
     </style>
+    <div align="center">
+        <h1 id="modalletra">
+            <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Seleccionar"></asp:Label>
+        </h1><br>
+        <asp:DropDownList ID="color" runat="server" Width="300px" Height="40px" BackColor="SkyBlue">
+            <asp:ListItem>Seleccionar Color</asp:ListItem>
+            <asp:ListItem>Negro</asp:ListItem>
+            <asp:ListItem>Blanco</asp:ListItem>
+        </asp:DropDownList><br />
+        <asp:DropDownList ID="modo" runat="server" Width="300px" Height="40px" BackColor="SkyBlue">
+            <asp:ListItem>Seleccionar Modo De Juego</asp:ListItem>
+            <asp:ListItem>Versus</asp:ListItem>
+            <asp:ListItem>CPU</asp:ListItem>
+        </asp:DropDownList><br />
+        <asp:DropDownList ID="tipo" runat="server" Width="300px" Height="40px" BackColor="SkyBlue">
+            <asp:ListItem>Seleccionar Tipo De Juego</asp:ListItem>
+            <asp:ListItem>Normal</asp:ListItem>
+            <asp:ListItem>Inverso</asp:ListItem>
+        </asp:DropDownList><br />
+        <asp:Button ID="aceptar" runat="server" Text="Aceptar" BackColor="#c54848" OnClick="aceptar_Click"/><br />
+        <asp:Button ID="regresar" runat="server" Text="Regresar" BackColor="#c54848" OnClick="regresar_Click"/>
+    </div>
+
     <div class="ventana modal" id="ventana" role="dialog" aria-labelledby="equiquetaModal" aria-hidden="true" align="center">
         <div class="dialogo">
             <asp:UpdatePanel ID="panelModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
@@ -65,4 +67,3 @@
         </div>
     </div>
 </asp:Content>
-

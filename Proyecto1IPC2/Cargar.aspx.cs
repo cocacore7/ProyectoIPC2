@@ -47,9 +47,7 @@ namespace Proyecto1IPC2
 
         protected void aceptar_Click(object sender, EventArgs e)
         {
-            if (archivo.Equals("")) {
-            }
-            else if (archivo.Equals("Seleccionar Partida"))
+            if (archivo.Equals("Seleccionar Partida"))
             {
                 Cuerpo.Text = "Por favor, Seleccione una partida";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
@@ -76,7 +74,7 @@ namespace Proyecto1IPC2
                         color = i.Element("color").Value;
                         for (int u = 0; u <= 63; u++)
                         {
-                            if (MenuPrincipal.filaaux[u] == fila && MenuPrincipal.columaux[u] == colum)
+                            if (MenuPrincipal.filaaux[u] == fila && MenuPrincipal.columaux[u] == colum && MenuPrincipal.colores[u].Equals("."))
                             {
                                 MenuPrincipal.colores[u] = color;
                                 MenuPrincipal.colum[u] = colum;
@@ -90,10 +88,10 @@ namespace Proyecto1IPC2
                     }
                     Tablero.carga = 1;
                     Tablero.colorJ = Convert.ToString(leer["color"]);
+                    Tablero.mov = 0;
                     if (Tablero.colorJ.Equals("negro"))
                     {
                         Tablero.movn = Convert.ToInt32(leer["movimientos"]);
-                        Tablero.mov = 0;
                         for (int i = 0; i <= 63; i++)
                         {
                             if (MenuPrincipal.colores[i].Equals("negro") || MenuPrincipal.colores[i].Equals("blanco"))
@@ -107,7 +105,6 @@ namespace Proyecto1IPC2
                     else
                     {
                         Tablero.movb = Convert.ToInt32(leer["movimientos"]);
-                        Tablero.mov = 0;
                         for (int i = 0; i <= 63; i++)
                         {
                             if (MenuPrincipal.colores[i].Equals("negro") || MenuPrincipal.colores[i].Equals("blanco"))
@@ -118,6 +115,8 @@ namespace Proyecto1IPC2
                         Tablero.mov = Tablero.mov - 4 ;
                         Tablero.movn = Tablero.mov - Tablero.movb;
                     }
+                    Tablero.puntosb = 0;
+                    Tablero.puntosn = 0;
                     for (int i = 0; i <= 63; i++)
                     {
                         if (MenuPrincipal.colores[i].Equals("negro"))

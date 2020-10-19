@@ -39,6 +39,31 @@
             height: 350px;
             width: 200px;
         }
+        .SegN {
+            float:right;
+            margin-left: 60px;
+        }
+        .MinN {
+            float:right;
+            margin-left: 60px;
+        }
+        .HorN {
+            float:right;
+            margin-left: 60px;
+        }
+        .SegB {
+            float:right;
+            margin-left: 60px;
+        }
+        .MinB {
+            float:right;
+            margin-left: 60px;
+        }
+
+        .HorB {
+            float:right;
+            margin-left: 60px;
+        }
     </style>
     <div class="Tablero">
 
@@ -369,6 +394,12 @@
                 <asp:Label ID="PunN" runat="server" Text="Label"  Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:ImageButton ID="TurnoNegro" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
+                <asp:Timer ID="Timer1" runat="server" OnTick="Timer1_Tick" >
+                </asp:Timer>
+                <br /><br />
+                <asp:Label ID="SegN" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label> 
+                <asp:Label ID="MinN" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label>
+                <asp:Label ID="HorN" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label>
             </div>
             <div class="Blanco" align="center">
                 <br /><br />
@@ -379,6 +410,12 @@
                 <asp:Label ID="PunB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:ImageButton ID="TurnoBlanco" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
+                <asp:Timer ID="Timer2" runat="server" OnTick="Timer2_Tick1" >
+                </asp:Timer>
+                <br /><br />
+                <asp:Label ID="SegB" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label>
+                <asp:Label ID="MinB" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label>
+                <asp:Label ID="HorB" runat="server" Text="00" BackColor="SkyBlue" Width="40px" Height="40px"></asp:Label>
             </div>
         </div>
         <div class="Salir" align="center">
@@ -396,7 +433,7 @@
             background:none;
         }
         .Jugadores {
-            height: 357px;
+            height: 450px;
         }
         .Salir {
             height: 151px;

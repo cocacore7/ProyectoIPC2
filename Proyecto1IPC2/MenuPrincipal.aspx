@@ -39,10 +39,9 @@
      <div class="row" align="center">
          <form>
              <asp:Button ID="cargar" runat="server" BackColor="#c54848" Text="Cargar Partida" OnClick="cargar_Click" /><br><br>
-             <asp:Button ID="maquina" runat="server" BackColor="#92c15c" Text="Partida CPU" OnClick="maquina_Click" /><br><br>
-             <asp:Button ID="versus" runat="server" BackColor="#92c15c" Text="Partida Versus" OnClick="versus_Click" /><br><br>
-             <asp:Button ID="torneo" runat="server" BackColor="#ffcc00" Text="Torneo!" /><br><br>
-             <asp:Button ID="reporte" runat="server" BackColor="#c54848" Text="Reporte" />
+             <asp:Button ID="maquina" runat="server" BackColor="#92c15c" Text="Partida Normal" OnClick="maquina_Click" /><br><br>
+             <asp:Button ID="versus" runat="server" BackColor="#92c15c" Text="Partida Xtreme" OnClick="versus_Click" /><br><br>
+             <asp:Button ID="torneo" runat="server" BackColor="#ffcc00" Text="Torneo!" OnClick="torneo_Click" /><br><br>
          </form>
     </div>
 </asp:Content>

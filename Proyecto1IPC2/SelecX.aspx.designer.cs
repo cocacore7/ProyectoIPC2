@@ -10,7 +10,7 @@
 namespace Proyecto1IPC2 {
     
     
-    public partial class SelecColor {
+    public partial class SelecX {
         
         /// <summary>
         /// Control Titulo.
@@ -22,13 +22,22 @@ namespace Proyecto1IPC2 {
         protected global::System.Web.UI.WebControls.Label Titulo;
         
         /// <summary>
-        /// Control Color.
+        /// Control color.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList Color;
+        protected global::System.Web.UI.WebControls.DropDownList color;
+        
+        /// <summary>
+        /// Control modo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList modo;
         
         /// <summary>
         /// Control tipo.
@@ -40,22 +49,13 @@ namespace Proyecto1IPC2 {
         protected global::System.Web.UI.WebControls.DropDownList tipo;
         
         /// <summary>
-        /// Control Selec.
+        /// Control aceptar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Selec;
-        
-        /// <summary>
-        /// Control Random.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Random;
+        protected global::System.Web.UI.WebControls.Button aceptar;
         
         /// <summary>
         /// Control regresar.
