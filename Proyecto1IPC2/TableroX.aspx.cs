@@ -6,15 +6,15 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml.Linq;
-using System.Diagnostics;
 
 namespace Proyecto1IPC2
 {
-    public partial class Tablero : System.Web.UI.Page
+    public partial class TableroX : System.Web.UI.Page
     {
         public static string partida = ".";
         public static string color = "negro";
         public static string gamperem = ".";
+        public static string tipo = "";
         public static string colorJ;
         public static string jugadorN;
         public static string jugadorB;
@@ -33,18 +33,18 @@ namespace Proyecto1IPC2
         public static List<int> vuelta = new List<int>();
         public static List<int> pivoteM = new List<int>();
         public static List<int> tirosM = new List<int>();
-        Stopwatch relojN = new Stopwatch();
-        Stopwatch relojB = new Stopwatch();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) {
+            if (!IsPostBack)
+            {
                 segundosN = 0;
                 segundosB = 0;
                 MinutosN = 1;
                 MinutosB = 1;
             }
-            if (carga == 1) {
+            if (carga == 1)
+            {
                 for (int i = 0; i <= 63; i++)
                 {
                     if (MenuPrincipal.colum[i] == "A" && MenuPrincipal.fila[i] == "1")
@@ -377,7 +377,8 @@ namespace Proyecto1IPC2
                     {
                         JugB.Text = "Maquina";
                     }
-                    else {
+                    else
+                    {
                         JugB.Text = "Invitado";
                     }
                     JugN.Text = MenuPrincipal.jugador;
@@ -402,18 +403,17 @@ namespace Proyecto1IPC2
                 {
                     TurnoNegro.ImageUrl = "negro.png";
                     TurnoBlanco.ImageUrl = "vacio.png";
-                    cronoN();
                 }
                 else
                 {
                     TurnoNegro.ImageUrl = "vacio.png";
                     TurnoBlanco.ImageUrl = "blanco.png";
-                    cronoB();
                 }
                 siguiente();
                 carga = 2;
             }
-            if (carga == 0) {
+            if (carga == 0)
+            {
                 pivote();
                 if (colorJ.Equals("negro"))
                 {
@@ -434,16 +434,17 @@ namespace Proyecto1IPC2
                     {
                         TurnoNegro.ImageUrl = "negro.png";
                         TurnoBlanco.ImageUrl = "vacio.png";
-                        cronoN();
+                        //cronoN();
                     }
                     else
                     {
                         TurnoNegro.ImageUrl = "vacio.png";
                         TurnoBlanco.ImageUrl = "blanco.png";
-                        cronoB();
+                        //cronoB();
                     }
                 }
-                else {
+                else
+                {
                     JugB.Text = MenuPrincipal.jugador;
                     if (partida.Equals("Maquina"))
                     {
@@ -469,13 +470,11 @@ namespace Proyecto1IPC2
                     {
                         TurnoNegro.ImageUrl = "negro.png";
                         TurnoBlanco.ImageUrl = "vacio.png";
-                        cronoN();
                     }
                     else
                     {
                         TurnoNegro.ImageUrl = "vacio.png";
                         TurnoBlanco.ImageUrl = "blanco.png";
-                        cronoB();
                     }
                 }
                 carga = 2;
@@ -1225,7 +1224,8 @@ namespace Proyecto1IPC2
         //Guardar Partidas
         protected void guardar_Click(object sender, EventArgs e)
         {
-            if (carga == 2) {
+            if (carga == 2)
+            {
                 XDocument archivo = new XDocument(new XDeclaration("1.0", "utf-8", null));
                 XElement raiz = new XElement("tablero");
                 raiz.RemoveAll();
@@ -1300,11 +1300,13 @@ namespace Proyecto1IPC2
         }
 
         //Limpia y Valida nuevos pivotes
-        public void pivote() {
+        public void pivote()
+        {
             //Limpiar Pivotes
             for (int i = 0; i <= 63; i++)
             {
-                if (MenuPrincipal.colores[i].Equals("pivote")) {
+                if (MenuPrincipal.colores[i].Equals("pivote"))
+                {
                     MenuPrincipal.colores[i] = ".";
                     if (MenuPrincipal.columaux[i] == "A" && MenuPrincipal.filaaux[i] == "1")
                     {
@@ -1629,7 +1631,8 @@ namespace Proyecto1IPC2
                 }
             }
             //Validar Pivotes para 8 direcciones
-            for (int posicion = 0; posicion <= 63; posicion++) {
+            for (int posicion = 0; posicion <= 63; posicion++)
+            {
                 if (color.Equals("negro"))
                 {
                     if (MenuPrincipal.colores[posicion].Equals("negro"))
@@ -1932,7 +1935,8 @@ namespace Proyecto1IPC2
                         }
                     }
                 }
-                else if (color.Equals("blanco")) {
+                else if (color.Equals("blanco"))
+                {
                     if (MenuPrincipal.colores[posicion].Equals("blanco"))
                     {
                         bool tirovalido = false;
@@ -2563,9 +2567,10 @@ namespace Proyecto1IPC2
                 H8.ImageUrl = "pivote.png";
             }
         }
-        
+
         //Obtiene Posiciones a voltear
-        public void obtenerV(int i) {
+        public void obtenerV(int i)
+        {
             vuelta.Clear();
             if (color.Equals("negro"))
             {
@@ -2810,7 +2815,8 @@ namespace Proyecto1IPC2
                     pos = pos - 9;
                 }
             }
-            else {
+            else
+            {
                 //Voltear Hacia Izquierda del pivote
                 int pos = i;
                 int posaux;
@@ -3055,7 +3061,8 @@ namespace Proyecto1IPC2
         }
 
         // Voltea posiciones
-        public void voltear(List<int> vuelta) {
+        public void voltear(List<int> vuelta)
+        {
             foreach (int i in vuelta)
             {
                 if (MenuPrincipal.columaux[i] == "A" && MenuPrincipal.filaaux[i] == "1")
@@ -3895,7 +3902,8 @@ namespace Proyecto1IPC2
         }
 
         //Terminar Partida o saltar turno
-        public void siguiente() {
+        public void siguiente()
+        {
             if (color.Equals("blanco"))
             {
                 int turno = validar();
@@ -3963,7 +3971,8 @@ namespace Proyecto1IPC2
                             string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
                             accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                            if (colorJ.Equals("negro")) {
+                            if (colorJ.Equals("negro"))
+                            {
                                 accion.Parameters.AddWithValue("@movimientos", movn);
                             }
                             else if (colorJ.Equals("blanco"))
@@ -3987,7 +3996,8 @@ namespace Proyecto1IPC2
                     }
                 }
             }
-            else {
+            else
+            {
                 int turno = validar();
                 if (turno == 0)
                 {
@@ -4081,10 +4091,13 @@ namespace Proyecto1IPC2
         }
 
         //Validar turno
-        public int validar() {
+        public int validar()
+        {
             int contador = 0;
-            for (int i = 0; i <= 63; i++) {
-                if (MenuPrincipal.colores[i].Equals("pivote")) {
+            for (int i = 0; i <= 63; i++)
+            {
+                if (MenuPrincipal.colores[i].Equals("pivote"))
+                {
                     contador++;
                 }
             }
@@ -4092,7 +4105,8 @@ namespace Proyecto1IPC2
         }
 
         //Estado Finalizado. Ganado, Perdido, Empatado
-        public void terminar() {
+        public void terminar()
+        {
             puntosn = 0;
             puntosb = 0;
             for (int i = 0; i <= 63; i++)
@@ -4102,38 +4116,74 @@ namespace Proyecto1IPC2
             }
             if (colorJ.Equals("negro"))
             {
-                if (puntosb < puntosn)
-                {
-                    gamperem = "Victoria";
+                if (tipo.Equals("Normal")) {
+                    if (puntosb < puntosn)
+                    {
+                        gamperem = "Victoria";
+                    }
+                    else if (puntosb > puntosn)
+                    {
+                        gamperem = "Perdido";
+                    }
+                    else if (puntosb == puntosn)
+                    {
+                        gamperem = "Empate";
+                    }
                 }
-                else if (puntosb > puntosn)
+                else
                 {
-                    gamperem = "Perdido";
-                }
-                else if (puntosb == puntosn)
-                {
-                    gamperem = "Empate";
+                    if (puntosb < puntosn)
+                    {
+                        gamperem = "Perdido";
+                    }
+                    else if (puntosb > puntosn)
+                    {
+                        gamperem = "Victoria";
+                    }
+                    else if (puntosb == puntosn)
+                    {
+                        gamperem = "Empate";
+                    }
                 }
             }
             else
             {
-                if (puntosb < puntosn)
-                {
-                    gamperem = "Perdido";
+                if (tipo.Equals("Normal")) {
+                    if (puntosb < puntosn)
+                    {
+                        gamperem = "Perdido";
+                    }
+                    else if (puntosb > puntosn)
+                    {
+                        gamperem = "Victoria";
+                    }
+                    else if (puntosb == puntosn)
+                    {
+                        gamperem = "Empate";
+                    }
                 }
-                else if (puntosb > puntosn)
+                else
                 {
-                    gamperem = "Victoria";
+                    if (puntosb < puntosn)
+                    {
+                        gamperem = "Victoria";
+                    }
+                    else if (puntosb > puntosn)
+                    {
+                        gamperem = "Perdido";
+                    }
+                    else if (puntosb == puntosn)
+                    {
+                        gamperem = "Empate";
+                    }
                 }
-                else if (puntosb == puntosn)
-                {
-                    gamperem = "Empate";
-                }
+                
             }
         }
 
         //Jugador
-        public void boton(ImageButton tiro, int  i) {
+        public void boton(ImageButton tiro, int i)
+        {
             tiro.Enabled = false;
             mov++;
             if (color.Equals("negro"))
@@ -4149,7 +4199,8 @@ namespace Proyecto1IPC2
                 TurnoBlanco.ImageUrl = "blanco.png";
                 cronoB();
             }
-            else {
+            else
+            {
                 tiro.ImageUrl = "blanco.png";
                 movb++;
                 MenuPrincipal.colores[i] = "blanco";
@@ -4183,7 +4234,8 @@ namespace Proyecto1IPC2
         }
 
         //Maquina
-        public void Maquina(ImageButton tiro, int i) {
+        public void Maquina(ImageButton tiro, int i)
+        {
             pivoteM.Clear();
             tiro.Enabled = false;
             mov++;
@@ -4193,7 +4245,7 @@ namespace Proyecto1IPC2
                 movn++;
                 MenuPrincipal.colores[i] = "negro";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
-                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; 
+                MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i];
                 obtenerV(i);
                 color = "blanco";
                 cronoB();
@@ -4221,7 +4273,8 @@ namespace Proyecto1IPC2
         }
 
         //Tiro o Saltar Turno Maquina
-        public void siguienteM(List<int> pivotes) {
+        public void siguienteM(List<int> pivotes)
+        {
             tirosM.Clear();
             if (pivotes.Count != 0)
             {
@@ -4958,9 +5011,10 @@ namespace Proyecto1IPC2
                 siguiente();
             }
         }
-
+        
         //Cronometro Negro
-        public void cronoN() {
+        public void cronoN()
+        {
             Timer1.Enabled = true;
             Timer2.Enabled = false;
         }
@@ -4976,7 +5030,8 @@ namespace Proyecto1IPC2
         {
             segundosN++;
             SegN.Text = segundosN.ToString() + " seg";
-            if (segundosN == 60) {
+            if (segundosN == 60)
+            {
                 segundosN = 0;
                 MinN.Text = Convert.ToString(MinutosN++) + " min";
             }

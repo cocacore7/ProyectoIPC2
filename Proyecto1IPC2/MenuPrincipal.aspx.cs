@@ -44,7 +44,7 @@ namespace Proyecto1IPC2
 
         protected void versus_Click(object sender, EventArgs e)
         {
-            
+            Response.Redirect("SelecX.aspx");
         }
 
         protected void torneo_Click(object sender, EventArgs e)

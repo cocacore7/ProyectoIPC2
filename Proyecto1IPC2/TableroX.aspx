@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Tablero" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Tablero.aspx.cs" Inherits="Proyecto1IPC2.Tablero" %>
+﻿<%@ Page Title="tablero Xtreme" Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="TableroX.aspx.cs" Inherits="Proyecto1IPC2.TableroX" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <style>
@@ -39,30 +39,20 @@
             height: 350px;
             width: 200px;
         }
-        .SegN {
-            float:right;
-            margin-left: 60px;
+        #ventana{
+            background:url(Fondo1.jfif);
+            background-size:auto;
+            width:600px;
+            height:280px;
         }
-        .MinN {
-            float:right;
-            margin-left: 60px;
+        #modalletra{
+            background:none;
         }
-        .HorN {
-            float:right;
-            margin-left: 60px;
+        .Jugadores {
+            height: 450px;
         }
-        .SegB {
-            float:right;
-            margin-left: 60px;
-        }
-        .MinB {
-            float:right;
-            margin-left: 60px;
-        }
-
-        .HorB {
-            float:right;
-            margin-left: 60px;
+        .Salir {
+            height: 151px;
         }
     </style>
     <div class="Tablero">
@@ -405,7 +395,7 @@
                         <asp:Label ID="SegN" runat="server" Text="0 seg" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label> 
                         <asp:Label ID="MinN" runat="server" Text="0 min" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
                     </ContentTemplate>
-                </asp:UpdatePanel>
+                </asp:UpdatePanel>    
             </div>
             <div class="Blanco" align="center">
                 <br /><br />
@@ -434,23 +424,6 @@
             <asp:Button ID="guardar" runat="server" Text="Guardar Y Salir" BackColor="#3366ff" Font-Size="Large" Font-Bold="true" Width="200px" Height="60px" OnClick="guardar_Click" />
         </div>
     </div>
-    <style>
-        #ventana{
-            background:url(Fondo1.jfif);
-            background-size:auto;
-            width:600px;
-            height:280px;
-        }
-        #modalletra{
-            background:none;
-        }
-        .Jugadores {
-            height: 450px;
-        }
-        .Salir {
-            height: 151px;
-        }
-    </style>
     <div class="ventana modal" id="ventana" role="dialog" aria-labelledby="equiquetaModal" aria-hidden="true" align="center">
         <div class="dialogo">
             <asp:UpdatePanel ID="panelModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
@@ -468,4 +441,3 @@
         </div>
     </div>
 </asp:Content>
-

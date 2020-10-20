@@ -10,7 +10,7 @@
 namespace Proyecto1IPC2 {
     
     
-    public partial class Tablero {
+    public partial class TableroX {
         
         /// <summary>
         /// Control Table1.
@@ -884,7 +884,7 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label H9;
-
+        
         /// <summary>
         /// Control JugN.
         /// </summary>
@@ -893,16 +893,7 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label JugN;
-
-        /// <summary>
-        /// Control JugB.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label JugB;
-
+        
         /// <summary>
         /// Control MovN.
         /// </summary>
@@ -911,16 +902,7 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MovN;
-
-        /// <summary>
-        /// Control MovB.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MovB;
-
+        
         /// <summary>
         /// Control PunN.
         /// </summary>
@@ -929,16 +911,7 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label PunN;
-
-        /// <summary>
-        /// Control PunB.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label PunB;
-
+        
         /// <summary>
         /// Control TurnoNegro.
         /// </summary>
@@ -947,7 +920,34 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton TurnoNegro;
-
+        
+        /// <summary>
+        /// Control JugB.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label JugB;
+        
+        /// <summary>
+        /// Control MovB.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MovB;
+        
+        /// <summary>
+        /// Control PunB.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label PunB;
+        
         /// <summary>
         /// Control TurnoBlanco.
         /// </summary>
@@ -956,15 +956,6 @@ namespace Proyecto1IPC2 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton TurnoBlanco;
-
-        /// <summary>
-        /// Control Label1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
         /// Control guardar.
