@@ -15,15 +15,14 @@ namespace Proyecto1IPC2
         public static string partida = ".";
         public static string color = "negro";
         public static string gamperem = ".";
+        public static string nombre = ".";
         public static string colorJ;
         public static string jugadorN;
         public static string jugadorB;
-        public static int mov = 0;
-        public static int movn = 0;
-        public static int movb = 0;
         public static int puntosn;
         public static int puntosb;
         public static int carga = 0;
+        public static int nump = 0;
         public static int segundosN;
         public static int segundosB;
         public static int MinutosN;
@@ -394,8 +393,6 @@ namespace Proyecto1IPC2
                     }
                     JugB.Text = MenuPrincipal.jugador;
                 }
-                MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                MovB.Text = "Movimientos: " + Convert.ToString(movb);
                 PunN.Text = "Puntos: " + Convert.ToString(puntosn);
                 PunB.Text = "Puntos: " + Convert.ToString(puntosb);
                 if (color.Equals("negro"))
@@ -426,8 +423,6 @@ namespace Proyecto1IPC2
                         JugB.Text = "Invitado";
                     }
                     JugN.Text = MenuPrincipal.jugador;
-                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
                     PunB.Text = "Puntos: " + Convert.ToString(puntosb);
                     if (color.Equals("negro"))
@@ -461,8 +456,6 @@ namespace Proyecto1IPC2
                     {
                         JugN.Text = "Invitado";
                     }
-                    MovN.Text = "Movimientos: " + Convert.ToString(movn);
-                    MovB.Text = "Movimientos: " + Convert.ToString(movb);
                     PunN.Text = "Puntos: " + Convert.ToString(puntosn);
                     PunB.Text = "Puntos: " + Convert.ToString(puntosb);
                     if (color.Equals("negro"))
@@ -1254,43 +1247,108 @@ namespace Proyecto1IPC2
                 if (!bandera)
                 {
                     BaseDatos bd = new BaseDatos();
-                    string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                    string datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
                     SqlCommand accion = new SqlCommand(datos, bd.registrar());
                     accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                    accion.Parameters.AddWithValue("@estado", 1);
+                    accion.Parameters.AddWithValue("@nombre", ".");
                     accion.Parameters.AddWithValue("@tipo_partida", partida);
                     accion.Parameters.AddWithValue("@color", colorJ);
                     if (colorJ.Equals("negro"))
                     {
-                        accion.Parameters.AddWithValue("@movimientos", movn);
+                        accion.Parameters.AddWithValue("@puntos", puntosn);
                     }
                     else if (colorJ.Equals("blanco"))
                     {
-                        accion.Parameters.AddWithValue("@movimientos", movb);
+                        accion.Parameters.AddWithValue("@puntos", puntosb);
                     }
                     accion.Parameters.AddWithValue("@pge", gamperem);
                     accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                    accion.ExecuteNonQuery();
+                    datos = "select id_partida from partida where estado=1";
+                    accion = new SqlCommand(datos, bd.registrar());
+                    SqlDataReader leer = accion.ExecuteReader();
+                    if (leer.Read()) {
+                        nump = Convert.ToInt16(leer["id_partida"]);
+                    }
+                    archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                    datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                    accion = new SqlCommand(datos, bd.registrar());
+                    accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                    accion.Parameters.AddWithValue("@id_partida", nump);
+                    accion.Parameters.AddWithValue("@nombre", "partida"+ nump.ToString());
                     accion.ExecuteNonQuery();
                     Response.Redirect("MenuPrincipal.aspx");
                 }
                 else
                 {
                     BaseDatos bd = new BaseDatos();
-                    string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                    string datos = "select nombre from partida";
                     SqlCommand accion = new SqlCommand(datos, bd.registrar());
-                    accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                    if (colorJ.Equals("negro"))
-                    {
-                        accion.Parameters.AddWithValue("@movimientos", movn);
-                    }
-                    else if (colorJ.Equals("blanco"))
-                    {
-                        accion.Parameters.AddWithValue("@movimientos", movb);
-                    }
-                    accion.Parameters.AddWithValue("@pge", gamperem);
-                    accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
-                    accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
                     accion.ExecuteNonQuery();
-                    Response.Redirect("MenuPrincipal.aspx");
+                    SqlDataReader leer = accion.ExecuteReader();
+                    while (leer.Read())
+                    {
+                        if ((leer["nombre"] + ".xml").Equals(nombre))
+                        {
+                            bandera = false;
+                        }
+                    }
+                    if (bandera)
+                    {
+                        datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
+                        accion = new SqlCommand(datos, bd.registrar());
+                        accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                        accion.Parameters.AddWithValue("@estado", 1);
+                        accion.Parameters.AddWithValue("@nombre", ".");
+                        accion.Parameters.AddWithValue("@tipo_partida", partida);
+                        accion.Parameters.AddWithValue("@color", colorJ);
+                        if (colorJ.Equals("negro"))
+                        {
+                            accion.Parameters.AddWithValue("@puntos", puntosn);
+                        }
+                        else if (colorJ.Equals("blanco"))
+                        {
+                            accion.Parameters.AddWithValue("@puntos", puntosb);
+                        }
+                        accion.Parameters.AddWithValue("@pge", gamperem);
+                        accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                        accion.ExecuteNonQuery();
+                        datos = "select id_partida from partida where estado=1";
+                        accion = new SqlCommand(datos, bd.registrar());
+                        leer = accion.ExecuteReader();
+                        if (leer.Read())
+                        {
+                            nump = Convert.ToInt16(leer["id_partida"]);
+                        }
+                        archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                        datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                        accion = new SqlCommand(datos, bd.registrar());
+                        accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                        accion.Parameters.AddWithValue("@id_partida", nump);
+                        accion.Parameters.AddWithValue("@nombre", "partida" + nump.ToString());
+                        accion.ExecuteNonQuery();
+                        Response.Redirect("MenuPrincipal.aspx");
+                    }
+                    else {
+                        datos = "UPDATE partida SET partida_g = @partida_g, puntos = @puntos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                        accion = new SqlCommand(datos, bd.registrar());
+                        accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                        if (colorJ.Equals("negro"))
+                        {
+                            accion.Parameters.AddWithValue("@puntos", puntosn);
+                        }
+                        else if (colorJ.Equals("blanco"))
+                        {
+                            accion.Parameters.AddWithValue("@puntos", puntosb);
+                        }
+                        accion.Parameters.AddWithValue("@pge", gamperem);
+                        accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                        accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                        accion.ExecuteNonQuery();
+                        archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\" + nombre);
+                        Response.Redirect("MenuPrincipal.aspx");
+                    }
                 }
             }
             else
@@ -3936,21 +3994,37 @@ namespace Proyecto1IPC2
                         {
                             terminar();
                             BaseDatos bd = new BaseDatos();
-                            string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                            string datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
                             accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            accion.Parameters.AddWithValue("@estado", 1);
+                            accion.Parameters.AddWithValue("@nombre", ".");
                             accion.Parameters.AddWithValue("@tipo_partida", partida);
                             accion.Parameters.AddWithValue("@color", colorJ);
                             if (colorJ.Equals("negro"))
                             {
-                                accion.Parameters.AddWithValue("@movimientos", movn);
+                                accion.Parameters.AddWithValue("@puntos", puntosn);
                             }
                             else if (colorJ.Equals("blanco"))
                             {
-                                accion.Parameters.AddWithValue("@movimientos", movb);
+                                accion.Parameters.AddWithValue("@puntos", puntosb);
                             }
                             accion.Parameters.AddWithValue("@pge", gamperem);
                             accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.ExecuteNonQuery();
+                            datos = "select id_partida from partida where estado=1";
+                            accion = new SqlCommand(datos, bd.registrar());
+                            SqlDataReader leer = accion.ExecuteReader();
+                            if (leer.Read())
+                            {
+                                nump = Convert.ToInt16(leer["id_partida"]);
+                            }
+                            archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                            datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                            accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.Parameters.AddWithValue("@id_partida", nump);
+                            accion.Parameters.AddWithValue("@nombre", "partida" + nump.ToString());
                             accion.ExecuteNonQuery();
                             Titulo.Text = "Partida Finalizada";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
@@ -3960,23 +4034,77 @@ namespace Proyecto1IPC2
                         {
                             terminar();
                             BaseDatos bd = new BaseDatos();
-                            string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                            string datos = "select nombre from partida";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
-                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                            if (colorJ.Equals("negro")) {
-                                accion.Parameters.AddWithValue("@movimientos", movn);
-                            }
-                            else if (colorJ.Equals("blanco"))
-                            {
-                                accion.Parameters.AddWithValue("@movimientos", movb);
-                            }
-                            accion.Parameters.AddWithValue("@pge", gamperem);
-                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
-                            accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
                             accion.ExecuteNonQuery();
-                            Titulo.Text = "Partida Finalizada";
-                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
-                            panelModal.Update();
+                            SqlDataReader leer = accion.ExecuteReader();
+                            while (leer.Read())
+                            {
+                                if ((leer["nombre"] + ".xml").Equals(nombre))
+                                {
+                                    bandera = false;
+                                }
+                            }
+                            if (bandera)
+                            {
+                                datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                                accion.Parameters.AddWithValue("@estado", 1);
+                                accion.Parameters.AddWithValue("@nombre", ".");
+                                accion.Parameters.AddWithValue("@tipo_partida", partida);
+                                accion.Parameters.AddWithValue("@color", colorJ);
+                                if (colorJ.Equals("negro"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosn);
+                                }
+                                else if (colorJ.Equals("blanco"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosb);
+                                }
+                                accion.Parameters.AddWithValue("@pge", gamperem);
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.ExecuteNonQuery();
+                                datos = "select id_partida from partida where estado=1";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                leer = accion.ExecuteReader();
+                                if (leer.Read())
+                                {
+                                    nump = Convert.ToInt16(leer["id_partida"]);
+                                }
+                                archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                                datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.Parameters.AddWithValue("@id_partida", nump);
+                                accion.Parameters.AddWithValue("@nombre", "partida" + nump.ToString());
+                                accion.ExecuteNonQuery();
+                                Titulo.Text = "Partida Finalizada";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                                panelModal.Update();
+                            }
+                            else
+                            {
+                                datos = "UPDATE partida SET partida_g = @partida_g, puntos = @puntos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                                if (colorJ.Equals("negro"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosn);
+                                }
+                                else if (colorJ.Equals("blanco"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosb);
+                                }
+                                accion.Parameters.AddWithValue("@pge", gamperem);
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                                accion.ExecuteNonQuery();
+                                archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\" + nombre);
+                                Titulo.Text = "Partida Finalizada";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                                panelModal.Update();
+                            }
                         }
                     }
                     else
@@ -4026,21 +4154,37 @@ namespace Proyecto1IPC2
                         {
                             terminar();
                             BaseDatos bd = new BaseDatos();
-                            string datos = "insert into partida(partida_g,tipo_partida,color,movimientos,pge,id_usuario) values(@partida_g,@tipo_partida,@color,@movimientos,@pge,@id_usuario)";
+                            string datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
                             accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                            accion.Parameters.AddWithValue("@estado", 1);
+                            accion.Parameters.AddWithValue("@nombre", ".");
                             accion.Parameters.AddWithValue("@tipo_partida", partida);
                             accion.Parameters.AddWithValue("@color", colorJ);
                             if (colorJ.Equals("negro"))
                             {
-                                accion.Parameters.AddWithValue("@movimientos", movn);
+                                accion.Parameters.AddWithValue("@puntos", puntosn);
                             }
                             else if (colorJ.Equals("blanco"))
                             {
-                                accion.Parameters.AddWithValue("@movimientos", movb);
+                                accion.Parameters.AddWithValue("@puntos", puntosb);
                             }
                             accion.Parameters.AddWithValue("@pge", gamperem);
                             accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.ExecuteNonQuery();
+                            datos = "select id_partida from partida where estado=1";
+                            accion = new SqlCommand(datos, bd.registrar());
+                            SqlDataReader leer = accion.ExecuteReader();
+                            if (leer.Read())
+                            {
+                                nump = Convert.ToInt16(leer["id_partida"]);
+                            }
+                            archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                            datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                            accion = new SqlCommand(datos, bd.registrar());
+                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                            accion.Parameters.AddWithValue("@id_partida", nump);
+                            accion.Parameters.AddWithValue("@nombre", "partida" + nump.ToString());
                             accion.ExecuteNonQuery();
                             Titulo.Text = "Partida Finalizada";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
@@ -4050,24 +4194,77 @@ namespace Proyecto1IPC2
                         {
                             terminar();
                             BaseDatos bd = new BaseDatos();
-                            string datos = "UPDATE partida SET partida_g = @partida_g, movimientos = @movimientos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                            string datos = "select nombre from partida";
                             SqlCommand accion = new SqlCommand(datos, bd.registrar());
-                            accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
-                            if (colorJ.Equals("negro"))
-                            {
-                                accion.Parameters.AddWithValue("@movimientos", movn);
-                            }
-                            else if (colorJ.Equals("blanco"))
-                            {
-                                accion.Parameters.AddWithValue("@movimientos", movb);
-                            }
-                            accion.Parameters.AddWithValue("@pge", gamperem);
-                            accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
-                            accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
                             accion.ExecuteNonQuery();
-                            Titulo.Text = "Partida Finalizada";
-                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
-                            panelModal.Update();
+                            SqlDataReader leer = accion.ExecuteReader();
+                            while (leer.Read())
+                            {
+                                if ((leer["nombre"] + ".xml").Equals(nombre))
+                                {
+                                    bandera = false;
+                                }
+                            }
+                            if (bandera)
+                            {
+                                datos = "insert into partida(partida_g,estado,nombre,tipo_partida,color,puntos,pge,id_usuario) values(@partida_g,@estado,@nombre,@tipo_partida,@color,@puntos,@pge,@id_usuario)";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                                accion.Parameters.AddWithValue("@estado", 1);
+                                accion.Parameters.AddWithValue("@nombre", ".");
+                                accion.Parameters.AddWithValue("@tipo_partida", partida);
+                                accion.Parameters.AddWithValue("@color", colorJ);
+                                if (colorJ.Equals("negro"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosn);
+                                }
+                                else if (colorJ.Equals("blanco"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosb);
+                                }
+                                accion.Parameters.AddWithValue("@pge", gamperem);
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.ExecuteNonQuery();
+                                datos = "select id_partida from partida where estado=1";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                leer = accion.ExecuteReader();
+                                if (leer.Read())
+                                {
+                                    nump = Convert.ToInt16(leer["id_partida"]);
+                                }
+                                archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\partida" + nump.ToString() + ".xml");
+                                datos = "UPDATE partida SET estado = 0, nombre=@nombre WHERE id_usuario = @id_usuario and id_partida = @id_partida;";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.Parameters.AddWithValue("@id_partida", nump);
+                                accion.Parameters.AddWithValue("@nombre", "partida" + nump.ToString());
+                                accion.ExecuteNonQuery();
+                                Titulo.Text = "Partida Finalizada";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                                panelModal.Update();
+                            }
+                            else
+                            {
+                                datos = "UPDATE partida SET partida_g = @partida_g, puntos = @puntos, pge = @pge WHERE id_usuario = @id_usuario and id_partida = @id_partida; ";
+                                accion = new SqlCommand(datos, bd.registrar());
+                                accion.Parameters.AddWithValue("@partida_g", archivo.ToString());
+                                if (colorJ.Equals("negro"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosn);
+                                }
+                                else if (colorJ.Equals("blanco"))
+                                {
+                                    accion.Parameters.AddWithValue("@puntos", puntosb);
+                                }
+                                accion.Parameters.AddWithValue("@pge", gamperem);
+                                accion.Parameters.AddWithValue("@id_usuario", InicioSesion.jugador);
+                                accion.Parameters.AddWithValue("@id_partida", Cargar.id_partida);
+                                accion.ExecuteNonQuery();
+                                archivo.Save("C:\\Users\\usuario\\OneDrive\\Escritorio\\partidas\\" + nombre);
+                                Titulo.Text = "Partida Finalizada";
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
+                                panelModal.Update();
+                            }
                         }
                     }
                     else
@@ -4098,7 +4295,7 @@ namespace Proyecto1IPC2
             for (int i = 0; i <= 63; i++)
             {
                 if (MenuPrincipal.colores[i].Equals("negro")) { puntosn++; }
-                else { puntosb++; }
+                else if (MenuPrincipal.colores[i].Equals("blanco")) { puntosb++; }
             }
             if (colorJ.Equals("negro"))
             {
@@ -4135,11 +4332,9 @@ namespace Proyecto1IPC2
         //Jugador
         public void boton(ImageButton tiro, int  i) {
             tiro.Enabled = false;
-            mov++;
             if (color.Equals("negro"))
             {
                 tiro.ImageUrl = "negro.png";
-                movn++;
                 MenuPrincipal.colores[i] = "negro";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
@@ -4151,7 +4346,6 @@ namespace Proyecto1IPC2
             }
             else {
                 tiro.ImageUrl = "blanco.png";
-                movb++;
                 MenuPrincipal.colores[i] = "blanco";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; ;
@@ -4175,8 +4369,6 @@ namespace Proyecto1IPC2
                 }
             }
             pivote();
-            MovN.Text = "Movimientos: " + Convert.ToString(movn);
-            MovB.Text = "Movimientos: " + Convert.ToString(movb);
             PunN.Text = "Puntos: " + Convert.ToString(puntosn);
             PunB.Text = "Puntos: " + Convert.ToString(puntosb);
             siguiente();
@@ -4186,11 +4378,9 @@ namespace Proyecto1IPC2
         public void Maquina(ImageButton tiro, int i) {
             pivoteM.Clear();
             tiro.Enabled = false;
-            mov++;
             if (colorJ.Equals("negro"))
             {
                 tiro.ImageUrl = "negro.png";
-                movn++;
                 MenuPrincipal.colores[i] = "negro";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i]; 
@@ -4201,7 +4391,6 @@ namespace Proyecto1IPC2
             else
             {
                 tiro.ImageUrl = "blanco.png";
-                movb++;
                 MenuPrincipal.colores[i] = "blanco";
                 MenuPrincipal.colum[i] = MenuPrincipal.columaux[i];
                 MenuPrincipal.fila[i] = MenuPrincipal.filaaux[i];

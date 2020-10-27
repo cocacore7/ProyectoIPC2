@@ -20,9 +20,6 @@ namespace Proyecto1IPC2
             string modo = tipo.SelectedItem.ToString();
             Tablero.color = "negro";
             Tablero.carga = 0;
-            Tablero.mov = 0;
-            Tablero.movb = 0;
-            Tablero.movn = 0;
             Tablero.bandera = false;
 
             if (color.Equals("Seleccionar Color") || modo.Equals("Seleccionar Modo De Juego"))
@@ -71,9 +68,6 @@ namespace Proyecto1IPC2
             int color = rnd.Next(0, 1);
             Tablero.color = "negro";
             Tablero.carga = 0;
-            Tablero.mov = 0;
-            Tablero.movb = 0;
-            Tablero.movn = 0;
             Tablero.bandera = false;
             if (color == 0)
             {

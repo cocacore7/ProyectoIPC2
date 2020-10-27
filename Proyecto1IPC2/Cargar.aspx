@@ -22,8 +22,12 @@
         <h1 id="modalletra">
             <asp:Label ID="Titulo" CssClass="titulo" runat="server" BackColor="#ffcc00" Text="Cargar Partida"></asp:Label>
         </h1><br>
+        <asp:Label ID="Label2" runat="server" BackColor="Green" Text="Partida SQL" Width="300px" Height="20px"></asp:Label><br />
         <asp:DropDownList ID="partidas" runat="server" Width="300px" Height="40px" BackColor="SkyBlue" OnSelectedIndexChanged="partidas_SelectedIndexChanged"></asp:DropDownList><br />
-        <asp:Button ID="aceptar" runat="server" Text="Cargar" OnClick="aceptar_Click" BackColor="#c54848"/><br />
+        <asp:Button ID="aceptar" runat="server" Text="Cargar SQL" OnClick="aceptar_Click" BackColor="#c54848"/><br /><br />
+        <asp:Label ID="Label3" runat="server" BackColor="Green" Text="Partida Carpeta" Width="300px" Height="20px"></asp:Label><br />
+        <asp:FileUpload ID="FileUpload1" runat="server" /><br />
+        <asp:Button ID="Button1" runat="server" Text="Cargar Carpeta" BackColor="#c54848" OnClick="Button1_Click"/><br />
         <asp:Button ID="regresar" runat="server" Text="Regresar" OnClick="regresar_Click" BackColor="#c54848"/>
     </div>
 

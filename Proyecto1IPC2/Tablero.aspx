@@ -389,8 +389,6 @@
                 <br /><br />
                 <asp:Label ID="JugN" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
                 <br /><br />
-                <asp:Label ID="MovN" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
-                <br /><br />
                 <asp:Label ID="PunN" runat="server" Text="Label"  Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:ImageButton ID="TurnoNegro" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
@@ -410,8 +408,6 @@
             <div class="Blanco" align="center">
                 <br /><br />
                 <asp:Label ID="JugB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
-                <br /><br />
-                <asp:Label ID="MovB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:Label ID="PunB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
