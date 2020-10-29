@@ -105,6 +105,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="carga2.aspx" />
     <Content Include="InicioSesion.aspx" />
     <Content Include="MenuPrincipal.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -171,6 +172,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="BaseDatos.cs" />
+    <Compile Include="carga2.aspx.cs">
+      <DependentUpon>carga2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="carga2.aspx.designer.cs">
+      <DependentUpon>carga2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="InicioSesion.aspx.cs">
       <DependentUpon>InicioSesion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
