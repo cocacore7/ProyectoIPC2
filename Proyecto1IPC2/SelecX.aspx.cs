@@ -11,6 +11,7 @@ namespace Proyecto1IPC2
     {
         public static string[] colum = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T" };
         public static string[] fil = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
+        
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -18,88 +19,110 @@ namespace Proyecto1IPC2
 
         protected void aceptar_Click(object sender, EventArgs e)
         {
-            bool bandera = true, vacio1 = true, vacio2 = true;
-            int contador = 0;
-
-            for (int i = 0; i < Colores1.Items.Count; i++)
-            {
-                if (Colores1.Items[i].Selected == true)
+            bool bandera = true;
+            int primero = 0, segundo = 0;
+            for (int i = 0; i < Colores1.Items.Count; i++) {
+                if (Colores1.Items[i].Selected == true) {
+                    primero++;
+                }
+                if (Colores2.Items[i].Selected == true)
                 {
-                    contador++;
+                    segundo++;
                 }
             }
-            string[] col1 = new string[contador];
-            if (contador != 0 && contador <= 5)
-            {
-                vacio1 = false;
-                contador = 0;
+
+            if (primero > 0 && primero < 6 && segundo > 0 && segundo < 6) //CANTIDAD DE COLORES ACEPTADOS
+            { 
+                TableroX.color1 = new List<string>();
+                TableroX.color2 = new List<string>();
                 for (int i = 0; i < Colores1.Items.Count; i++)
                 {
                     if (Colores1.Items[i].Selected == true)
                     {
-                        col1[contador] = Colores1.Items[i].Value.ToString();
-                        contador++;
+                        TableroX.color1.Add(Colores1.Items[i].Value.ToString());
                     }
                 }
-            }
-            contador = 0;
-            for (int i = 0; i < Colores2.Items.Count; i++)
-            {
-                if (Colores2.Items[i].Selected == true)
-                {
-                    contador++;
-                }
-            }
-            string[] col2 = new string[contador];
-            if (contador != 0 && contador <= 5)
-            {
-                vacio2 = false;
-                contador = 0;
                 for (int i = 0; i < Colores2.Items.Count; i++)
                 {
                     if (Colores2.Items[i].Selected == true)
                     {
-                        col2[contador] = Colores2.Items[i].Value.ToString();
-                        contador++;
+                        TableroX.color2.Add(Colores2.Items[i].Value.ToString());
                     }
                 }
-            }
-            contador = 0;
-
-            if (!vacio1 && !vacio2) {
-                foreach (string colores1 in col1)
+                for (int i = 0; i < TableroX.color1.Count; i++)
                 {
-                    foreach (string colores2 in col2)
+                    for (int z = 0; z < TableroX.color2.Count; z++)
                     {
-                        if (colores1.Equals(colores2)) { bandera = false; }
+                        if (Convert.ToString(TableroX.color1[i]).Equals(Convert.ToString(TableroX.color2[z]))) { bandera = false; }
                     }
                 }
-                if (bandera)
+                if (bandera) //COLORES SIN REPETIR
                 {
-                    foreach (string colores1 in col1)
+                    TableroX.j1 = ""; TableroX.j2 = ""; TableroX.ini1 = false; TableroX.ini2 = false; TableroX.inicial = false;
+                    TableroX.j1c1 = ""; TableroX.j1c2 = ""; TableroX.j1c3 = ""; TableroX.j1c4 = ""; TableroX.j1c5 = "";
+                    TableroX.j2c1 = ""; TableroX.j2c2 = ""; TableroX.j2c3 = ""; TableroX.j2c4 = ""; TableroX.j2c5 = "";
+                    for (int i = 0; i < TableroX.color1.Count; i++)
                     {
-                        TableroX.color1.Add(colores1);
-                    }
-                    foreach (string colores2 in col2)
-                    {
-                        TableroX.color2.Add(colores2);
-                    }
-                    if (!TextBox1.Text.Equals("") && !TextBox2.Text.Equals(""))
-                    {
-                        int filas = Convert.ToInt16(TextBox1.Text);
-                        int columnas = Convert.ToInt16(TextBox2.Text);
-                        if (filas > 5 && filas <= 20 && columnas > 5 && columnas <= 20)
+                        if (TableroX.j1c1.Equals(""))
                         {
-                            for (int i = 0; i <= filas; i++) {
+                            TableroX.j1c1 = Convert.ToString(TableroX.color1[i]);
+                        }
+                        else if (TableroX.j1c2.Equals(""))
+                        {
+                            TableroX.j1c2 = Convert.ToString(TableroX.color1[i]);
+                        }
+                        else if (TableroX.j1c3.Equals(""))
+                        {
+                            TableroX.j1c3 = Convert.ToString(TableroX.color1[i]);
+                        }
+                        else if (TableroX.j1c4.Equals(""))
+                        {
+                            TableroX.j1c4 = Convert.ToString(TableroX.color1[i]);
+                        }
+                        else if (TableroX.j1c5.Equals(""))
+                        {
+                            TableroX.j1c5 = Convert.ToString(TableroX.color1[i]);
+                        }
+                    }
+                    for (int i = 0; i < TableroX.color2.Count; i++)
+                    {
+                        if (TableroX.j2c1.Equals(""))
+                        {
+                            TableroX.j2c1 = Convert.ToString(TableroX.color2[i]);
+                        }
+                        else if (TableroX.j2c2.Equals(""))
+                        {
+                            TableroX.j2c2 = Convert.ToString(TableroX.color2[i]);
+                        }
+                        else if (TableroX.j2c3.Equals(""))
+                        {
+                            TableroX.j2c3 = Convert.ToString(TableroX.color2[i]);
+                        }
+                        else if (TableroX.j2c4.Equals(""))
+                        {
+                            TableroX.j2c4 = Convert.ToString(TableroX.color2[i]);
+                        }
+                        else if (TableroX.j2c5.Equals(""))
+                        {
+                            TableroX.j2c5 = Convert.ToString(TableroX.color2[i]);
+                        }
+                    }
+                    if (!TextBox1.Text.Equals("") && !TextBox2.Text.Equals("")) // FILAS Y COLUMNAS NO VACIAS
+                    {
+                        TableroX.filas = Convert.ToInt16(TextBox1.Text); TableroX.columnas = Convert.ToInt16(TextBox2.Text);
+                        if (TableroX.filas > 5 && TableroX.filas <= 20 && TableroX.columnas > 5 && TableroX.columnas <= 20) //Cantidad de Filas y Columas Aceptada
+                        {
+                            TableroX.numeros = new List<string>(); TableroX.letras = new List<string>();
+                            for (int i = 0; i < TableroX.filas; i++) {
                                 TableroX.numeros.Add(fil[i]);
                             }
-                            for (int i = 0; i <= columnas; i++)
+                            for (int i = 0; i < TableroX.columnas; i++)
                             {
-                                TableroX.numeros.Add(colum[i]);
+                                TableroX.letras.Add(colum[i]);
                             }
-                            string per = Personalizar.SelectedItem.ToString();
                             string mod = modo.SelectedItem.ToString();
                             string tip = tipo.SelectedItem.ToString();
+                            string per = Personalizar.SelectedItem.ToString();
                             if (per.Equals("Personalizar Entrada") || mod.Equals("Seleccionar Modo De Juego") || tip.Equals("Seleccionar Tipo De Juego"))
                             {
                                 Cuerpo.Text = "Por favor, Seleccione un Personalizacion, Modo y Tipo de juego disponible";
@@ -108,18 +131,163 @@ namespace Proyecto1IPC2
                             }
                             else
                             {
+                                TableroX.botones = new List<ImageButton>(); TableroX.posicion = 0;
+                                int filaux = 0, columaux = 0, posinicial = 0;
+                                if (TableroX.filas % 2 == 0){filaux = TableroX.filas / 2;}else{filaux = TableroX.filas - 1;filaux = filaux / 2;}
+                                if (TableroX.columnas % 2 == 0){columaux = TableroX.columnas / 2;}else{columaux = TableroX.columnas - 1;columaux = columaux / 2;}
+                                if (TableroX.filas % 2 == 0)
+                                {
+                                    if (TableroX.columnas % 2 == 0)
+                                    {
+                                        posinicial = (filaux * TableroX.columnas) - columaux - 1;
+                                    }
+                                    else { posinicial = (filaux * TableroX.columnas) - columaux - 2; }
+                                }
+                                else
+                                {
+                                    if (TableroX.columnas % 2 == 0)
+                                    {
+                                        posinicial = (filaux * TableroX.columnas) - columaux - 1;
+                                    }
+                                    else { posinicial = (filaux * TableroX.columnas) - columaux - 2; }
+                                }
+                                TableroX.tipo = tip;
+                                TableroX.modo = mod;
+                                TableroX.turno = true;
+                                TableroX.inicial = true;
                                 if (per.Equals("Si"))
                                 {
-                                    TableroX.tipo = tip;
-                                    TableroX.partida = mod;
-                                    TableroX.carga = 0;
+                                    for (int i = 0; i < (TableroX.filas * TableroX.columnas); i++)
+                                    {
+                                        if (i == posinicial)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "pivote.png";
+                                            boton.Enabled = true;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + 1)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "pivote.png";
+                                            boton.Enabled = true;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + TableroX.columnas)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "pivote.png";
+                                            boton.Enabled = true;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + TableroX.columnas + 1)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "pivote.png";
+                                            boton.Enabled = true;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "vacio.png";
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                    }
+                                    TableroX.actual = TableroX.j1c1;
                                     Response.Redirect("TableroX.aspx");
                                 }
                                 else
                                 {
-                                    TableroX.tipo = tip;
-                                    TableroX.partida = mod;
-                                    TableroX.carga = 0;
+                                    for (int i = 0; i < (TableroX.filas * TableroX.columnas); i++)
+                                    {
+                                        if (i == posinicial)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = TableroX.j1c1 + ".png";
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + 1)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = TableroX.j2c1 + ".png";
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + TableroX.columnas)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            if (TableroX.j2c2.Equals("")) { boton.ImageUrl = TableroX.j2c1 + ".png"; }
+                                            else { boton.ImageUrl = TableroX.j2c2 + ".png"; }
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else if (i == posinicial + TableroX.columnas + 1)
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            if (TableroX.j1c2.Equals("")) { boton.ImageUrl = TableroX.j1c1 + ".png"; }
+                                            else { boton.ImageUrl = TableroX.j1c2 + ".png"; }
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                        else
+                                        {
+                                            ImageButton boton = new ImageButton();
+                                            boton.Width = 40;
+                                            boton.Height = 40;
+                                            boton.ID = Convert.ToString(TableroX.posicion);
+                                            TableroX.posicion++;
+                                            boton.ImageUrl = "vacio.png";
+                                            boton.Enabled = false;
+                                            TableroX.botones.Add(boton);
+                                        }
+                                    }
+                                    if (TableroX.j1c3.Equals(""))
+                                    {
+                                        TableroX.actual = TableroX.j1c1;
+                                    }
+                                    else
+                                    {
+                                        TableroX.actual = TableroX.j1c3;
+                                    }
                                     Response.Redirect("TableroX.aspx");
                                 }
                             }

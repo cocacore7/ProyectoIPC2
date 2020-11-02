@@ -20,39 +20,53 @@
         }
         .Tablero {
             float:left;
-            width:650px;
-            height:800px;
+            height:auto;
+            width:auto
         }
         .Panel {
             float:right;
-            height: 800px;
-            width: 420px;
+            height: auto;
+            width: auto;
         }
         .Negro {
             float:left;
-            height: 350px;
-            width: 200px;
+            height: auto;
+            width: auto;
         }
 
         .Blanco {
             float:right;
-            height: 350px;
-            width: 200px;
+            height: auto;
+            width: auto;
         }
         #ventana{
             background:url(Fondo1.jfif);
             background-size:auto;
-            width:600px;
-            height:280px;
+            width:auto;
+            height:auto;
         }
         #modalletra{
             background:none;
         }
         .Jugadores {
-            height: 450px;
+            height: auto;
         }
         .Salir {
-            height: 151px;
+            height: auto;
+        }
+        .columnaO {
+            background-color:#dcbe17;
+            border-collapse:collapse;
+            border-style:solid;
+            font-size:large;
+            text-align:center;
+        }
+        .columnaC {
+            background-color: #5caf90;
+            border-collapse:collapse;
+            border-style:solid;
+            font-size:large;
+            text-align:center
         }
     </style>
     <div class="Tablero">
@@ -63,43 +77,19 @@
         <div class="Jugadores">
             <div class="Negro" align="center">
                 <br /><br />
-                <asp:Label ID="JugN" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
+                <asp:Label ID="Jug1" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
                 <br /><br />
-                <asp:Label ID="PunN" runat="server" Text="Label"  Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
+                <asp:Label ID="Pun1" runat="server" Text="Label"  Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
-                <asp:ImageButton ID="TurnoNegro" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
-                <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick" >
-                </asp:Timer>
-                <br /><br />
-                <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick"/>
-                    </Triggers>
-                    <ContentTemplate>
-                        <asp:Label ID="SegN" runat="server" Text="0 seg" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label> 
-                        <asp:Label ID="MinN" runat="server" Text="0 min" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
-                    </ContentTemplate>
-                </asp:UpdatePanel>    
+                <asp:ImageButton ID="Turno1" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>   
             </div>
             <div class="Blanco" align="center">
                 <br /><br />
-                <asp:Label ID="JugB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
+                <asp:Label ID="Jug2" runat="server" Text="Label" Width="200px" Height="40px" BackColor="SkyBlue" Font-Size="Large"></asp:Label>
                 <br /><br />
-                <asp:Label ID="PunB" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
+                <asp:Label ID="Pun2" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
-                <asp:ImageButton ID="TurnoBlanco" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
-                <asp:Timer ID="Timer2" runat="server" Interval="1000"  OnTick="Timer2_Tick1" >
-                </asp:Timer>
-                <br /><br />
-                <asp:UpdatePanel ID="UpdatePanel2" UpdateMode="Conditional" runat="server">
-                   <Triggers>
-                       <asp:AsyncPostBackTrigger ControlID="Timer2" EventName="Tick" />
-                   </Triggers>
-                    <ContentTemplate>
-                        <asp:Label ID="SegB" runat="server" Text="0 seg" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
-                        <asp:Label ID="MinB" runat="server" Text="0 min" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                <asp:ImageButton ID="Turno2" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
             </div>
         </div>
         <div class="Salir" align="center">

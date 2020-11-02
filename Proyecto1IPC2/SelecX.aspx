@@ -2,13 +2,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        input {
-            font-weight:bolder;
-            height: 40px;
-			width: 300px;
-            border-radius:5%;
-            background:SkyBlue;
-        }
         body {
             background:url(Fondo4.jpg);
             background-size: auto;
@@ -28,22 +21,22 @@
         }
         .Colores1 {
             float: left;
-            width: 400px;
-            height: 600px;
+            width: 100px;
+            height: 500px;
         }
         .Colores2 {
             float: left;
-            width: 400px;
-            height: 600px;
+            width: 100px;
+            height: 500px;
         }
         .selec {
             float: left;
             width: 300px;
-            height: 600px;
+            height: 500px;
         }
         .principal {
             width: 1200px;
-            height: 700px;
+            height: 600px;
         }
     </style>
     <div class="principal">
