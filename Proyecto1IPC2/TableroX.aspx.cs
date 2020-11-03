@@ -411,11 +411,10 @@ namespace Proyecto1IPC2
                             resta2 = resta2 + filas;
                             contador1 = contador1 + 1;
                         }
-                        resta1 = (posaux - 1) * filas;
-                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
-                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1;
-
+                        resta1 = (posaux) * filas;
                         deraux = filas - posaux; izaux = filas - deraux; posaux = i; bandera = false;
+                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1 - 1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
+                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1 + filas - 1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1 + filas + 1;
                         while (posaux > filas) //Pivotear Arriba J1
                         {
                             if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
@@ -563,11 +562,10 @@ namespace Proyecto1IPC2
                             resta2 = resta2 + filas;
                             contador1 = contador1 + 1;
                         }
-                        resta1 = (posaux - 1) * filas;
-                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
-                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1;
-
+                        resta1 = (posaux) * filas;
                         deraux = filas - posaux; izaux = filas - deraux; posaux = i; bandera = false;
+                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1 - 1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
+                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1 + filas - 1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1 + filas + 1;
                         while (posaux > filas)  //Pivotear Arriba J2
                         {
                             if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
