@@ -20,6 +20,7 @@ namespace Proyecto1IPC2
         public static int filas, columnas, posicion = 0;
         public static List<string> color1 = new List<string>(), color2 = new List<string>(), letras = new List<string>(), numeros = new List<string>();
         public static List<ImageButton> botones = new List<ImageButton>();
+        public static List<int> vueltas = new List<int>();
         public static bool turno = true, inicial = true, ini1 = false, ini2 = false;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -30,6 +31,7 @@ namespace Proyecto1IPC2
                 Turno1.ImageUrl = actual + ".png";
                 turno = false;
                 inicial = false;
+                if (ini1 && ini2) { pivotes(); }
             }
             posicion = 0;
             int col, fil = 0;
@@ -97,11 +99,18 @@ namespace Proyecto1IPC2
                 }
             }
             cambiar();
+            if (ini1 && ini2)
+            {
+                pivotes();
+            }
         }
 
+        //Voltear Fichas
+        public void voltear() { }
+
+        //Cambiar de color para jugadores Y limpiar pivotes
         public void cambiar() {
             if (j1.Equals("")) { j1 = j1c1; }
-            if (j2.Equals("")) { j2 = j2c1; }
             if (ini1 && ini2)
             {
                 if (turno)
@@ -203,6 +212,9 @@ namespace Proyecto1IPC2
                     {
                         if (j1c2.Equals(""))
                         {
+                            if (!j2c3.Equals("") && !ini1) { llenarInicial(); }
+                            if (j2c2.Equals("") && ini1) { ini2 = true; }
+                            if (j2c3.Equals("") && ini1) { ini2 = true; }
                             ini1 = true;
                         }
                         else { j1 = j1c2; }
@@ -213,16 +225,31 @@ namespace Proyecto1IPC2
                         {
                             j1 = j1c1;
                             if (!j2c3.Equals("") && !ini1) { llenarInicial(); }
+                            if (j2c2.Equals("") && !ini1) { ini2 = true; }
+                            if (j2c3.Equals("") && !ini1) { ini2 = true; }
                             ini1 = true;
                         }
-                        else { j1 = j1c3; llenarInicial(); }
+                        else { j1 = j1c3; if (!j2c3.Equals("") && !ini1) { llenarInicial(); ini1 = true; } else if (j2c3.Equals("") && !ini1) { llenarInicial(); } }
                     }
                     else if (j1.Equals(j1c3))
                     {
                         if (j1c4.Equals(""))
                         {
                             j1 = j1c1;
+                            if (!j2c3.Equals("") && !ini1) { llenarInicial(); }
                             ini1 = true;
+                            if (j2c4.Equals("")) { ini2 = true; }
+                            if (ini1 && ini2)
+                            {
+                                for (int i = 0; i < botones.Count; i++)
+                                {
+                                    if (botones[i].ImageUrl.Equals("pivote.png"))
+                                    {
+                                        botones[i].ImageUrl = "vacio.png";
+                                        botones[i].Enabled = false;
+                                    }
+                                }
+                            }
                         }
                         else { j1 = j1c4; }
                     }
@@ -231,15 +258,37 @@ namespace Proyecto1IPC2
                         if (j1c5.Equals(""))
                         {
                             j1 = j1c1;
+                            if (!j2c3.Equals("") && !ini1) { llenarInicial(); }
                             ini1 = true;
+                            if (j2c5.Equals("")) { ini2 = true; }
+                            if (ini1 && ini2)
+                            {
+                                for (int i = 0; i < botones.Count; i++)
+                                {
+                                    if (botones[i].ImageUrl.Equals("pivote.png"))
+                                    {
+                                        botones[i].ImageUrl = "vacio.png";
+                                        botones[i].Enabled = false;
+                                    }
+                                }
+                            }
                         }
                         else { j1 = j1c5; }
                     }
                     else if (j1.Equals(j1c5))
                     {
                         j1 = j1c1;
+                        if (!j2c3.Equals("") && !ini1) { llenarInicial(); }
                         ini2 = true;
                         ini1 = true;
+                        for (int i = 0; i < botones.Count; i++)
+                        {
+                            if (botones[i].ImageUrl.Equals("pivote.png"))
+                            {
+                                botones[i].ImageUrl = "vacio.png";
+                                botones[i].Enabled = false;
+                            }
+                        }
                     }
                     actual = j1;
                     Turno1.ImageUrl = actual + ".png";
@@ -248,13 +297,10 @@ namespace Proyecto1IPC2
                 }
                 else
                 {
-                    if (j2.Equals(j2c1))
+                    if (j2.Equals("")) { j2 = j2c1; }
+                    else if (j2.Equals(j2c1))
                     {
-                        if (j2c2.Equals(""))
-                        {
-                            ini2 = true;
-                        }
-                        else { j2 = j2c2; }
+                        if (!j2c2.Equals("")) { j2 = j2c2; }
                     }
                     else if (j2.Equals(j2c2))
                     {
@@ -263,18 +309,19 @@ namespace Proyecto1IPC2
                             j2 = j2c1;
                             ini2 = true;
                         }
-                        else { j2 = j2c3; }
+                        else { j2 = j2c3; if (j1c4.Equals("") && j2c4.Equals("")) { ini2 = true; } }
                     }
                     else if (j2.Equals(j2c3))
                     {
                         if (j2c4.Equals(""))
                         {
                             j2 = j2c1;
-                            ini2 = true;
+                            if (j1c5.Equals("")) { ini2 = true; }
                         }
                         else
                         {
                             j2 = j2c4;
+                            if (j1c5.Equals("") && j2c5.Equals("")) { ini2 = true; }
                         }
                     }
                     else if (j2.Equals(j2c4))
@@ -284,7 +331,7 @@ namespace Proyecto1IPC2
                             j2 = j2c1;
                             ini2 = true;
                         }
-                        else { j2 = j2c5; }
+                        else { j2 = j2c5; ini2 = true; }
                     }
                     else if (j2.Equals(j2c5))
                     {
@@ -298,6 +345,8 @@ namespace Proyecto1IPC2
                 }
             }
         }
+
+        //Llenar pivotes iniciales para tablero personalizado
         public void llenarInicial() {
             int filaux = 0, columaux = 0, posinicial = 0, posaux = 0, posfinal = 0;
             if (filas % 2 == 0)
@@ -344,6 +393,318 @@ namespace Proyecto1IPC2
             botones[posinicial + filas + filas + filas + 1].ImageUrl = "pivote.png"; botones[posinicial + filas + filas + filas + 1].Enabled = true;
             botones[posinicial + filas + filas + filas + 2].ImageUrl = "pivote.png"; botones[posinicial + filas + filas + filas + 2].Enabled = true;
             botones[posinicial + filas + filas + filas + 3].ImageUrl = "pivote.png"; botones[posinicial + filas + filas + filas + 3].Enabled = true;
+        }
+
+        //Insertar Pivotes
+        public void pivotes() {
+            int posaux = 0, izaux = 0, deraux = 0, ariz1 = 0, ariz2 = 0, arder1 = 0, arder2 = 0, abiz1 = 0, abiz2 = 0, abder1 = 0, abder2 = 0, resta1 = 0, resta2 = 0, contador1 = 0;
+            bool bandera = false;
+
+            for (int i = 0; i < botones.Count; i++) {
+                if (actual == j1c1 || actual == j1c2 || actual == j1c3 || actual == j1c4 || actual == j1c5)
+                {
+                    if (botones[i].ImageUrl.Equals(actual + ".png")) {
+                        posaux = i; bandera = false; int paso = 0;
+                        while (posaux > filas) // Obtener Posiciones Iniciales
+                        {
+                            posaux = posaux - filas;
+                            resta2 = resta2 + filas;
+                            contador1 = contador1 + 1;
+                        }
+                        resta1 = (posaux - 1) * filas;
+                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
+                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1;
+
+                        deraux = filas - posaux; izaux = filas - deraux; posaux = i; bandera = false;
+                        while (posaux > filas) //Pivotear Arriba J1
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux <= (filas * columnas) - filas) //Pivotear Abajo J1
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux > i - izaux) // Pivotear Izquierda J1
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux < i + deraux - 1) // Pivotear Derecha J1
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != ariz1 || posaux != ariz2) // Pivtear Arriba Izquierda J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != arder1 || posaux != arder2) // Pivtear Arriba Derecha J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != abiz1 || posaux != abiz2) // Pivtear Abajo Izquierda J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != abder1 || posaux != abder2) // Pivtear Abajo Derecha J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+                    }
+                }
+                else
+                {
+                    if (botones[i].ImageUrl.Equals(actual + ".png"))
+                    {
+                        posaux = i; bandera = false; int paso = 0;
+                        while (posaux > filas) // Obtener Posiciones Iniciales
+                        {
+                            posaux = posaux - filas;
+                            resta2 = resta2 + filas;
+                            contador1 = contador1 + 1;
+                        }
+                        resta1 = (posaux - 1) * filas;
+                        ariz1 = posaux - izaux - resta1; arder1 = posaux + deraux - resta1; ariz2 = posaux - resta2 - contador1; arder2 = posaux - resta2 + contador1;
+                        abiz1 = posaux - izaux + resta1; abder1 = posaux + deraux + resta1; abiz2 = posaux + resta2 - contador1; abder2 = posaux + resta2 + contador1;
+
+                        deraux = filas - posaux; izaux = filas - deraux; posaux = i; bandera = false;
+                        while (posaux > filas)  //Pivotear Arriba J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux <= (filas * columnas) - filas)  //Pivotear Abajo J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux > i - izaux) // Pvotear Izquierda J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux < i + deraux - 1) // Pivtear Derecha J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != ariz1 || posaux != ariz2) // Pivtear Arriba Izquierda J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != arder1 || posaux != arder2) // Pivtear Arriba Derecha J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux - filas + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != abiz1 || posaux != abiz2) // Pivtear Abajo Izquierda J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas - 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+
+                        posaux = i; bandera = false; paso = 0;
+                        while (posaux != abder1 || posaux != abder2) // Pivtear Abajo Derecha J2
+                        {
+                            if (botones[posaux].ImageUrl.Equals(j1c1 + ".png") || botones[posaux].ImageUrl.Equals(j1c2 + ".png") || botones[posaux].ImageUrl.Equals(j1c3 + ".png") || botones[posaux].ImageUrl.Equals(j1c4 + ".png") || botones[posaux].ImageUrl.Equals(j1c5 + ".png"))
+                            {
+                                bandera = true;
+                            }
+                            else if (botones[posaux].ImageUrl.Equals(j2c1 + ".png") || botones[posaux].ImageUrl.Equals(j2c2 + ".png") || botones[posaux].ImageUrl.Equals(j2c3 + ".png") || botones[posaux].ImageUrl.Equals(j2c4 + ".png") || botones[posaux].ImageUrl.Equals(j2c5 + ".png"))
+                            {
+                                if (paso == 0) { paso = 1; } else { break; }
+                            }
+                            else if (botones[posaux].ImageUrl.Equals("pivote.png")) { break; }
+                            else if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; break; } else { break; } }
+                            posaux = posaux + filas + 1;
+                        }
+                        if (botones[posaux].ImageUrl.Equals("vacio.png")) { if (bandera) { botones[posaux].ImageUrl = "pivote.png"; botones[posaux].Enabled = true; } }
+                    }
+                }
+            }
         }
 
         //Guardar Partidas
