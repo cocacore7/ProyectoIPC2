@@ -110,7 +110,7 @@ namespace Proyecto1IPC2
                     if (!TextBox1.Text.Equals("") && !TextBox2.Text.Equals("")) // FILAS Y COLUMNAS NO VACIAS
                     {
                         TableroX.filas = Convert.ToInt16(TextBox1.Text); TableroX.columnas = Convert.ToInt16(TextBox2.Text);
-                        if (TableroX.filas > 5 && TableroX.filas <= 20 && TableroX.columnas > 5 && TableroX.columnas <= 20) //Cantidad de Filas y Columas Aceptada
+                        if (TableroX.filas > 5 && TableroX.filas <= 20 && TableroX.columnas > 5 && TableroX.columnas <= 20 && TableroX.filas % 2 == 0 && TableroX.columnas % 2 == 0) //Cantidad de Filas y Columas Aceptada
                         {
                             TableroX.numeros = new List<string>(); TableroX.letras = new List<string>();
                             for (int i = 0; i < TableroX.filas; i++) {
@@ -133,24 +133,8 @@ namespace Proyecto1IPC2
                             {
                                 TableroX.botones = new List<ImageButton>(); TableroX.posicion = 0;
                                 int filaux = 0, columaux = 0, posinicial = 0;
-                                if (TableroX.filas % 2 == 0){filaux = TableroX.filas / 2;}else{filaux = TableroX.filas - 1;filaux = filaux / 2;}
-                                if (TableroX.columnas % 2 == 0){columaux = TableroX.columnas / 2;}else{columaux = TableroX.columnas - 1;columaux = columaux / 2;}
-                                if (TableroX.filas % 2 == 0)
-                                {
-                                    if (TableroX.columnas % 2 == 0)
-                                    {
-                                        posinicial = (filaux * TableroX.columnas) - columaux - 1;
-                                    }
-                                    else { posinicial = (filaux * TableroX.columnas) - columaux - 2; }
-                                }
-                                else
-                                {
-                                    if (TableroX.columnas % 2 == 0)
-                                    {
-                                        posinicial = (filaux * TableroX.columnas) - columaux - 1;
-                                    }
-                                    else { posinicial = (filaux * TableroX.columnas) - columaux - 2; }
-                                }
+                                filaux = TableroX.filas / 2; columaux = TableroX.columnas / 2;
+                                posinicial = (filaux * TableroX.columnas) - columaux - 1;
                                 TableroX.tipo = tip;
                                 TableroX.modo = mod;
                                 TableroX.turno = true;
@@ -280,62 +264,15 @@ namespace Proyecto1IPC2
                                             TableroX.botones.Add(boton);
                                         }
                                     }
+                                    TableroX.ini1 = true;
+                                    TableroX.ini2 = true;
                                     if (TableroX.j1c3.Equals(""))
                                     {
-                                        TableroX.ini1 = true;
-                                        TableroX.ini2 = true;
                                         TableroX.j1 = TableroX.j1c1;
                                         TableroX.actual = TableroX.j1c1;
                                     }
                                     else
                                     {
-                                        filaux = 0; columaux = 0; posinicial = 0; int posaux = 0, posfinal = 0;
-                                        if (TableroX.filas % 2 == 0)
-                                        {
-                                            filaux = TableroX.filas / 2;
-                                        }
-                                        else
-                                        {
-                                            filaux = TableroX.filas - 1; filaux = filaux / 2;
-                                        }
-                                        if (TableroX.columnas % 2 == 0)
-                                        {
-                                            columaux = TableroX.columnas / 2;
-                                        }
-                                        else
-                                        {
-                                            columaux = TableroX.columnas - 1; columaux = columaux / 2;
-                                        }
-                                        if (TableroX.filas % 2 == 0)
-                                        {
-                                            if (TableroX.columnas % 2 == 0)
-                                            {
-                                                posinicial = (filaux * TableroX.columnas) - columaux - 2 - TableroX.filas;
-                                            }
-                                            else { posinicial = (filaux * TableroX.columnas) - columaux - 3 - TableroX.filas; }
-                                        }
-                                        else
-                                        {
-                                            if (TableroX.columnas % 2 == 0)
-                                            {
-                                                posinicial = (filaux * TableroX.columnas) - columaux - 2 - TableroX.filas;
-                                            }
-                                            else { posinicial = (filaux * TableroX.columnas) - columaux - 3 - TableroX.filas; }
-                                        }
-                                        TableroX.botones[posinicial].ImageUrl = "pivote.png"; TableroX.botones[posinicial].Enabled = true;
-                                        TableroX.botones[posinicial + 1].ImageUrl = "pivote.png"; TableroX.botones[posinicial + 1].Enabled = true;
-                                        TableroX.botones[posinicial + 2].ImageUrl = "pivote.png"; TableroX.botones[posinicial + 2].Enabled = true;
-                                        TableroX.botones[posinicial + 3].ImageUrl = "pivote.png"; TableroX.botones[posinicial + 3].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + 3].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + 3].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas + 3].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas + 3].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 1].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 1].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 2].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 2].Enabled = true;
-                                        TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 3].ImageUrl = "pivote.png"; TableroX.botones[posinicial + TableroX.filas + TableroX.filas + TableroX.filas + 3].Enabled = true;
-                                        TableroX.ini1 = true;
-                                        TableroX.ini2 = false;
                                         TableroX.j1 = TableroX.j1c3;
                                         TableroX.j2 = TableroX.j2c2;
                                         TableroX.actual = TableroX.j1c3;
@@ -347,7 +284,7 @@ namespace Proyecto1IPC2
                         }
                         else
                         {
-                            Cuerpo.Text = "Por Favor, Ingrese Valores De Filas Y Columas Entre 6 y 20";
+                            Cuerpo.Text = "Por Favor, Ingrese Valores De Filas Y Columas Entre 6 y 20, Y Solo Numeros Pares";
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "ventana,", "$('#ventana').modal();", true);
                             panelModal.Update();
                         }
