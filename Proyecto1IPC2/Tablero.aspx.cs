@@ -32,8 +32,6 @@ namespace Proyecto1IPC2
         public static List<int> vuelta = new List<int>();
         public static List<int> pivoteM = new List<int>();
         public static List<int> tirosM = new List<int>();
-        Stopwatch relojN = new Stopwatch();
-        Stopwatch relojB = new Stopwatch();
 
         protected void Page_Load(object sender, EventArgs e)
         {

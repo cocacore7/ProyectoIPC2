@@ -141,6 +141,7 @@ namespace Proyecto1IPC2
                                 TableroX.inicial = true;
                                 if (per.Equals("Si"))
                                 {
+                                    TableroX.per = "Si";
                                     for (int i = 0; i < (TableroX.filas * TableroX.columnas); i++)
                                     {
                                         if (i == posinicial)
@@ -204,6 +205,7 @@ namespace Proyecto1IPC2
                                 }
                                 else
                                 {
+                                    TableroX.per = ".";
                                     for (int i = 0; i < (TableroX.filas * TableroX.columnas); i++)
                                     {
                                         if (i == posinicial)

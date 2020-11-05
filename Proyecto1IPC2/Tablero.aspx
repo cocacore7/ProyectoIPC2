@@ -47,20 +47,11 @@
             float:right;
             margin-left: 60px;
         }
-        .HorN {
-            float:right;
-            margin-left: 60px;
-        }
         .SegB {
             float:right;
             margin-left: 60px;
         }
         .MinB {
-            float:right;
-            margin-left: 60px;
-        }
-
-        .HorB {
             float:right;
             margin-left: 60px;
         }

@@ -68,6 +68,22 @@
             font-size:large;
             text-align:center
         }
+        .SegN {
+            float:right;
+            margin-left: 60px;
+        }
+        .MinN {
+            float:right;
+            margin-left: 60px;
+        }
+        .SegB {
+            float:right;
+            margin-left: 60px;
+        }
+        .MinB {
+            float:right;
+            margin-left: 60px;
+        }
     </style>
     <div class="Tablero">
         <asp:Table ID="Table1" runat="server"></asp:Table>
@@ -82,6 +98,18 @@
                 <asp:Label ID="Pun1" runat="server" Text="Label"  Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:ImageButton ID="Turno1" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>   
+                <asp:Timer ID="Timer1" runat="server" Interval="1000" OnTick="Timer1_Tick" >
+                </asp:Timer>
+                <br /><br />
+                <asp:UpdatePanel ID="UpdatePanel1" UpdateMode="Conditional" runat="server">
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick"/>
+                    </Triggers>
+                    <ContentTemplate>
+                        <asp:Label ID="Seg1" runat="server" Text="0 seg" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label> 
+                        <asp:Label ID="Min1" runat="server" Text="0 min" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
             <div class="Blanco" align="center">
                 <br /><br />
@@ -90,6 +118,17 @@
                 <asp:Label ID="Pun2" runat="server" Text="Label" Width="200px" Height="40px" BackColor="#ffcc00" Font-Size="Large"></asp:Label>
                 <br /><br />
                 <asp:ImageButton ID="Turno2" runat="server" Width="60px" Height="60px" ImageUrl="~/vacio.png" Enabled="false"/>
+                <asp:Timer ID="Timer2" runat="server" Interval="1000" OnTick="Timer2_Tick"></asp:Timer>
+                <br /><br />
+                <asp:UpdatePanel ID="UpdatePanel2" UpdateMode="Conditional" runat="server">
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="Timer2" EventName="Tick"/>
+                    </Triggers>
+                    <ContentTemplate>
+                        <asp:Label ID="Seg2" runat="server" Text="0 seg" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label> 
+                        <asp:Label ID="Min2" runat="server" Text="0 min" BackColor="SkyBlue" Width="80px" Height="40px"></asp:Label>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
         </div>
         <div class="Salir" align="center">
