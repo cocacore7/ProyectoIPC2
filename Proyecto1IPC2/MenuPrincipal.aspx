@@ -38,6 +38,7 @@
     </div>
      <div class="row" align="center">
          <form>
+             <asp:Button ID="Perfil" runat="server" Text="Perfil" BackColor="SkyBlue" OnClick="Perfil_Click" /><br><br>
              <asp:Button ID="cargar" runat="server" BackColor="#c54848" Text="Cargar Partida Normal" OnClick="cargar_Click" /><br><br>
              <asp:Button ID="maquina" runat="server" BackColor="#92c15c" Text="Partida Normal" OnClick="maquina_Click" /><br><br>
              <asp:Button ID="carga2" runat="server" BackColor="#c54848" Text="Cargar Partida Xtreme" OnClick="carga2_Click" /><br><br>

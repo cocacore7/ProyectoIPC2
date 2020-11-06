@@ -33,9 +33,10 @@ namespace Proyecto1IPC2
             else
             {
                 SqlCommand accion;
-                string buscar = "select id_usuario from usuario where usuario=@usuario";
+                string buscar = "select id_usuario from usuario where usuario=@usuario and contra=@contra";
                 accion = new SqlCommand(buscar, bd.registrar());
                 accion.Parameters.AddWithValue("@usuario", usuario);
+                accion.Parameters.AddWithValue("@contra", contra);
                 SqlDataReader leer = accion.ExecuteReader();
                 if (leer.Read())
                 {

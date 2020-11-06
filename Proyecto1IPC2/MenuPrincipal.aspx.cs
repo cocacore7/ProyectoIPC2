@@ -56,5 +56,10 @@ namespace Proyecto1IPC2
         {
             Response.Redirect("carga2.aspx");
         }
+
+        protected void Perfil_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Perfil.aspx");
+        }
     }
 }
