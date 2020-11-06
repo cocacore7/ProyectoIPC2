@@ -54,7 +54,7 @@ namespace Proyecto1IPC2
 
         protected void carga2_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect("carga2.aspx");
         }
     }
 }
